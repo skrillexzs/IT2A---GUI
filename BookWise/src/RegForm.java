@@ -41,9 +41,14 @@ public class RegForm extends javax.swing.JFrame {
         lname = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
         cnumber = new javax.swing.JTextField();
+        hide = new javax.swing.JLabel();
+        show = new javax.swing.JLabel();
         pass = new javax.swing.JPasswordField();
+        hide3 = new javax.swing.JLabel();
+        show1 = new javax.swing.JLabel();
         cpass = new javax.swing.JPasswordField();
         signup = new javax.swing.JButton();
+        Cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,27 +67,27 @@ public class RegForm extends javax.swing.JFrame {
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 280, 50));
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel3.setText("First name");
+        jLabel3.setText("First name*");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 80, 20));
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel4.setText("Last name");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 70, 20));
+        jLabel4.setText("Last name*");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 80, 20));
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel5.setText("Email");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 40, 20));
+        jLabel5.setText("Email*");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 50, 20));
 
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel6.setText("Contact number");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 110, 20));
+        jLabel6.setText("Contact number*");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 120, 20));
 
         jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel7.setText("Password");
+        jLabel7.setText("Password*");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 80, 20));
 
         jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel8.setText("Confirm Password");
+        jLabel8.setText("Confirm Password*");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 130, 20));
 
         fname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -116,7 +121,41 @@ public class RegForm extends javax.swing.JFrame {
             }
         });
         jPanel2.add(cnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 240, 40));
+
+        hide.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon_2-removebg-preview.png")); // NOI18N
+        hide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                hideMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                hideMouseReleased(evt);
+            }
+        });
+        jPanel2.add(hide, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, -1));
+
+        show.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon-removebg-preview.png")); // NOI18N
+        jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, -1));
+
+        pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passActionPerformed(evt);
+            }
+        });
         jPanel2.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 240, 40));
+
+        hide3.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon_2-removebg-preview.png")); // NOI18N
+        hide3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                hide3MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                hide3MouseReleased(evt);
+            }
+        });
+        jPanel2.add(hide3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, -1));
+
+        show1.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon-removebg-preview.png")); // NOI18N
+        jPanel2.add(show1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, -1));
         jPanel2.add(cpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 240, 40));
 
         signup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -127,7 +166,17 @@ public class RegForm extends javax.swing.JFrame {
                 signupActionPerformed(evt);
             }
         });
-        jPanel2.add(signup, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, 120, 40));
+        jPanel2.add(signup, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 120, 40));
+
+        Cancel.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        Cancel.setForeground(new java.awt.Color(0, 153, 255));
+        Cancel.setText("Cancel");
+        Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelActionPerformed(evt);
+            }
+        });
+        jPanel2.add(Cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 120, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 600, 420));
 
@@ -169,19 +218,23 @@ public class RegForm extends javax.swing.JFrame {
          String emails = email.getText().trim();
         
         {
-        if (fname.getText().isEmpty()) {
-        fname.setBorder(BorderFactory.createLineBorder(Color.RED));
-        isValid = false;
-    } else {
-        fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    }
+         String firstName = fname.getText();
+                if (!firstName.matches("[a-zA-Z]+")) {
+                    fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    JOptionPane.showMessageDialog(null, "First name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+                    isValid = false;
+           }else {
+            fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
 
-    if (lname.getText().isEmpty()) {
-        lname.setBorder(BorderFactory.createLineBorder(Color.RED));
-        isValid = false;
-    } else {
-        lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    }
+        String lastName = lname.getText();
+                if (!lastName.matches("[a-zA-Z]+")) {
+                    lname.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    JOptionPane.showMessageDialog(null, "Last name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+                    isValid = false;
+           }else {
+            lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
 
     if (email.getText().isEmpty()) {
         this.email.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -259,6 +312,40 @@ public class RegForm extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_signupActionPerformed
 
+    private void hideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMousePressed
+        show.setVisible(true);
+        hide.setVisible(false);
+        pass.setEchoChar((char)0);
+    }//GEN-LAST:event_hideMousePressed
+
+    private void hideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMouseReleased
+        show.setVisible(false);
+        hide.setVisible(true);
+        pass.setEchoChar('*');
+    }//GEN-LAST:event_hideMouseReleased
+
+    private void hide3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hide3MousePressed
+        show.setVisible(true);
+        hide.setVisible(false);
+        cpass.setEchoChar((char)0);
+    }//GEN-LAST:event_hide3MousePressed
+
+    private void hide3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hide3MouseReleased
+        show.setVisible(false);
+        hide.setVisible(true);
+        cpass.setEchoChar('*');
+    }//GEN-LAST:event_hide3MouseReleased
+
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passActionPerformed
+
+    private void CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelActionPerformed
+        LoginForm lf = new LoginForm();
+        this.dispose();
+        lf.setVisible(true);
+    }//GEN-LAST:event_CancelActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -295,10 +382,13 @@ public class RegForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cancel;
     private javax.swing.JTextField cnumber;
     private javax.swing.JPasswordField cpass;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
+    private javax.swing.JLabel hide;
+    private javax.swing.JLabel hide3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -311,6 +401,8 @@ public class RegForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField lname;
     private javax.swing.JPasswordField pass;
+    private javax.swing.JLabel show;
+    private javax.swing.JLabel show1;
     private javax.swing.JButton signup;
     // End of variables declaration//GEN-END:variables
 }
