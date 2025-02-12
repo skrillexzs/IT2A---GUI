@@ -49,13 +49,14 @@ public class RegForm extends javax.swing.JFrame {
         cpass = new javax.swing.JPasswordField();
         signup = new javax.swing.JButton();
         Cancel = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(240, 248, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\BookWise-removebg-preview.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, -10, 230, 180));
 
         jPanel2.setBackground(new java.awt.Color(153, 204, 255));
@@ -122,7 +123,6 @@ public class RegForm extends javax.swing.JFrame {
         });
         jPanel2.add(cnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 240, 40));
 
-        hide.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon_2-removebg-preview.png")); // NOI18N
         hide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 hideMousePressed(evt);
@@ -132,8 +132,6 @@ public class RegForm extends javax.swing.JFrame {
             }
         });
         jPanel2.add(hide, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, -1));
-
-        show.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon-removebg-preview.png")); // NOI18N
         jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, -1));
 
         pass.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +141,6 @@ public class RegForm extends javax.swing.JFrame {
         });
         jPanel2.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 240, 40));
 
-        hide3.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon_2-removebg-preview.png")); // NOI18N
         hide3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 hide3MousePressed(evt);
@@ -153,8 +150,6 @@ public class RegForm extends javax.swing.JFrame {
             }
         });
         jPanel2.add(hide3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, -1));
-
-        show1.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon-removebg-preview.png")); // NOI18N
         jPanel2.add(show1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, -1));
         jPanel2.add(cpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 240, 40));
 
@@ -180,11 +175,14 @@ public class RegForm extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 600, 420));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Transparent Background 2.png"))); // NOI18N
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 670));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,6 +395,7 @@ public class RegForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField lname;

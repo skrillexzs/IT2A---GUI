@@ -37,8 +37,9 @@ public class LoginForm extends javax.swing.JFrame {
         hide = new javax.swing.JLabel();
         show = new javax.swing.JLabel();
         passw = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        loginButton = new javax.swing.JButton();
+        RegButton = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -49,8 +50,8 @@ public class LoginForm extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(240, 248, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\BookWise-removebg-preview.png")); // NOI18N
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 230, 190));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 230, 190));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 490));
 
@@ -79,7 +80,6 @@ public class LoginForm extends javax.swing.JFrame {
         });
         jPanel4.add(uemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 210, 40));
 
-        hide.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon_2-removebg-preview.png")); // NOI18N
         hide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 hideMousePressed(evt);
@@ -89,31 +89,32 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
         jPanel4.add(hide, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
-
-        show.setIcon(new javax.swing.ImageIcon("C:\\Users\\SCC\\Downloads\\eye_icon-removebg-preview.png")); // NOI18N
         jPanel4.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
         jPanel4.add(passw, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 210, 40));
 
-        jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loginButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 120, 40));
+        jPanel4.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 120, 40));
 
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("New User? Create Account Here!");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        RegButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        RegButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RegButton.setText("New User? Create Account Here!");
+        RegButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                RegButtonMouseClicked(evt);
             }
         });
-        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 200, 30));
+        jPanel4.add(RegButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 200, 30));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 390, 390));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Transparent Background 2.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 490));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 490));
 
@@ -121,19 +122,19 @@ public class LoginForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     private void uemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uemailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_uemailActionPerformed
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void RegButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegButtonMouseClicked
         RegForm rf = new RegForm();
         this.dispose();
         rf.setVisible(true);
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_RegButtonMouseClicked
 
     private void hideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMousePressed
         show.setVisible(true);
@@ -183,16 +184,17 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel RegButton;
     private javax.swing.JLabel hide;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passw;
     private javax.swing.JLabel show;
     private javax.swing.JTextField uemail;
