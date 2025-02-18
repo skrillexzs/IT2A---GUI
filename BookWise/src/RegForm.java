@@ -123,6 +123,7 @@ public class RegForm extends javax.swing.JFrame {
         });
         jPanel2.add(cnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 240, 40));
 
+        hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/hide.png"))); // NOI18N
         hide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 hideMousePressed(evt);
@@ -131,8 +132,10 @@ public class RegForm extends javax.swing.JFrame {
                 hideMouseReleased(evt);
             }
         });
-        jPanel2.add(hide, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, -1));
-        jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, -1));
+        jPanel2.add(hide, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, 20));
+
+        show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
+        jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, 20));
 
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,6 +144,7 @@ public class RegForm extends javax.swing.JFrame {
         });
         jPanel2.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 240, 40));
 
+        hide3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/hide.png"))); // NOI18N
         hide3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 hide3MousePressed(evt);
@@ -149,8 +153,10 @@ public class RegForm extends javax.swing.JFrame {
                 hide3MouseReleased(evt);
             }
         });
-        jPanel2.add(hide3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, -1));
-        jPanel2.add(show1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, -1));
+        jPanel2.add(hide3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
+
+        show1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
+        jPanel2.add(show1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
         jPanel2.add(cpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 240, 40));
 
         signup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
