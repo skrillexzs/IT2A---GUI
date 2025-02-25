@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -126,9 +134,35 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        BookWise bw = new BookWise();
-        this.dispose();
-        bw.setVisible(true);
+        String url = "jdbc:mysql://localhost:3306/test";
+      String user = "root";
+      String password = "";
+
+    String query = "SELECT u_password FROM user WHERE u_email = ? AND u_status = 'active'";
+
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+    pstmt.setString(1, uemail.getText());
+    ResultSet rs = pstmt.executeQuery();
+
+    if (rs.next()) {
+        String storedPassword = rs.getString("u_password");
+
+        if (passw.getText().equals(storedPassword)) {
+            JOptionPane.showMessageDialog(null, "Login Successful!");
+            BookWise bw = new BookWise();
+            this.dispose();
+            bw.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void uemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uemailActionPerformed

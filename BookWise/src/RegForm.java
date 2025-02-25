@@ -1,4 +1,5 @@
 
+import config.Config;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -49,6 +50,8 @@ public class RegForm extends javax.swing.JFrame {
         cpass = new javax.swing.JPasswordField();
         signup = new javax.swing.JButton();
         Cancel = new javax.swing.JButton();
+        type = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -167,7 +170,7 @@ public class RegForm extends javax.swing.JFrame {
                 signupActionPerformed(evt);
             }
         });
-        jPanel2.add(signup, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 120, 40));
+        jPanel2.add(signup, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, 120, 40));
 
         Cancel.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         Cancel.setForeground(new java.awt.Color(0, 153, 255));
@@ -177,12 +180,25 @@ public class RegForm extends javax.swing.JFrame {
                 CancelActionPerformed(evt);
             }
         });
-        jPanel2.add(Cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 120, 40));
+        jPanel2.add(Cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 410, 120, 40));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 600, 420));
+        type.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Borrower", "Librarian" }));
+        type.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeActionPerformed(evt);
+            }
+        });
+        jPanel2.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 240, 40));
+
+        jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel10.setText("Type*");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, -1, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 600, 490));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Transparent Background 2.png"))); // NOI18N
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 670));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 730));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,7 +208,7 @@ public class RegForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -217,6 +233,7 @@ public class RegForm extends javax.swing.JFrame {
 
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
         
+        Config conf = new Config();
         boolean isValid = true;
        
          String emails = email.getText().trim();
@@ -302,18 +319,25 @@ public class RegForm extends javax.swing.JFrame {
 }
         
     if (!isValid) {
-        JOptionPane.showMessageDialog(null, "Some fields are required", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Some fields are required", "Error!", JOptionPane.ERROR_MESSAGE);
     } else {
         
-        JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Registration Completed", "Success!", JOptionPane.INFORMATION_MESSAGE);
         
+        // Database Insertion
+    if (conf.insertData("INSERT INTO user (u_firstname, u_lastname, u_email, u_cnumber, u_password, u_type, u_status)"
+            + " VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
+            + cnumber.getText() + "','" + String.valueOf(pass.getPassword())
+            + type.getSelectedItem() + "','Pending')") == 1) {
         
         LoginForm lg = new LoginForm();
         this.dispose();
         lg.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Registration failed. Please try again!", "Error", JOptionPane.ERROR_MESSAGE);
     }
-       
     }
+        }
     }//GEN-LAST:event_signupActionPerformed
 
     private void hideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMousePressed
@@ -349,6 +373,10 @@ public class RegForm extends javax.swing.JFrame {
         this.dispose();
         lf.setVisible(true);
     }//GEN-LAST:event_CancelActionPerformed
+
+    private void typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,6 +422,7 @@ public class RegForm extends javax.swing.JFrame {
     private javax.swing.JLabel hide;
     private javax.swing.JLabel hide3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -409,5 +438,6 @@ public class RegForm extends javax.swing.JFrame {
     private javax.swing.JLabel show;
     private javax.swing.JLabel show1;
     private javax.swing.JButton signup;
+    private javax.swing.JComboBox<String> type;
     // End of variables declaration//GEN-END:variables
 }
