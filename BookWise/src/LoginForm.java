@@ -155,18 +155,18 @@ public class LoginForm extends javax.swing.JFrame {
             
             
             // Redirect based on user type
-            if ("customer".equalsIgnoreCase(userType)) {
-                CustomersDB csdb = new CustomersDB();
+            if ("Borrower".equalsIgnoreCase(userType)) {
+                BorrowerDB bwrdb = new BorrowerDB();
                 this.dispose();
-                csdb.setVisible(true);
+                bwrdb.setVisible(true);
             } else if ("Librarian".equalsIgnoreCase(userType)) {
-                BookWise bw = new BookWise();
+                LibrarianDB ldb = new LibrarianDB();
                 this.dispose();
-                bw.setVisible(true);
+                ldb.setVisible(true);
             } else if ("admin".equalsIgnoreCase(userType)) {
-                Dashboard dbd = new Dashboard();
+                BookWise bwd = new BookWise();
                 this.dispose();
-                dbd.setVisible(true);
+                bwd.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
             }
