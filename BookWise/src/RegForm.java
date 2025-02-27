@@ -1,6 +1,8 @@
 
 import config.Config;
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
@@ -16,9 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class RegForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegForm
-     */
+    List<String> existingEmails = Arrays.asList("u_email");
+    
     public RegForm() {
         initComponents();
     }
@@ -46,7 +47,7 @@ public class RegForm extends javax.swing.JFrame {
         show = new javax.swing.JLabel();
         pass = new javax.swing.JPasswordField();
         hide3 = new javax.swing.JLabel();
-        show1 = new javax.swing.JLabel();
+        show3 = new javax.swing.JLabel();
         cpass = new javax.swing.JPasswordField();
         signup = new javax.swing.JButton();
         Cancel = new javax.swing.JButton();
@@ -158,8 +159,8 @@ public class RegForm extends javax.swing.JFrame {
         });
         jPanel2.add(hide3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
 
-        show1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
-        jPanel2.add(show1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
+        show3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
+        jPanel2.add(show3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
         jPanel2.add(cpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 240, 40));
 
         signup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -238,6 +239,7 @@ public class RegForm extends javax.swing.JFrame {
        
          String emails = email.getText().trim();
         
+         // First Name Validation
         {
          String firstName = fname.getText();
                 if (!firstName.matches("[a-zA-Z]+")) {
@@ -247,7 +249,8 @@ public class RegForm extends javax.swing.JFrame {
            }else {
             fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
-
+        
+        // Last Name Validation
         String lastName = lname.getText();
                 if (!lastName.matches("[a-zA-Z]+")) {
                     lname.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -257,23 +260,45 @@ public class RegForm extends javax.swing.JFrame {
             lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
 
-    if (email.getText().isEmpty()) {
-        this.email.setBorder(BorderFactory.createLineBorder(Color.RED));
-        isValid = false;
-    
-    
-    }else {
-        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    }
+    // Email Validation
+if (email.getText().isEmpty()) {
+    email.setBorder(BorderFactory.createLineBorder(Color.RED));
+    isValid = false;
+} else if (existingEmails.contains(emails)) {
+    email.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Email is already registered. Please use another email.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
 
+// Email Format Validation
+if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+    email.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Email must be in the format 'username@domain.com'.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Contact Number Validation
     if (cnumber.getText().isEmpty()) {
         cnumber.setBorder(BorderFactory.createLineBorder(Color.RED));
         isValid = false;
     } else {
-        cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        
+        cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));       
     }
     
+    String contactNumber = cnumber.getText().trim();
+    if (!contactNumber.matches("\\d{11}")) {
+        cnumber.setBorder(BorderFactory.createLineBorder(Color.RED)); 
+        JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+        isValid = false;
+    }else {
+        cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+    
+    // Password Validation
       if (pass.getPassword().length == 0) {
         pass.setBorder(BorderFactory.createLineBorder(Color.RED));  
         isValid = false;
@@ -285,6 +310,7 @@ public class RegForm extends javax.swing.JFrame {
         pass.setBorder(BorderFactory.createLineBorder(Color.GRAY));  
 }      
 
+      // Confirm Password Validation
     if (cpass.getPassword().length == 0) {
         cpass.setBorder(BorderFactory.createLineBorder(Color.RED));
         isValid = false;
@@ -301,33 +327,26 @@ public class RegForm extends javax.swing.JFrame {
         pass.setBorder(BorderFactory.createLineBorder(Color.GRAY)); 
         cpass.setBorder(BorderFactory.createLineBorder(Color.GRAY)); 
 }
-     if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-        email.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-        JOptionPane.showMessageDialog(null, "Email must be in the format 'username@domain.com'.", "Error", JOptionPane.ERROR_MESSAGE);
-        isValid = false;
-}   else {
-        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));  
-}
-      
-        String contactNumber = cnumber.getText().trim();
-        if (!contactNumber.matches("\\d{11}")) {
-            cnumber.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-            JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
-            isValid = false;
-        }else {
-            cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
         
+    // Account Type Validation
+if (type.getSelectedIndex() == 0) {
+    type.setBorder(BorderFactory.createLineBorder(Color.RED));
+    isValid = false;
+} else {
+    type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+     
+    // Final Validation Check
     if (!isValid) {
         JOptionPane.showMessageDialog(null, "Some fields are required", "Error!", JOptionPane.ERROR_MESSAGE);
     } else {
         
         JOptionPane.showMessageDialog(null, "Registration Completed", "Success!", JOptionPane.INFORMATION_MESSAGE);
         
-        // Database Insertion
+    // Database Insertion
     if (conf.insertData("INSERT INTO user (u_firstname, u_lastname, u_email, u_cnumber, u_password, u_type, u_status)"
             + " VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
-            + cnumber.getText() + "','" + String.valueOf(pass.getPassword())
+            + cnumber.getText() + "','" + String.valueOf(pass.getPassword()) + "','"
             + type.getSelectedItem() + "','Pending')") == 1) {
         
         LoginForm lg = new LoginForm();
@@ -436,7 +455,7 @@ public class RegForm extends javax.swing.JFrame {
     private javax.swing.JTextField lname;
     private javax.swing.JPasswordField pass;
     private javax.swing.JLabel show;
-    private javax.swing.JLabel show1;
+    private javax.swing.JLabel show3;
     private javax.swing.JButton signup;
     private javax.swing.JComboBox<String> type;
     // End of variables declaration//GEN-END:variables

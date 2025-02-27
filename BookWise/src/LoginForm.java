@@ -138,7 +138,7 @@ public class LoginForm extends javax.swing.JFrame {
       String user = "root";
       String password = "";
 
-    String query = "SELECT u_password FROM user WHERE u_email = ? AND u_status = 'active'";
+    String query = "SELECT u_password, u_type FROM user WHERE u_email = ? AND u_status = 'active'";
 
     try (Connection conn = DriverManager.getConnection(url, user, password);
      PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -148,12 +148,29 @@ public class LoginForm extends javax.swing.JFrame {
 
     if (rs.next()) {
         String storedPassword = rs.getString("u_password");
+        String userType = rs.getString("u_type");
 
         if (passw.getText().equals(storedPassword)) {
             JOptionPane.showMessageDialog(null, "Login Successful!");
-            BookWise bw = new BookWise();
-            this.dispose();
-            bw.setVisible(true);
+            
+            
+            // Redirect based on user type
+            if ("customer".equalsIgnoreCase(userType)) {
+                CustomersDB csdb = new CustomersDB();
+                this.dispose();
+                csdb.setVisible(true);
+            } else if ("Librarian".equalsIgnoreCase(userType)) {
+                BookWise bw = new BookWise();
+                this.dispose();
+                bw.setVisible(true);
+            } else if ("admin".equalsIgnoreCase(userType)) {
+                Dashboard dbd = new Dashboard();
+                this.dispose();
+                dbd.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
         } else {
             JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -163,6 +180,7 @@ public class LoginForm extends javax.swing.JFrame {
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
+     
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void uemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uemailActionPerformed

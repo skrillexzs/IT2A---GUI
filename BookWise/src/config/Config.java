@@ -5,7 +5,7 @@
  */
 package config;
 
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class Config {
        // constructor to connect to our database
         public Config(){
             try{
-                connect = (Connection)  DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             }catch(SQLException ex){
                     System.out.println("Can't connect to database: "+ex.getMessage());
             }
