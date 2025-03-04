@@ -1,3 +1,13 @@
+
+import config.Config;
+import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.border.Border;
+import net.proteanit.sql.DbUtils;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,8 +25,63 @@ public class BookWise extends javax.swing.JFrame {
      */
     public BookWise() {
         initComponents();
+        
+        displayData();
+        displayUserCounts();
     }
+    
+    Color hover = new Color(0,85,255);  
+    Color defbutton = new Color(153,204,255);
+    
+    Border empty = BorderFactory.createEmptyBorder();
+    
+    void resetButtonColor(JButton button){
+        button.setBackground(defbutton);
+    }
+    
+    public void displayData(){
+        
+        try{
+            Config conf = new Config();
+            ResultSet rs = conf.getData("SELECT * FROM user");           
+            Table.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("Errors"+ex.getMessage());
+        }
+        
+    }
+    
+    public void displayUserCounts() {
+    try {
+        Config conf = new Config();
+        ResultSet rs = conf.getData("SELECT u_type, COUNT(*) AS count FROM user GROUP BY u_type");
+       
+        
+        int BorrowerCount = 0;
+        int LibrarianCount = 0;
 
+        while (rs.next()) {
+            String userType = rs.getString("u_type");
+            int count = rs.getInt("count");
+
+            if ("Borrower".equalsIgnoreCase(userType)) {
+                BorrowerCount = count;
+            } else if ("Librarian".equalsIgnoreCase(userType)) {
+                LibrarianCount = count;
+            }
+        }
+    
+               // Optionally, you can display the counts in a GUI label
+       borrowersCount.setText("Borrowers: " + BorrowerCount);
+       librariansCount.setText("Librarians: " + LibrarianCount);
+
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,21 +98,25 @@ public class BookWise extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         bwButton = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         lbButton = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         accButton = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        loButton = new javax.swing.JPanel();
+        logButton = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Table = new javax.swing.JTable();
+        CountPanel1 = new javax.swing.JPanel();
+        borrowersCount = new javax.swing.JLabel();
+        CountPanel2 = new javax.swing.JPanel();
+        librariansCount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,8 +131,14 @@ public class BookWise extends javax.swing.JFrame {
 
         dbButton.setBackground(new java.awt.Color(153, 204, 255));
         dbButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dbButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 dbButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                dbButtonMouseExited(evt);
             }
         });
         dbButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -79,19 +154,41 @@ public class BookWise extends javax.swing.JFrame {
         jPanel4.add(dbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 250, 50));
 
         bwButton.setBackground(new java.awt.Color(153, 204, 255));
+        bwButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bwButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bwButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                bwButtonMouseExited(evt);
+            }
+        });
         bwButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
-        jLabel4.setText("BORROWERS");
-        bwButton.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 170, 30));
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/customer icon.png"))); // NOI18N
         bwButton.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
 
+        jLabel13.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        jLabel13.setText("BORROWERS");
+        bwButton.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 170, 30));
+
         jPanel4.add(bwButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 250, 50));
 
         lbButton.setBackground(new java.awt.Color(153, 204, 255));
+        lbButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbButtonMouseExited(evt);
+            }
+        });
         lbButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -105,6 +202,17 @@ public class BookWise extends javax.swing.JFrame {
         jPanel4.add(lbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 250, 50));
 
         accButton.setBackground(new java.awt.Color(153, 204, 255));
+        accButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                accButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                accButtonMouseExited(evt);
+            }
+        });
         accButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -117,18 +225,29 @@ public class BookWise extends javax.swing.JFrame {
 
         jPanel4.add(accButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 250, 50));
 
-        loButton.setBackground(new java.awt.Color(153, 204, 255));
-        loButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        logButton.setBackground(new java.awt.Color(153, 204, 255));
+        logButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logButtonMouseExited(evt);
+            }
+        });
+        logButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
         jLabel11.setText("LOGOUT");
-        loButton.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 110, 30));
+        logButton.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 110, 30));
 
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logout icon.png"))); // NOI18N
-        loButton.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 30));
+        logButton.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 30));
 
-        jPanel4.add(loButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 250, 50));
+        jPanel4.add(logButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 250, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -141,7 +260,7 @@ public class BookWise extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 80));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -152,9 +271,25 @@ public class BookWise extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 700, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 700, 350));
+
+        CountPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        borrowersCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        borrowersCount.setText("Borrowers:");
+        CountPanel1.add(borrowersCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 120, 40));
+
+        jPanel1.add(CountPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 190, 170));
+
+        CountPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        librariansCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        librariansCount.setText("Librarian:");
+        CountPanel2.add(librariansCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 120, 40));
+
+        jPanel1.add(CountPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 100, 190, 170));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -172,8 +307,74 @@ public class BookWise extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void dbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseEntered
-        // TODO add your handling code here:
+        dbButton.setBackground(hover);
     }//GEN-LAST:event_dbButtonMouseEntered
+
+    private void bwButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseEntered
+        bwButton.setBackground(hover);
+    }//GEN-LAST:event_bwButtonMouseEntered
+
+    private void bwButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseExited
+        bwButton.setBackground(defbutton);
+    }//GEN-LAST:event_bwButtonMouseExited
+
+    private void bwButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseClicked
+        BorrowerDB bdb = new BorrowerDB();
+        this.dispose();
+        bdb.setVisible(true);
+    }//GEN-LAST:event_bwButtonMouseClicked
+
+    private void lbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseClicked
+        LibrarianDB ldb = new LibrarianDB();
+        this.dispose();
+        ldb.setVisible(true);
+    }//GEN-LAST:event_lbButtonMouseClicked
+
+    private void lbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseEntered
+        lbButton.setBackground(hover);
+    }//GEN-LAST:event_lbButtonMouseEntered
+
+    private void lbButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseExited
+        lbButton.setBackground(defbutton);
+    }//GEN-LAST:event_lbButtonMouseExited
+
+    private void accButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseClicked
+        AccPage acc = new AccPage();
+        this.dispose();
+        acc.setVisible(true);
+    }//GEN-LAST:event_accButtonMouseClicked
+
+    private void accButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseEntered
+        accButton.setBackground(hover);
+    }//GEN-LAST:event_accButtonMouseEntered
+
+    private void accButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseExited
+        accButton.setBackground(defbutton);
+    }//GEN-LAST:event_accButtonMouseExited
+
+    private void logButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseClicked
+        LoginForm lf = new LoginForm();
+        this.dispose();
+        lf.setVisible(true);
+    }//GEN-LAST:event_logButtonMouseClicked
+
+    private void logButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseEntered
+        logButton.setBackground(hover);
+    }//GEN-LAST:event_logButtonMouseEntered
+
+    private void logButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseExited
+        logButton.setBackground(defbutton);
+    }//GEN-LAST:event_logButtonMouseExited
+
+    private void dbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseClicked
+        BookWise bwd = new BookWise();
+        this.dispose();
+        bwd.setVisible(true);
+    }//GEN-LAST:event_dbButtonMouseClicked
+
+    private void dbButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseExited
+        dbButton.setBackground(defbutton);
+    }//GEN-LAST:event_dbButtonMouseExited
 
     /**
      * @param args the command line arguments
@@ -211,16 +412,20 @@ public class BookWise extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CountPanel1;
+    private javax.swing.JPanel CountPanel2;
+    private javax.swing.JTable Table;
     private javax.swing.JPanel accButton;
+    private javax.swing.JLabel borrowersCount;
     private javax.swing.JPanel bwButton;
     private javax.swing.JPanel dbButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -230,8 +435,8 @@ public class BookWise extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel lbButton;
-    private javax.swing.JPanel loButton;
+    private javax.swing.JLabel librariansCount;
+    private javax.swing.JPanel logButton;
     // End of variables declaration//GEN-END:variables
 }

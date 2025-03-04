@@ -1,9 +1,3 @@
-
-import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.border.Border;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,24 +6,15 @@ import javax.swing.border.Border;
 
 /**
  *
- * @author USER
+ * @author SCC
  */
-public class LibrarianDB extends javax.swing.JFrame {
+public class AccPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form LibrarianDB
+     * Creates new form AccPage
      */
-    public LibrarianDB() {
+    public AccPage() {
         initComponents();
-    }
-    
-    Color hover = new Color(0,85,255);  
-    Color defbutton = new Color(153,204,255);
-    
-    Border empty = BorderFactory.createEmptyBorder();
-    
-    void resetButtonColor(JButton button){
-        button.setBackground(defbutton);
     }
 
     /**
@@ -56,17 +41,15 @@ public class LibrarianDB extends javax.swing.JFrame {
         accButton = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        logButton = new javax.swing.JPanel();
+        loButton = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(102, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(240, 248, 255));
@@ -77,14 +60,8 @@ public class LibrarianDB extends javax.swing.JFrame {
 
         dbButton.setBackground(new java.awt.Color(153, 204, 255));
         dbButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                dbButtonMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 dbButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                dbButtonMouseExited(evt);
             }
         });
         dbButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -100,17 +77,6 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel4.add(dbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 250, 50));
 
         bwButton.setBackground(new java.awt.Color(153, 204, 255));
-        bwButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bwButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bwButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                bwButtonMouseExited(evt);
-            }
-        });
         bwButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -124,17 +90,6 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel4.add(bwButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 250, 50));
 
         lbButton.setBackground(new java.awt.Color(153, 204, 255));
-        lbButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lbButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lbButtonMouseExited(evt);
-            }
-        });
         lbButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -148,17 +103,6 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel4.add(lbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 250, 50));
 
         accButton.setBackground(new java.awt.Color(153, 204, 255));
-        accButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                accButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                accButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                accButtonMouseExited(evt);
-            }
-        });
         accButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -171,29 +115,18 @@ public class LibrarianDB extends javax.swing.JFrame {
 
         jPanel4.add(accButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 250, 50));
 
-        logButton.setBackground(new java.awt.Color(153, 204, 255));
-        logButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                logButtonMouseExited(evt);
-            }
-        });
-        logButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        loButton.setBackground(new java.awt.Color(153, 204, 255));
+        loButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
         jLabel11.setText("LOGOUT");
-        logButton.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 110, 30));
+        loButton.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 110, 30));
 
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logout icon.png"))); // NOI18N
-        logButton.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 30));
+        loButton.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 30));
 
-        jPanel4.add(logButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 250, 50));
+        jPanel4.add(loButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 250, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -201,25 +134,10 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 48)); // NOI18N
-        jLabel1.setText("Librarian Dashboard");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, 550, 40));
+        jLabel1.setText("Account Page");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 370, 60));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 80));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 700, 570));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -237,72 +155,8 @@ public class LibrarianDB extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void dbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseEntered
-        dbButton.setBackground(hover);
+        // TODO add your handling code here:
     }//GEN-LAST:event_dbButtonMouseEntered
-
-    private void dbButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseExited
-        dbButton.setBackground(defbutton);
-    }//GEN-LAST:event_dbButtonMouseExited
-
-    private void dbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseClicked
-        BookWise bwd = new BookWise();
-        this.dispose();
-        bwd.setVisible(true);
-    }//GEN-LAST:event_dbButtonMouseClicked
-
-    private void bwButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseClicked
-        BorrowerDB bdb = new BorrowerDB();
-        this.dispose();
-        bdb.setVisible(true);
-    }//GEN-LAST:event_bwButtonMouseClicked
-
-    private void bwButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseEntered
-        bwButton.setBackground(hover);
-    }//GEN-LAST:event_bwButtonMouseEntered
-
-    private void bwButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseExited
-        bwButton.setBackground(defbutton);
-    }//GEN-LAST:event_bwButtonMouseExited
-
-    private void lbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseClicked
-        LibrarianDB ldb = new LibrarianDB();
-        this.dispose();
-        ldb.setVisible(true);
-    }//GEN-LAST:event_lbButtonMouseClicked
-
-    private void lbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseEntered
-        lbButton.setBackground(hover);
-    }//GEN-LAST:event_lbButtonMouseEntered
-
-    private void lbButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseExited
-        lbButton.setBackground(defbutton);
-    }//GEN-LAST:event_lbButtonMouseExited
-
-    private void accButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_accButtonMouseClicked
-
-    private void accButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_accButtonMouseEntered
-
-    private void accButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_accButtonMouseExited
-
-    private void logButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseClicked
-        LoginForm lf = new LoginForm();
-        this.dispose();
-        lf.setVisible(true);
-    }//GEN-LAST:event_logButtonMouseClicked
-
-    private void logButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseEntered
-        logButton.setBackground(hover);
-    }//GEN-LAST:event_logButtonMouseEntered
-
-    private void logButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseExited
-        logButton.setBackground(defbutton);
-    }//GEN-LAST:event_logButtonMouseExited
 
     /**
      * @param args the command line arguments
@@ -321,20 +175,20 @@ public class LibrarianDB extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AccPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AccPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AccPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AccPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LibrarianDB().setVisible(true);
+                new AccPage().setVisible(true);
             }
         });
     }
@@ -358,9 +212,7 @@ public class LibrarianDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel lbButton;
-    private javax.swing.JPanel logButton;
+    private javax.swing.JPanel loButton;
     // End of variables declaration//GEN-END:variables
 }
