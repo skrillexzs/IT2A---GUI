@@ -47,6 +47,7 @@ public class LoginForm extends javax.swing.JFrame {
         passw = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
         RegButton = new javax.swing.JLabel();
+        exitButton = new javax.swing.JToggleButton();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -110,7 +111,7 @@ public class LoginForm extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
-        jPanel4.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 120, 40));
+        jPanel4.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 120, 40));
 
         RegButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         RegButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -121,6 +122,15 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
         jPanel4.add(RegButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 200, 30));
+
+        exitButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+        jPanel4.add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 120, 40));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 390, 390));
 
@@ -205,6 +215,12 @@ public class LoginForm extends javax.swing.JFrame {
         passw.setEchoChar('*');
     }//GEN-LAST:event_hideMouseReleased
 
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    System.exit(0);
+}
+    }//GEN-LAST:event_exitButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +258,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel RegButton;
+    private javax.swing.JToggleButton exitButton;
     private javax.swing.JLabel hide;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
