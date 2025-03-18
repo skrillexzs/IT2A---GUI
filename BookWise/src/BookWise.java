@@ -19,7 +19,6 @@ import net.proteanit.sql.DbUtils;
  * @author SCC
  */
 public class BookWise extends javax.swing.JFrame {
-
     /**
      * Creates new form BookWise
      */
@@ -82,6 +81,7 @@ public class BookWise extends javax.swing.JFrame {
     }
     
     }
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
