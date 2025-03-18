@@ -1,4 +1,5 @@
 
+import config.Config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +24,26 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
+    }
+    
+        static String status;
+    
+    public static boolean LoginForm(String email, String password){
+        Config conf = new Config();
+        try{
+            String query = "SELECT * FROM user  WHERE u_email = '" + email + "' AND u_password = '" + password + "'";
+            ResultSet resultSet = conf.getData(query);
+            if(resultSet.next()){
+                status=resultSet.getString("u_status");
+                return true;
+            }else{
+                return false;
+            }
+            
+        }catch (SQLException ex) {
+            return false;
+        }
+
     }
 
     /**
@@ -185,7 +206,7 @@ public class LoginForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
-        JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "User not found or inactive! Contact Admin.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
