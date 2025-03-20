@@ -67,8 +67,8 @@ public class BookWise extends javax.swing.JFrame {
         
         int BorrowerCount = 0;
         int LibrarianCount = 0;
-        int activeCount = 0;
-        int pendingCount = 0;
+        int ActiveCount = 0;
+        int PendingCount = 0;
 
         while (rs.next()) {
             String userType = rs.getString("u_type");
@@ -76,23 +76,23 @@ public class BookWise extends javax.swing.JFrame {
             int count = rs.getInt("count");
 
             if ("Borrower".equalsIgnoreCase(userType)) {
-                BorrowerCount = count;
+                BorrowerCount += count;
             } else if ("Librarian".equalsIgnoreCase(userType)) {
-                LibrarianCount = count;
+                LibrarianCount += count;
             }
             
             if ("Active".equalsIgnoreCase(status)) {
-                activeCount += count;
+                ActiveCount += count;
             } else if ("Pending".equalsIgnoreCase(status)) {
-                pendingCount += count;
+                PendingCount += count;
             }   
         }
     
        // Optionally, you can display the counts in a GUI label
        borrowersCount.setText("Borrowers: " + BorrowerCount);
        librariansCount.setText("Librarians: " + LibrarianCount);
-       activeUserCount.setText("Active:" + activeCount);
-       pendingUserCount.setText("Pending: " + pendingCount);
+       activeCount.setText("Active: " + ActiveCount);
+       pendingCount.setText("Pending: " + PendingCount);
 
     } catch (SQLException ex) {
         System.out.println("Error: " + ex.getMessage());
@@ -135,10 +135,10 @@ public class BookWise extends javax.swing.JFrame {
         librariansCount = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         CountPanel3 = new javax.swing.JPanel();
-        activeUserCount = new javax.swing.JLabel();
+        activeCount = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         CountPanel4 = new javax.swing.JPanel();
-        pendingUserCount = new javax.swing.JLabel();
+        pendingCount = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         CountPanel1 = new javax.swing.JPanel();
         borrowersCount = new javax.swing.JLabel();
@@ -292,13 +292,10 @@ public class BookWise extends javax.swing.JFrame {
 
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(Table);
@@ -318,9 +315,9 @@ public class BookWise extends javax.swing.JFrame {
 
         CountPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        activeUserCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        activeUserCount.setText("Active:");
-        CountPanel3.add(activeUserCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, 30));
+        activeCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        activeCount.setText("Active:");
+        CountPanel3.add(activeCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, 30));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/customer icon.png"))); // NOI18N
         CountPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 40));
@@ -329,9 +326,9 @@ public class BookWise extends javax.swing.JFrame {
 
         CountPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pendingUserCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        pendingUserCount.setText("Pending:");
-        CountPanel4.add(pendingUserCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, 30));
+        pendingCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        pendingCount.setText("Pending:");
+        CountPanel4.add(pendingCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, 30));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/admin icon.png"))); // NOI18N
         CountPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 40));
@@ -383,7 +380,7 @@ public class BookWise extends javax.swing.JFrame {
                 refreshActionPerformed(evt);
             }
         });
-        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 260, -1, 40));
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 260, 120, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -481,7 +478,7 @@ public class BookWise extends javax.swing.JFrame {
     }//GEN-LAST:event_addUserActionPerformed
 
     private void editUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserActionPerformed
-        int rowindex = Table.getSelectedRow();
+       int rowindex = Table.getSelectedRow();
         
         if (rowindex < 0){
            JOptionPane.showMessageDialog(null, "Please Choose an Item to Edit:");
@@ -493,11 +490,13 @@ public class BookWise extends javax.swing.JFrame {
             TableModel tbl = Table.getModel();
             ResultSet rs = conf.getData("SELECT * FROM user WHERE u_id = "+tbl.getValueAt(rowindex, 0)+"");
             if(rs.next()){
-            accUser au = new accUser();
-            au.fname.setText(""+rs.getString("u_firstname"));                      
-            au.email.setText(""+rs.getString("u_email"));  
-            au.cnumber.setText(""+rs.getString("u_cnumber"));  
-            au.setVisible(true);
+            EditUserAcc eua = new EditUserAcc();
+            eua.fname.setText(""+rs.getString("u_firstname"));
+            eua.lname.setText(""+rs.getString("u_lastname"));
+            eua.email.setText(""+rs.getString("u_email"));
+            eua.cnum.setText(""+rs.getString("u_cnumber"));
+            eua.stat.setText(""+rs.getString("u_status"));
+            eua.setVisible(true);
             this.dispose();
                     }
         }catch(SQLException ex){
@@ -554,7 +553,7 @@ public class BookWise extends javax.swing.JFrame {
     private javax.swing.JPanel CountPanel4;
     private javax.swing.JTable Table;
     private javax.swing.JPanel accButton;
-    private javax.swing.JLabel activeUserCount;
+    private javax.swing.JLabel activeCount;
     private javax.swing.JButton addUser;
     private javax.swing.JLabel borrowersCount;
     private javax.swing.JPanel bwButton;
@@ -584,7 +583,7 @@ public class BookWise extends javax.swing.JFrame {
     private javax.swing.JPanel lbButton;
     private javax.swing.JLabel librariansCount;
     private javax.swing.JPanel logButton;
-    private javax.swing.JLabel pendingUserCount;
+    private javax.swing.JLabel pendingCount;
     private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }

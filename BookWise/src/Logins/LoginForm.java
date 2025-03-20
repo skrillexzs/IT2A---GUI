@@ -5,6 +5,7 @@ import AdminsPackage.BookWise;
 import LibrarianPackage.LibrarianDB;
 import BorrowersPackage.BorrowerDB;
 import config.Config;
+import config.Session;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,23 +32,83 @@ public class LoginForm extends javax.swing.JFrame {
     }
     
         static String status;
+        static String type;
     
+    public void loginButton() {
+        
+      String url = "jdbc:mysql://localhost:3306/test";
+      String user = "root";
+      String password = "";
+
+    String query = "SELECT u_password, u_type FROM user WHERE u_email = ? AND u_status = 'active'";
+
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+    pstmt.setString(1, uemail.getText());
+    ResultSet rs = pstmt.executeQuery();
+
+    if (rs.next()) {
+        String storedPassword = rs.getString("u_password");
+        String userType = rs.getString("u_type");
+
+        if (passw.getText().equals(storedPassword)) {
+            JOptionPane.showMessageDialog(null, "Login Successful!");
+            
+            
+            // Redirect based on user type
+            if ("Borrower".equalsIgnoreCase(userType)) {
+                BorrowerDB bwrdb = new BorrowerDB();
+                this.dispose();
+                bwrdb.setVisible(true);
+            } else if ("Librarian".equalsIgnoreCase(userType)) {
+                LibrarianDB ldb = new LibrarianDB();
+                this.dispose();
+                ldb.setVisible(true);
+            } else if ("admin".equalsIgnoreCase(userType)) {
+                BookWise bwd = new BookWise();
+                this.dispose();
+                bwd.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "User not found or inactive! Contact Admin.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+}
+        
     public static boolean LoginForm(String email, String password){
         Config conf = new Config();
         try{
-            String query = "SELECT * FROM user  WHERE u_email = '" + email + "' AND u_password = '" + password + "'";
+            String query = "SELECT * FROM user WHERE u_email = '" + email + "' AND u_password = '" + password + "'";
             ResultSet resultSet = conf.getData(query);
             if(resultSet.next()){
                 status=resultSet.getString("u_status");
+                type=resultSet.getString("u_status");
+                Session sess = Session.getInstance();
+                sess.setUid(resultSet.getString("u_id"));
+                sess.setFname(resultSet.getString("u_firstname"));
+                sess.setLname(resultSet.getString("u_lastname"));
+                sess.setEmail(resultSet.getString("u_email"));
+                sess.setContact(resultSet.getString("u_cnumber"));
+                sess.setType(resultSet.getString("u_type"));
+                sess.setStatus(resultSet.getString("u_status"));
+                System.out.println(""+sess.getUid());
                 return true;
             }else{
                 return false;
-            }
-            
+            }   
         }catch (SQLException ex) {
             return false;
         }
-
     }
 
     /**
@@ -169,53 +230,7 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        String url = "jdbc:mysql://localhost:3306/test";
-      String user = "root";
-      String password = "";
-
-    String query = "SELECT u_password, u_type FROM user WHERE u_email = ? AND u_status = 'active'";
-
-    try (Connection conn = DriverManager.getConnection(url, user, password);
-     PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-    pstmt.setString(1, uemail.getText());
-    ResultSet rs = pstmt.executeQuery();
-
-    if (rs.next()) {
-        String storedPassword = rs.getString("u_password");
-        String userType = rs.getString("u_type");
-
-        if (passw.getText().equals(storedPassword)) {
-            JOptionPane.showMessageDialog(null, "Login Successful!");
-            
-            
-            // Redirect based on user type
-            if ("Borrower".equalsIgnoreCase(userType)) {
-                BorrowerDB bwrdb = new BorrowerDB();
-                this.dispose();
-                bwrdb.setVisible(true);
-            } else if ("Librarian".equalsIgnoreCase(userType)) {
-                LibrarianDB ldb = new LibrarianDB();
-                this.dispose();
-                ldb.setVisible(true);
-            } else if ("admin".equalsIgnoreCase(userType)) {
-                BookWise bwd = new BookWise();
-                this.dispose();
-                bwd.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            
-        } else {
-            JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(null, "User not found or inactive! Contact Admin.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
-     
+        loginButton();    
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void uemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uemailActionPerformed

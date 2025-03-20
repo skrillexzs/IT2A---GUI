@@ -105,6 +105,7 @@ public class accUser extends javax.swing.JFrame {
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 130, 20));
 
         fname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        fname.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         fname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fnameActionPerformed(evt);
@@ -113,6 +114,7 @@ public class accUser extends javax.swing.JFrame {
         jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 240, 40));
 
         lname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        lname.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         lname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lnameActionPerformed(evt);
@@ -121,6 +123,7 @@ public class accUser extends javax.swing.JFrame {
         jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 240, 40));
 
         email.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
@@ -129,6 +132,7 @@ public class accUser extends javax.swing.JFrame {
         jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 240, 40));
 
         cnumber.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        cnumber.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         cnumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cnumberActionPerformed(evt);
@@ -150,6 +154,8 @@ public class accUser extends javax.swing.JFrame {
         show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, 20));
 
+        pass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        pass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passActionPerformed(evt);
@@ -170,11 +176,15 @@ public class accUser extends javax.swing.JFrame {
 
         show3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel2.add(show3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
+
+        cpass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        cpass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         jPanel2.add(cpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 240, 40));
 
         signup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         signup.setForeground(new java.awt.Color(0, 153, 255));
         signup.setText("Sign up");
+        signup.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 signupActionPerformed(evt);
@@ -185,6 +195,7 @@ public class accUser extends javax.swing.JFrame {
         Cancel.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         Cancel.setForeground(new java.awt.Color(0, 153, 255));
         Cancel.setText("Cancel");
+        Cancel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelActionPerformed(evt);
@@ -194,6 +205,7 @@ public class accUser extends javax.swing.JFrame {
 
         type.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Borrower", "Librarian" }));
+        type.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeActionPerformed(evt);
@@ -208,7 +220,7 @@ public class accUser extends javax.swing.JFrame {
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 600, 490));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Transparent Background 2.png"))); // NOI18N
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 730));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 720, 730));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -397,9 +409,9 @@ public class accUser extends javax.swing.JFrame {
     }//GEN-LAST:event_signupActionPerformed
 
     private void CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelActionPerformed
-        LoginForm lf = new LoginForm();
+        BookWise bwd = new BookWise();
         this.dispose();
-        lf.setVisible(true);
+        bwd.setVisible(true);
     }//GEN-LAST:event_CancelActionPerformed
 
     private void typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeActionPerformed

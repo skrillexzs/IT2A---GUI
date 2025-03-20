@@ -244,7 +244,7 @@ public class RegForm extends javax.swing.JFrame {
         
          // First Name Validation
         {
-         String firstName = fname.getText();
+         String firstName = fname.getText().trim();
                 if (!firstName.matches("[a-zA-Z]+")) {
                     fname.setBorder(BorderFactory.createLineBorder(Color.RED));
                     JOptionPane.showMessageDialog(null, "First name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -254,7 +254,7 @@ public class RegForm extends javax.swing.JFrame {
 }
         
         // Last Name Validation
-        String lastName = lname.getText();
+        String lastName = lname.getText().trim();
                 if (!lastName.matches("[a-zA-Z]+")) {
                     lname.setBorder(BorderFactory.createLineBorder(Color.RED));
                     JOptionPane.showMessageDialog(null, "Last name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);

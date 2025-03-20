@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/BorrowersPackage/BorrowerDB.java</file>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/AdminsPackage/AccPage.java</file>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/Logins/LoginForm.java</file>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/Logins/RegForm.java</file>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/LibrarianPackage/LibrarianDB.java</file>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/AdminsPackage/BookWise.java</file>
-            <file>file:/C:/Users/SCC-COLLEGE/Desktop/IT2A---GUI/BookWise/src/AdminsPackage/accUser.java</file>
+            <file>file:/C:/Users/SCC/Desktop/IT2A---GUI/BookWise/src/AdminsPackage/EditUserAcc.java</file>
+            <file>file:/C:/Users/SCC/Desktop/IT2A---GUI/BookWise/src/Logins/RegForm.java</file>
+            <file>file:/C:/Users/SCC/Desktop/IT2A---GUI/BookWise/src/Logins/LoginForm.java</file>
+            <file>file:/C:/Users/SCC/Desktop/IT2A---GUI/BookWise/src/AdminsPackage/BookWise.java</file>
+            <file>file:/C:/Users/SCC/Desktop/IT2A---GUI/BookWise/src/AdminsPackage/accUser.java</file>
         </group>
     </open-files>
 </project-private>
