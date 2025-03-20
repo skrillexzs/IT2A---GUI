@@ -30,9 +30,38 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
     }
-    
         static String status;
         static String type;
+        
+        public static boolean LoginForm(String email, String password){
+        Config conf = new Config();
+            String query = "SELECT * FROM user WHERE u_email = '" + email + "' AND u_password = '" + password + "'";
+            
+        try{
+            ResultSet resultSet = conf.getData(query);
+            if(resultSet.next()){
+                status=resultSet.getString("u_status");
+                type=resultSet.getString("u_type");
+                Session sess = Session.getInstance();
+                sess.setUid(resultSet.getString("u_id"));
+                sess.setFname(resultSet.getString("u_firstname"));
+                sess.setLname(resultSet.getString("u_lastname"));
+                sess.setEmail(resultSet.getString("u_email"));
+                sess.setContact(resultSet.getString("u_cnumber"));
+                sess.setType(resultSet.getString("u_type"));
+                sess.setStatus(resultSet.getString("u_status"));
+                
+                System.out.println("User logged in: " + sess.getFname() + " " + sess.getLname());
+                return true;
+            }else{
+                System.out.println("Login failed: Incorrect username or password.");
+                return false;
+            }   
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
     
     public void loginButton() {
         
@@ -84,32 +113,6 @@ public class LoginForm extends javax.swing.JFrame {
     }
     
 }
-        
-    public static boolean LoginForm(String email, String password){
-        Config conf = new Config();
-        try{
-            String query = "SELECT * FROM user WHERE u_email = '" + email + "' AND u_password = '" + password + "'";
-            ResultSet resultSet = conf.getData(query);
-            if(resultSet.next()){
-                status=resultSet.getString("u_status");
-                type=resultSet.getString("u_status");
-                Session sess = Session.getInstance();
-                sess.setUid(resultSet.getString("u_id"));
-                sess.setFname(resultSet.getString("u_firstname"));
-                sess.setLname(resultSet.getString("u_lastname"));
-                sess.setEmail(resultSet.getString("u_email"));
-                sess.setContact(resultSet.getString("u_cnumber"));
-                sess.setType(resultSet.getString("u_type"));
-                sess.setStatus(resultSet.getString("u_status"));
-                System.out.println(""+sess.getUid());
-                return true;
-            }else{
-                return false;
-            }   
-        }catch (SQLException ex) {
-            return false;
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
