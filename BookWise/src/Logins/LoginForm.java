@@ -1,6 +1,7 @@
 package Logins;
 
 
+import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
 import LibrarianPackage.LibrarianDB;
 import BorrowersPackage.BorrowerDB;
@@ -233,7 +234,19 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        loginButton();    
+        loginButton();
+        
+        String user = uemail.getText();
+        String password = new String(passw.getPassword()); // If using JPasswordField
+        AccPage acc = new AccPage();
+    
+    if (loginButton(user, password)) {
+        System.out.println("Login successful, loading account info...");
+        acc.loadAccountInformation(); // Load user details after login
+    } else {
+        System.out.println("Invalid login credentials.");
+        JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void uemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uemailActionPerformed
@@ -316,4 +329,8 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel show;
     private javax.swing.JTextField uemail;
     // End of variables declaration//GEN-END:variables
+
+    private void loginButton() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
