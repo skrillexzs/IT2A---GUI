@@ -65,7 +65,7 @@ public class LoginForm extends javax.swing.JFrame {
     
     public void loginButton() {
         
-      String url = "jdbc:mysql://localhost:3306/test";
+      String url = "jdbc:mysql://localhost:3306/joseph";
       String user = "root";
       String password = "";
 

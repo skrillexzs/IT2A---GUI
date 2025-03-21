@@ -19,11 +19,15 @@ import java.sql.Statement;
 public class Config {
     
     private Connection connect;
+    
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/joseph";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "";
 
        // constructor to connect to our database
         public Config(){
             try{
-                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/joseph", "root", "");
             }catch(SQLException ex){
                     System.out.println("Can't connect to database: "+ex.getMessage());
             }
@@ -43,10 +47,20 @@ public class Config {
             }
             return result;
         }
+          
           public ResultSet getData(String sql) throws SQLException{
             Statement stmt = connect.createStatement();
             ResultSet rst = stmt.executeQuery(sql);
             return rst;
         }
+          
+          public static Connection getConnection() throws SQLException {
+        try {
+            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        } catch (SQLException ex) {
+            System.err.println("Database Connection Error: " + ex.getMessage()); // Or use a logger
+            throw ex; // Re-throw the exception to be handled by the calling code
+        }
+    }
     
 }

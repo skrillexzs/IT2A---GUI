@@ -5,6 +5,7 @@ import LibrarianPackage.LibrarianDB;
 import BorrowersPackage.BorrowerDB;
 import Logins.LoginForm;
 import config.Config;
+import config.Session;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -127,6 +128,7 @@ public class BookWise extends javax.swing.JFrame {
         logButton = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        aname = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -149,6 +151,11 @@ public class BookWise extends javax.swing.JFrame {
         refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -278,6 +285,11 @@ public class BookWise extends javax.swing.JFrame {
         logButton.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 30));
 
         jPanel4.add(logButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 250, 50));
+
+        aname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        aname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        aname.setText("ADMIN");
+        jPanel4.add(aname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 110, 30));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -511,6 +523,11 @@ public class BookWise extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_refreshActionPerformed
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        Session sess = Session.getInstance();
+        aname.setText(""+sess.getFname());
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -555,6 +572,7 @@ public class BookWise extends javax.swing.JFrame {
     private javax.swing.JPanel accButton;
     private javax.swing.JLabel activeCount;
     private javax.swing.JButton addUser;
+    private javax.swing.JLabel aname;
     private javax.swing.JLabel borrowersCount;
     private javax.swing.JPanel bwButton;
     private javax.swing.JPanel dbButton;
