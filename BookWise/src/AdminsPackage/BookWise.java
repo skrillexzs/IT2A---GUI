@@ -289,7 +289,7 @@ public class BookWise extends javax.swing.JFrame {
         aname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
         aname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         aname.setText("ADMIN");
-        jPanel4.add(aname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 110, 30));
+        jPanel4.add(aname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 200, 30));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 

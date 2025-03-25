@@ -236,13 +236,14 @@ public class LoginForm extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         loginButton();
         
-        String user = uemail.getText();
+        String email = uemail.getText();
         String password = new String(passw.getPassword()); // If using JPasswordField
-        AccPage acc = new AccPage();
-    
-    if (loginButton(user, password)) {
+        
+            
+           
+    if (LoginForm(email, password)) {
         System.out.println("Login successful, loading account info...");
-        acc.loadAccountInformation(); // Load user details after login
+      
     } else {
         System.out.println("Invalid login credentials.");
         JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
@@ -330,7 +331,4 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JTextField uemail;
     // End of variables declaration//GEN-END:variables
 
-    private void loginButton() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

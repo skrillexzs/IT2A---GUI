@@ -27,20 +27,10 @@ public class AccPage extends javax.swing.JFrame {
     public AccPage() {
         initComponents();
         
-        loadAccountInformation();
+     
     }
     
-    public void loadAccountInformation() {
-        Session sess = Session.getInstance();
-
-        // Check if session is valid
-
-        String firstName = sess.getFname();
-        String lastName = sess.getLname();
-        
-        afn.setText("First Name: " + firstName);
-        aln.setText ("Last Name: " + lastName);
-    }
+ 
 
         Color hover = new Color(0,85,255);  
         Color defbutton = new Color(153,204,255);
@@ -77,8 +67,14 @@ public class AccPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         afn = new javax.swing.JLabel();
         aln = new javax.swing.JLabel();
+        ufname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(102, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -228,6 +224,10 @@ public class AccPage extends javax.swing.JFrame {
         aln.setText("Last Name:");
         jPanel1.add(aln, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, 130, 40));
 
+        ufname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        ufname.setText("jLabel13");
+        jPanel1.add(ufname, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 230, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -313,6 +313,11 @@ public class AccPage extends javax.swing.JFrame {
         logButton.setBackground(defbutton);
     }//GEN-LAST:event_logButtonMouseExited
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+          Session sess = Session.getInstance();
+        ufname.setText(""+sess.getFname());
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -371,5 +376,6 @@ public class AccPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel lbButton;
     private javax.swing.JPanel logButton;
+    private javax.swing.JLabel ufname;
     // End of variables declaration//GEN-END:variables
 }
