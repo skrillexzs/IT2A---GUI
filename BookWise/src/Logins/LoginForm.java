@@ -6,12 +6,16 @@ import AdminsPackage.BookWise;
 import LibrarianPackage.LibrarianDB;
 import BorrowersPackage.BorrowerDB;
 import config.Config;
+import static config.HashPass.hashPassword;
 import config.Session;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -31,89 +35,93 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
     }
-        static String status;
-        static String type;
-        
-        public static boolean LoginForm(String email, String password){
+
+    static String status;
+    static String type;
+
+    public static boolean validateLogin(String email, String password) throws NoSuchAlgorithmException {
         Config conf = new Config();
-            String query = "SELECT * FROM user WHERE u_email = '" + email + "' AND u_password = '" + password + "'";
-            
-        try{
-            ResultSet resultSet = conf.getData(query);
-            if(resultSet.next()){
-                status=resultSet.getString("u_status");
-                type=resultSet.getString("u_type");
-                Session sess = Session.getInstance();
-                sess.setUid(resultSet.getString("u_id"));
-                sess.setFname(resultSet.getString("u_firstname"));
-                sess.setLname(resultSet.getString("u_lastname"));
-                sess.setEmail(resultSet.getString("u_email"));
-                sess.setContact(resultSet.getString("u_cnumber"));
-                sess.setType(resultSet.getString("u_type"));
-                sess.setStatus(resultSet.getString("u_status"));
-                
-                System.out.println("User logged in: " + sess.getFname() + " " + sess.getLname());
-                return true;
-            }else{
-                System.out.println("Login failed: Incorrect username or password.");
+        String query = "SELECT u_password, u_status, u_type, u_id, u_firstname, u_lastname, u_cnumber FROM user WHERE u_email = ?";
+
+        try (Connection conn = conf.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) {
+                String storedPassword = resultSet.getString("u_password");
+                status = resultSet.getString("u_status");
+                type = resultSet.getString("u_type");
+
+                // Hash user input for comparison
+                String hashedInputPassword = hashPassword(password);
+
+                // Compare hashed input password with stored password
+                if (hashedInputPassword.equals(storedPassword)) {
+                    // Store user session details
+                    Session sess = Session.getInstance();
+                    sess.setUid(resultSet.getString("u_id"));
+                    sess.setFname(resultSet.getString("u_firstname"));
+                    sess.setLname(resultSet.getString("u_lastname"));
+                    sess.setEmail(email);
+                    sess.setContact(resultSet.getString("u_cnumber"));
+                    sess.setType(type);
+                    sess.setStatus(status);
+
+                    System.out.println("Login successful for: " + sess.getFname() + " " + sess.getLname());
+                    return true;
+                } else {
+                    System.out.println("Incorrect password for email: " + email);
+                    return false;
+                }
+            } else {
+                System.out.println("User not found: " + email);
                 return false;
-            }   
-        }catch (SQLException ex) {
+            }
+        } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
     }
-    
-    public void loginButton() {
         
-      String url = "jdbc:mysql://localhost:3306/joseph";
-      String user = "root";
-      String password = "";
-
-    String query = "SELECT u_password, u_type FROM user WHERE u_email = ? AND u_status = 'active'";
-
-    try (Connection conn = DriverManager.getConnection(url, user, password);
-     PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-    pstmt.setString(1, uemail.getText());
-    ResultSet rs = pstmt.executeQuery();
-
-    if (rs.next()) {
-        String storedPassword = rs.getString("u_password");
-        String userType = rs.getString("u_type");
-
-        if (passw.getText().equals(storedPassword)) {
-            JOptionPane.showMessageDialog(null, "Login Successful!");
-            
-            
-            // Redirect based on user type
-            if ("Borrower".equalsIgnoreCase(userType)) {
-                BorrowerDB bwrdb = new BorrowerDB();
-                this.dispose();
-                bwrdb.setVisible(true);
-            } else if ("Librarian".equalsIgnoreCase(userType)) {
-                LibrarianDB ldb = new LibrarianDB();
-                this.dispose();
-                ldb.setVisible(true);
-            } else if ("admin".equalsIgnoreCase(userType)) {
-                BookWise bwd = new BookWise();
-                this.dispose();
-                bwd.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            
-        } else {
-            JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(null, "User not found or inactive! Contact Admin.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
     
-}
+   public void loginButton() throws NoSuchAlgorithmException {
+        String email = uemail.getText();
+        String password = new String(passw.getPassword());
+
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter both email and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            if (validateLogin(email, password)) {
+                JOptionPane.showMessageDialog(null, "Login Successful!");
+
+                switch (type.toLowerCase()) {
+                    case "borrower":
+                        new BorrowerDB().setVisible(true);
+                        break;
+                    case "librarian":
+                        new LibrarianDB().setVisible(true);
+                        break;
+                    case "admin":
+                        new BookWise().setVisible(true);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                }
+
+                this.dispose(); // Close login window
+            } else {
+                JOptionPane.showMessageDialog(null, "Wrong username or password!", "Login Failed", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -234,20 +242,11 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        loginButton();
-        
-        String email = uemail.getText();
-        String password = new String(passw.getPassword()); // If using JPasswordField
-        
-            
-           
-    if (LoginForm(email, password)) {
-        System.out.println("Login successful, loading account info...");
-      
-    } else {
-        System.out.println("Invalid login credentials.");
-        JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-    }
+        try {
+            loginButton();
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+}
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void uemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uemailActionPerformed

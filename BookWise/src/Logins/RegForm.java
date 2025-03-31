@@ -3,7 +3,10 @@ package Logins;
 
 import Logins.LoginForm;
 import config.Config;
+import config.HashPass;
 import java.awt.Color;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -238,32 +241,31 @@ public class RegForm extends javax.swing.JFrame {
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
         
         Config conf = new Config();
-        boolean isValid = true;
-       
-         String emails = email.getText().trim();
-        
-         // First Name Validation
-        {
-         String firstName = fname.getText().trim();
-                if (!firstName.matches("[a-zA-Z]+")) {
-                    fname.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    JOptionPane.showMessageDialog(null, "First name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
-                    isValid = false;
-           }else {
-            fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-        
-        // Last Name Validation
-        String lastName = lname.getText().trim();
-                if (!lastName.matches("[a-zA-Z]+")) {
-                    lname.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    JOptionPane.showMessageDialog(null, "Last name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
-                    isValid = false;
-           }else {
-            lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+boolean isValid = true;
+
+String emails = email.getText().trim();
+
+// First Name Validation
+String firstName = fname.getText().trim();
+if (!firstName.matches("[a-zA-Z]+")) {
+    fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "First name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
 
-    // Email Validation
+// Last Name Validation
+String lastName = lname.getText().trim();
+if (!lastName.matches("[a-zA-Z]+")) {
+    lname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Last name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Email Validation
 if (email.getText().isEmpty()) {
     email.setBorder(BorderFactory.createLineBorder(Color.RED));
     isValid = false;
@@ -271,12 +273,7 @@ if (email.getText().isEmpty()) {
     email.setBorder(BorderFactory.createLineBorder(Color.RED));
     JOptionPane.showMessageDialog(null, "Email is already registered. Please use another email.", "Error", JOptionPane.ERROR_MESSAGE);
     isValid = false;
-} else {
-    email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Email Format Validation
-if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+} else if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
     email.setBorder(BorderFactory.createLineBorder(Color.RED));
     JOptionPane.showMessageDialog(null, "Email must be in the format 'username@domain.com'.", "Error", JOptionPane.ERROR_MESSAGE);
     isValid = false;
@@ -285,72 +282,80 @@ if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
 }
 
 // Contact Number Validation
-    if (cnumber.getText().isEmpty()) {
-        cnumber.setBorder(BorderFactory.createLineBorder(Color.RED));
-        isValid = false;
-    } else {
-        cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));       
-    }
-    
-    String contactNumber = cnumber.getText().trim();
-    if (!contactNumber.matches("\\d{11}")) {
-        cnumber.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-        JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
-        isValid = false;
-    }else {
-        cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+String contactNumber = cnumber.getText().trim();
+if (contactNumber.isEmpty() || !contactNumber.matches("\\d{11}")) {
+    cnumber.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    cnumber.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
-    
-    // Password Validation
-      if (pass.getPassword().length == 0) {
-        pass.setBorder(BorderFactory.createLineBorder(Color.RED));  
-        isValid = false;
-    } else if (pass.getPassword().length < 8) {
-        pass.setBorder(BorderFactory.createLineBorder(Color.RED));  
-        JOptionPane.showMessageDialog(null, "Password must contain at least 8 characters.", "Error", JOptionPane.ERROR_MESSAGE);
-        isValid = false;
-}   else {
-        pass.setBorder(BorderFactory.createLineBorder(Color.GRAY));  
-}      
 
-      // Confirm Password Validation
-    if (cpass.getPassword().length == 0) {
-        cpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-        isValid = false;
-    } else {
-        cpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    }
-    
-        if (!String.valueOf(pass.getPassword()).equals(String.valueOf(cpass.getPassword()))) {
-        pass.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-        cpass.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-        JOptionPane.showMessageDialog(null, "Password does not match", "Error", JOptionPane.ERROR_MESSAGE);
-        isValid = false;
-}    else {
-        pass.setBorder(BorderFactory.createLineBorder(Color.GRAY)); 
-        cpass.setBorder(BorderFactory.createLineBorder(Color.GRAY)); 
+// Password Validation
+char[] passwordChars = pass.getPassword();
+String password = new String(passwordChars); // Convert char[] to String
+Arrays.fill(passwordChars, ' '); // Clear password from memory for security
+
+if (password.isEmpty()) {
+    pass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    isValid = false;
+} else if (password.length() < 8) {
+    pass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Password must contain at least 8 characters.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    pass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
-        
-    // Account Type Validation
+
+// Confirm Password Validation
+String confirmPassword = new String(cpass.getPassword());
+if (confirmPassword.isEmpty()) {
+    cpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    isValid = false;
+} else if (!password.equals(confirmPassword)) {
+    pass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    cpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Password does not match", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    pass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    cpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Account Type Validation
 if (type.getSelectedIndex() == 0) {
     type.setBorder(BorderFactory.createLineBorder(Color.RED));
     isValid = false;
 } else {
     type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
-     
-    // Final Validation Check
-    if (!isValid) {
-        JOptionPane.showMessageDialog(null, "Some fields are required", "Error!", JOptionPane.ERROR_MESSAGE);
-    } else {
-        
+
+// Final Validation Check
+if (!isValid) {
+    JOptionPane.showMessageDialog(null, "Some fields are required", "Error!", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// Hash Password
+String hashedPassword = HashPass.hashPassword(password);
+
+// Database Insertion Using PreparedStatement
+try {
+    String sql = "INSERT INTO user (u_firstname, u_lastname, u_email, u_cnumber, u_password, u_type, u_status) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, 'Pending')";
+
+    PreparedStatement pst = conf.getConnection().prepareStatement(sql);
+    pst.setString(1, firstName);
+    pst.setString(2, lastName);
+    pst.setString(3, emails);
+    pst.setString(4, contactNumber);
+    pst.setString(5, hashedPassword);
+    pst.setString(6, type.getSelectedItem().toString());
+
+    int rowsInserted = pst.executeUpdate();
+    
+    if (rowsInserted == 1) {
         JOptionPane.showMessageDialog(null, "Registration Completed", "Success!", JOptionPane.INFORMATION_MESSAGE);
-        
-    // Database Insertion
-    if (conf.insertData("INSERT INTO user (u_firstname, u_lastname, u_email, u_cnumber, u_password, u_type, u_status)"
-            + " VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
-            + cnumber.getText() + "','" + String.valueOf(pass.getPassword()) + "','"
-            + type.getSelectedItem() + "','Pending')") == 1) {
         
         LoginForm lg = new LoginForm();
         this.dispose();
@@ -358,8 +363,11 @@ if (type.getSelectedIndex() == 0) {
     } else {
         JOptionPane.showMessageDialog(null, "Registration failed. Please try again!", "Error", JOptionPane.ERROR_MESSAGE);
     }
-    }
-        }
+
+} catch (SQLException e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Database error occurred!", "Error", JOptionPane.ERROR_MESSAGE);
+}
     }//GEN-LAST:event_signupActionPerformed
 
     private void hideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMousePressed
