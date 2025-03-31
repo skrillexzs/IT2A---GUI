@@ -38,7 +38,7 @@ public class BookWise extends javax.swing.JFrame {
     }
     
     Color hover = new Color(0,85,255);  
-    Color defbutton = new Color(153,204,255);
+    Color defbutton = new Color(240,248,255);
     
     Border empty = BorderFactory.createEmptyBorder();
     
@@ -166,7 +166,7 @@ public class BookWise extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 220, 170));
 
-        dbButton.setBackground(new java.awt.Color(153, 204, 255));
+        dbButton.setBackground(new java.awt.Color(240, 248, 255));
         dbButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dbButtonMouseClicked(evt);
@@ -190,7 +190,7 @@ public class BookWise extends javax.swing.JFrame {
 
         jPanel4.add(dbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 250, 50));
 
-        bwButton.setBackground(new java.awt.Color(153, 204, 255));
+        bwButton.setBackground(new java.awt.Color(240, 248, 255));
         bwButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bwButtonMouseClicked(evt);
@@ -214,7 +214,7 @@ public class BookWise extends javax.swing.JFrame {
 
         jPanel4.add(bwButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 250, 50));
 
-        lbButton.setBackground(new java.awt.Color(153, 204, 255));
+        lbButton.setBackground(new java.awt.Color(240, 248, 255));
         lbButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbButtonMouseClicked(evt);
@@ -238,7 +238,7 @@ public class BookWise extends javax.swing.JFrame {
 
         jPanel4.add(lbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 250, 50));
 
-        accButton.setBackground(new java.awt.Color(153, 204, 255));
+        accButton.setBackground(new java.awt.Color(240, 248, 255));
         accButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 accButtonMouseClicked(evt);
@@ -262,7 +262,7 @@ public class BookWise extends javax.swing.JFrame {
 
         jPanel4.add(accButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 250, 50));
 
-        logButton.setBackground(new java.awt.Color(153, 204, 255));
+        logButton.setBackground(new java.awt.Color(240, 248, 255));
         logButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logButtonMouseClicked(evt);
@@ -456,9 +456,19 @@ public class BookWise extends javax.swing.JFrame {
     }//GEN-LAST:event_accButtonMouseExited
 
     private void logButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseClicked
-        LoginForm lf = new LoginForm();
+        int choice = JOptionPane.showConfirmDialog(
+        null,
+        "Do you want to logout?",
+        "Logout Confirmation",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+       
         this.dispose();
+        LoginForm lf = new LoginForm();
         lf.setVisible(true);
+    }
     }//GEN-LAST:event_logButtonMouseClicked
 
     private void logButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseEntered

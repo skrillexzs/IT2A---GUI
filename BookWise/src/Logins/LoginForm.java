@@ -72,7 +72,7 @@ public class LoginForm extends javax.swing.JFrame {
                     System.out.println("Login successful for: " + sess.getFname() + " " + sess.getLname());
                     return true;
                 } else {
-                    System.out.println("Incorrect password for email: " + email);
+                    System.out.println("Incorrect password or email: " + email);
                     return false;
                 }
             } else {
@@ -87,40 +87,72 @@ public class LoginForm extends javax.swing.JFrame {
         
     
    public void loginButton() throws NoSuchAlgorithmException {
-        String email = uemail.getText();
-        String password = new String(passw.getPassword());
+        String url = "jdbc:mysql://localhost:3306/joseph";
+    String user = "root";
+    String password = "";
 
-        if (email.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please enter both email and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    String query = "SELECT u_password, u_type FROM user WHERE u_email = ? AND u_status = 'active'";
 
-        try {
-            if (validateLogin(email, password)) {
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, uemail.getText());
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            String storedPassword = rs.getString("u_password");
+            String userType = rs.getString("u_type");
+
+            // Hash the input password for comparison
+            String hashedInputPassword = hashPassword(passw.getText());
+
+            // Check if stored password is still plaintext (not hashed)
+            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {  // SHA-256 hashes are 64 hex characters
+                System.out.println("Rehashing old plaintext password...");
+
+                // Hash the plaintext password and update the database
+                String newHashedPassword = hashPassword(storedPassword);
+                String updateQuery = "UPDATE user SET u_password = ? WHERE u_email = ?";
+                
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                    updateStmt.setString(1, newHashedPassword);
+                    updateStmt.setString(2, uemail.getText());
+                    updateStmt.executeUpdate();
+                }
+                
+                // Use the new hashed password for comparison
+                storedPassword = newHashedPassword;
+            }
+
+            // Compare hashed input password with stored hash
+            if (hashedInputPassword.equals(storedPassword)) {
                 JOptionPane.showMessageDialog(null, "Login Successful!");
 
-                switch (type.toLowerCase()) {
-                    case "borrower":
-                        new BorrowerDB().setVisible(true);
-                        break;
-                    case "librarian":
-                        new LibrarianDB().setVisible(true);
-                        break;
-                    case "admin":
-                        new BookWise().setVisible(true);
-                        break;
-                    default:
-                        JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
+                // Redirect based on user type
+                if ("Borrower".equalsIgnoreCase(userType)) {
+                    BorrowerDB bwdb = new BorrowerDB();
+                    this.dispose();
+                    bwdb.setVisible(true);
+                } else if ("Librarian".equalsIgnoreCase(userType)) {
+                    LibrarianDB lbdb = new LibrarianDB();
+                    this.dispose();
+                    lbdb.setVisible(true);
+                } else if ("Admin".equalsIgnoreCase(userType)) {
+                    BookWise bwd = new BookWise();
+                    this.dispose();
+                    bwd.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-                this.dispose(); // Close login window
             } else {
-                JOptionPane.showMessageDialog(null, "Wrong username or password!", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NoSuchAlgorithmException ex) {
-            ex.printStackTrace();
+        } else {
+            JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     /**

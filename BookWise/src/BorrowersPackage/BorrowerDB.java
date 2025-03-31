@@ -5,9 +5,11 @@ import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
 import LibrarianPackage.LibrarianDB;
 import Logins.LoginForm;
+import config.Session;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /*
@@ -67,10 +69,36 @@ public class BorrowerDB extends javax.swing.JFrame {
         logButton1 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        uprofile = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        id = new javax.swing.JLabel();
+        aid = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        afn = new javax.swing.JLabel();
+        afname = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        aln = new javax.swing.JLabel();
+        alname = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        email = new javax.swing.JLabel();
+        aemail = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        cn = new javax.swing.JLabel();
+        acn = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        type = new javax.swing.JLabel();
+        atype = new javax.swing.JLabel();
+        changepass = new javax.swing.JLabel();
+        forgotpass = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(153, 204, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -88,6 +116,7 @@ public class BorrowerDB extends javax.swing.JFrame {
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
         jPanel6.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dbButton1.setBackground(new java.awt.Color(210, 255, 255));
@@ -210,34 +239,127 @@ public class BorrowerDB extends javax.swing.JFrame {
 
         jPanel6.add(logButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 130, 50));
 
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 840, 70));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        jPanel1.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 850, 410));
+        jPanel2.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        uprofile.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 48)); // NOI18N
+        uprofile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        uprofile.setText("Profile");
+        jPanel2.add(uprofile, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 180, 50));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 220, 70));
+
+        jPanel4.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        id.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        id.setText("ID:");
+        jPanel4.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 30));
+
+        aid.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        aid.setText("uid");
+        jPanel4.add(aid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 220, 30));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 300, 50));
+
+        jPanel7.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        afn.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        afn.setText("First name:");
+        jPanel7.add(afn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 30));
+
+        afname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        afname.setText("afname");
+        jPanel7.add(afname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 300, 50));
+
+        jPanel8.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        aln.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        aln.setText("Last name:");
+        jPanel8.add(aln, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
+
+        alname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        alname.setText("alname");
+        jPanel8.add(alname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
+
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 300, 50));
+
+        jPanel9.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        email.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        email.setText("Email:");
+        jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 30));
+
+        aemail.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        aemail.setText("email");
+        jPanel9.add(aemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 230, 30));
+
+        jPanel1.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, 320, 50));
+
+        jPanel10.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cn.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        cn.setText("Contact number:");
+        jPanel10.add(cn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
+
+        acn.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        acn.setText("number");
+        jPanel10.add(acn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 230, 30));
+
+        jPanel1.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 320, 50));
+
+        jPanel11.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        type.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        type.setText("Type:");
+        jPanel11.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 30));
+
+        atype.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        atype.setText("type");
+        jPanel11.add(atype, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 230, 30));
+
+        jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 320, 50));
+
+        changepass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
+        changepass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        changepass.setText("Change Password");
+        jPanel1.add(changepass, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 400, 200, 30));
+
+        forgotpass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
+        forgotpass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        forgotpass.setText("Forgot Password?");
+        jPanel1.add(forgotpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 440, 200, 30));
+
+        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 840, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -301,9 +423,19 @@ public class BorrowerDB extends javax.swing.JFrame {
     }//GEN-LAST:event_accButton1MouseExited
 
     private void logButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButton1MouseClicked
-        LoginForm lf = new LoginForm();
+        int choice = JOptionPane.showConfirmDialog(
+        null,
+        "Do you want to logout?",
+        "Logout Confirmation",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+       
         this.dispose();
+        LoginForm lf = new LoginForm();
         lf.setVisible(true);
+    }
     }//GEN-LAST:event_logButton1MouseClicked
 
     private void logButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButton1MouseEntered
@@ -313,6 +445,16 @@ public class BorrowerDB extends javax.swing.JFrame {
     private void logButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButton1MouseExited
         logButton1.setBackground(defbutton);
     }//GEN-LAST:event_logButton1MouseExited
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        Session sess = Session.getInstance();
+        aid.setText(""+sess.getUid());
+        afname.setText(""+sess.getFname());
+        alname.setText(""+sess.getLname());
+        aemail.setText(""+sess.getEmail());
+        acn.setText(""+sess.getContact());
+        atype.setText(""+sess.getType());
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -351,8 +493,21 @@ public class BorrowerDB extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton1;
+    private javax.swing.JLabel acn;
+    private javax.swing.JLabel aemail;
+    private javax.swing.JLabel afn;
+    private javax.swing.JLabel afname;
+    private javax.swing.JLabel aid;
+    private javax.swing.JLabel aln;
+    private javax.swing.JLabel alname;
+    private javax.swing.JLabel atype;
     private javax.swing.JPanel bwButton1;
+    private javax.swing.JLabel changepass;
+    private javax.swing.JLabel cn;
     private javax.swing.JPanel dbButton1;
+    private javax.swing.JLabel email;
+    private javax.swing.JLabel forgotpass;
+    private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -365,12 +520,20 @@ public class BorrowerDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel lbButton1;
     private javax.swing.JPanel logButton1;
+    private javax.swing.JLabel type;
+    private javax.swing.JLabel uprofile;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ import Logins.LoginForm;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /*
@@ -299,9 +300,19 @@ public class LibrarianDB extends javax.swing.JFrame {
     }//GEN-LAST:event_accButtonMouseExited
 
     private void logButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseClicked
-        LoginForm lf = new LoginForm();
+        int choice = JOptionPane.showConfirmDialog(
+        null,
+        "Do you want to logout?",
+        "Logout Confirmation",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+       
         this.dispose();
+        LoginForm lf = new LoginForm();
         lf.setVisible(true);
+    }
     }//GEN-LAST:event_logButtonMouseClicked
 
     private void logButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseEntered

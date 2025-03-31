@@ -7,6 +7,7 @@ import config.Session;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /*
@@ -33,7 +34,7 @@ public class AccPage extends javax.swing.JFrame {
  
 
         Color hover = new Color(0,85,255);  
-        Color defbutton = new Color(153,204,255);
+        Color defbutton = new Color(240,248,255);
     
         Border empty = BorderFactory.createEmptyBorder();
     
@@ -65,9 +66,24 @@ public class AccPage extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        id = new javax.swing.JLabel();
+        aid = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         afn = new javax.swing.JLabel();
+        afname = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         aln = new javax.swing.JLabel();
-        ufname = new javax.swing.JLabel();
+        alname = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        email = new javax.swing.JLabel();
+        aemail = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        cn = new javax.swing.JLabel();
+        acn = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        type = new javax.swing.JLabel();
+        atype = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -85,7 +101,7 @@ public class AccPage extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 220, 170));
 
-        dbButton.setBackground(new java.awt.Color(153, 204, 255));
+        dbButton.setBackground(new java.awt.Color(240, 248, 255));
         dbButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dbButtonMouseClicked(evt);
@@ -109,7 +125,7 @@ public class AccPage extends javax.swing.JFrame {
 
         jPanel4.add(dbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 250, 50));
 
-        bwButton.setBackground(new java.awt.Color(153, 204, 255));
+        bwButton.setBackground(new java.awt.Color(240, 248, 255));
         bwButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bwButtonMouseClicked(evt);
@@ -133,7 +149,7 @@ public class AccPage extends javax.swing.JFrame {
 
         jPanel4.add(bwButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 250, 50));
 
-        lbButton.setBackground(new java.awt.Color(153, 204, 255));
+        lbButton.setBackground(new java.awt.Color(240, 248, 255));
         lbButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbButtonMouseClicked(evt);
@@ -157,7 +173,7 @@ public class AccPage extends javax.swing.JFrame {
 
         jPanel4.add(lbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 250, 50));
 
-        accButton.setBackground(new java.awt.Color(153, 204, 255));
+        accButton.setBackground(new java.awt.Color(240, 248, 255));
         accButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 accButtonMouseClicked(evt);
@@ -181,7 +197,7 @@ public class AccPage extends javax.swing.JFrame {
 
         jPanel4.add(accButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 250, 50));
 
-        logButton.setBackground(new java.awt.Color(153, 204, 255));
+        logButton.setBackground(new java.awt.Color(240, 248, 255));
         logButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logButtonMouseClicked(evt);
@@ -216,17 +232,89 @@ public class AccPage extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 80));
 
+        jPanel3.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        id.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        id.setText("ID:");
+        jPanel3.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 30));
+
+        aid.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        aid.setText("aid");
+        jPanel3.add(aid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 220, 30));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 300, 50));
+
+        jPanel5.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         afn.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        afn.setText("First Name:");
-        jPanel1.add(afn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, 130, 40));
+        afn.setText("First name:");
+        jPanel5.add(afn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 30));
+
+        afname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        afname.setText("afname");
+        jPanel5.add(afname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 300, 50));
+
+        jPanel6.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         aln.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        aln.setText("Last Name:");
-        jPanel1.add(aln, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, 130, 40));
+        aln.setText("Last name:");
+        jPanel6.add(aln, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
-        ufname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        ufname.setText("jLabel13");
-        jPanel1.add(ufname, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 230, 30));
+        alname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        alname.setText("alname");
+        jPanel6.add(alname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 300, 50));
+
+        jPanel7.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        email.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        email.setText("Email:");
+        jPanel7.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 30));
+
+        aemail.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        aemail.setText("email");
+        jPanel7.add(aemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 230, 30));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 120, 320, 50));
+
+        jPanel8.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cn.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        cn.setText("Contact number:");
+        jPanel8.add(cn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
+
+        acn.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        acn.setText("number");
+        jPanel8.add(acn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 230, 30));
+
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 200, 320, 50));
+
+        jPanel9.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        type.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        type.setText("Type:");
+        jPanel9.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 30));
+
+        atype.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        atype.setText("type");
+        jPanel9.add(atype, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 230, 30));
+
+        jPanel1.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 280, 320, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -300,9 +388,19 @@ public class AccPage extends javax.swing.JFrame {
     }//GEN-LAST:event_accButtonMouseExited
 
     private void logButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseClicked
-        LoginForm lf = new LoginForm();
+        int choice = JOptionPane.showConfirmDialog(
+        null,
+        "Do you want to logout?",
+        "Logout Confirmation",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+       
         this.dispose();
+        LoginForm lf = new LoginForm();
         lf.setVisible(true);
+    }
     }//GEN-LAST:event_logButtonMouseClicked
 
     private void logButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseEntered
@@ -315,7 +413,12 @@ public class AccPage extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
           Session sess = Session.getInstance();
-        ufname.setText(""+sess.getFname());
+        aid.setText(""+sess.getUid());
+        afname.setText(""+sess.getFname());
+        alname.setText(""+sess.getLname());
+        aemail.setText(""+sess.getEmail());
+        acn.setText(""+sess.getContact());
+        atype.setText(""+sess.getType());
     }//GEN-LAST:event_formWindowActivated
 
     /**
@@ -355,10 +458,19 @@ public class AccPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton;
+    private javax.swing.JLabel acn;
+    private javax.swing.JLabel aemail;
     private javax.swing.JLabel afn;
+    private javax.swing.JLabel afname;
+    private javax.swing.JLabel aid;
     private javax.swing.JLabel aln;
+    private javax.swing.JLabel alname;
+    private javax.swing.JLabel atype;
     private javax.swing.JPanel bwButton;
+    private javax.swing.JLabel cn;
     private javax.swing.JPanel dbButton;
+    private javax.swing.JLabel email;
+    private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -373,9 +485,15 @@ public class AccPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel lbButton;
     private javax.swing.JPanel logButton;
-    private javax.swing.JLabel ufname;
+    private javax.swing.JLabel type;
     // End of variables declaration//GEN-END:variables
 }

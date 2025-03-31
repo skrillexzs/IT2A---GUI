@@ -78,7 +78,7 @@
             <Container class="javax.swing.JPanel" name="dbButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="cc" red="99" type="rgb"/>
+                  <Color blue="ff" green="f8" red="f0" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
@@ -127,7 +127,7 @@
             <Container class="javax.swing.JPanel" name="bwButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="cc" red="99" type="rgb"/>
+                  <Color blue="ff" green="f8" red="f0" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
@@ -176,7 +176,7 @@
             <Container class="javax.swing.JPanel" name="lbButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="cc" red="99" type="rgb"/>
+                  <Color blue="ff" green="f8" red="f0" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
@@ -225,7 +225,7 @@
             <Container class="javax.swing.JPanel" name="accButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="cc" red="99" type="rgb"/>
+                  <Color blue="ff" green="f8" red="f0" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
@@ -274,7 +274,7 @@
             <Container class="javax.swing.JPanel" name="logButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="cc" red="99" type="rgb"/>
+                  <Color blue="ff" green="f8" red="f0" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
