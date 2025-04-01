@@ -383,14 +383,14 @@ try {
     }//GEN-LAST:event_hideMouseReleased
 
     private void hide3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hide3MousePressed
-        show.setVisible(true);
-        hide.setVisible(false);
+        show3.setVisible(true);
+        hide3.setVisible(false);
         cpass.setEchoChar((char)0);
     }//GEN-LAST:event_hide3MousePressed
 
     private void hide3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hide3MouseReleased
-        show.setVisible(false);
-        hide.setVisible(true);
+        show3.setVisible(false);
+        hide3.setVisible(true);
         cpass.setEchoChar('*');
     }//GEN-LAST:event_hide3MouseReleased
 

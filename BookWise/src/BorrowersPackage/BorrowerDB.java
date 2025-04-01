@@ -3,6 +3,7 @@ package BorrowersPackage;
 
 import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
+import LibrarianPackage.ChangePassword;
 import LibrarianPackage.LibrarianDB;
 import Logins.LoginForm;
 import config.Session;
@@ -74,24 +75,23 @@ public class BorrowerDB extends javax.swing.JFrame {
         uprofile = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         id = new javax.swing.JLabel();
-        aid = new javax.swing.JLabel();
+        bwid = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         afn = new javax.swing.JLabel();
-        afname = new javax.swing.JLabel();
+        bwfname = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         aln = new javax.swing.JLabel();
-        alname = new javax.swing.JLabel();
+        bwlname = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         email = new javax.swing.JLabel();
-        aemail = new javax.swing.JLabel();
+        bwemail = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         cn = new javax.swing.JLabel();
-        acn = new javax.swing.JLabel();
+        bwcn = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         type = new javax.swing.JLabel();
-        atype = new javax.swing.JLabel();
+        bwtype = new javax.swing.JLabel();
         changepass = new javax.swing.JLabel();
-        forgotpass = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -263,9 +263,9 @@ public class BorrowerDB extends javax.swing.JFrame {
         id.setText("ID:");
         jPanel4.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 30));
 
-        aid.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        aid.setText("uid");
-        jPanel4.add(aid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 220, 30));
+        bwid.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        bwid.setText("bwid");
+        jPanel4.add(bwid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 220, 30));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 300, 50));
 
@@ -277,9 +277,9 @@ public class BorrowerDB extends javax.swing.JFrame {
         afn.setText("First name:");
         jPanel7.add(afn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 30));
 
-        afname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        afname.setText("afname");
-        jPanel7.add(afname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
+        bwfname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        bwfname.setText("bwfname");
+        jPanel7.add(bwfname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
 
         jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 300, 50));
 
@@ -291,9 +291,9 @@ public class BorrowerDB extends javax.swing.JFrame {
         aln.setText("Last name:");
         jPanel8.add(aln, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
-        alname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        alname.setText("alname");
-        jPanel8.add(alname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
+        bwlname.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        bwlname.setText("bwlname");
+        jPanel8.add(bwlname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 230, 30));
 
         jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 300, 50));
 
@@ -305,9 +305,9 @@ public class BorrowerDB extends javax.swing.JFrame {
         email.setText("Email:");
         jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 30));
 
-        aemail.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        aemail.setText("email");
-        jPanel9.add(aemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 230, 30));
+        bwemail.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        bwemail.setText("bwemail");
+        jPanel9.add(bwemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 230, 30));
 
         jPanel1.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, 320, 50));
 
@@ -319,9 +319,9 @@ public class BorrowerDB extends javax.swing.JFrame {
         cn.setText("Contact number:");
         jPanel10.add(cn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
 
-        acn.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        acn.setText("number");
-        jPanel10.add(acn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 230, 30));
+        bwcn.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        bwcn.setText("bwnumber");
+        jPanel10.add(bwcn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 230, 30));
 
         jPanel1.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 320, 50));
 
@@ -333,21 +333,27 @@ public class BorrowerDB extends javax.swing.JFrame {
         type.setText("Type:");
         jPanel11.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 30));
 
-        atype.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        atype.setText("type");
-        jPanel11.add(atype, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 230, 30));
+        bwtype.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        bwtype.setText("bwtype");
+        jPanel11.add(bwtype, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 230, 30));
 
         jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 320, 50));
 
         changepass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
         changepass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         changepass.setText("Change Password");
-        jPanel1.add(changepass, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 400, 200, 30));
-
-        forgotpass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
-        forgotpass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        forgotpass.setText("Forgot Password?");
-        jPanel1.add(forgotpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 440, 200, 30));
+        changepass.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                changepassMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                changepassMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                changepassMouseExited(evt);
+            }
+        });
+        jPanel1.add(changepass, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 200, 30));
 
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 840, 530));
 
@@ -448,13 +454,27 @@ public class BorrowerDB extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        aid.setText(""+sess.getUid());
-        afname.setText(""+sess.getFname());
-        alname.setText(""+sess.getLname());
-        aemail.setText(""+sess.getEmail());
-        acn.setText(""+sess.getContact());
-        atype.setText(""+sess.getType());
+        bwid.setText(""+sess.getUid());
+        bwfname.setText(""+sess.getFname());
+        bwlname.setText(""+sess.getLname());
+        bwemail.setText(""+sess.getEmail());
+        bwcn.setText(""+sess.getContact());
+        bwtype.setText(""+sess.getType());
     }//GEN-LAST:event_formWindowActivated
+
+    private void changepassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseClicked
+        ChangePassword cp = new ChangePassword();
+        cp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_changepassMouseClicked
+
+    private void changepassMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseEntered
+        changepass.setBackground(hover);
+    }//GEN-LAST:event_changepassMouseEntered
+
+    private void changepassMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseExited
+        changepass.setBackground(defbutton);
+    }//GEN-LAST:event_changepassMouseExited
 
     /**
      * @param args the command line arguments
@@ -493,20 +513,19 @@ public class BorrowerDB extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton1;
-    private javax.swing.JLabel acn;
-    private javax.swing.JLabel aemail;
     private javax.swing.JLabel afn;
-    private javax.swing.JLabel afname;
-    private javax.swing.JLabel aid;
     private javax.swing.JLabel aln;
-    private javax.swing.JLabel alname;
-    private javax.swing.JLabel atype;
     private javax.swing.JPanel bwButton1;
+    private javax.swing.JLabel bwcn;
+    private javax.swing.JLabel bwemail;
+    private javax.swing.JLabel bwfname;
+    private javax.swing.JLabel bwid;
+    private javax.swing.JLabel bwlname;
+    private javax.swing.JLabel bwtype;
     private javax.swing.JLabel changepass;
     private javax.swing.JLabel cn;
     private javax.swing.JPanel dbButton1;
     private javax.swing.JLabel email;
-    private javax.swing.JLabel forgotpass;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
