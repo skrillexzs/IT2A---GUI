@@ -4,7 +4,7 @@ package Logins;
 import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
 import LibrarianPackage.LibrarianDB;
-import BorrowersPackage.BorrowerDB;
+import BorrowersPackage.BorrowerProf;
 import config.Config;
 import static config.HashPass.hashPassword;
 import config.Session;
@@ -130,9 +130,9 @@ public class LoginForm extends javax.swing.JFrame {
 
                 // Redirect based on user type
                 if ("Borrower".equalsIgnoreCase(userType)) {
-                    BorrowerDB bwdb = new BorrowerDB();
+                    BorrowerProf bwp = new BorrowerProf();
                     this.dispose();
-                    bwdb.setVisible(true);
+                    bwp.setVisible(true);
                 } else if ("Librarian".equalsIgnoreCase(userType)) {
                     LibrarianDB lbdb = new LibrarianDB();
                     this.dispose();

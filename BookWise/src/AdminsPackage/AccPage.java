@@ -1,6 +1,6 @@
 package AdminsPackage;
 
-import BorrowersPackage.BorrowerDB;
+import BorrowersPackage.BorrowerProf;
 import LibrarianPackage.LibrarianDB;
 import Logins.LoginForm;
 import config.Session;
@@ -346,9 +346,9 @@ public class AccPage extends javax.swing.JFrame {
     }//GEN-LAST:event_dbButtonMouseClicked
 
     private void bwButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseClicked
-        BorrowerDB bdb = new BorrowerDB();
+        BorrowerProf bwp = new BorrowerProf();
         this.dispose();
-        bdb.setVisible(true);
+        bwp.setVisible(true);
     }//GEN-LAST:event_bwButtonMouseClicked
 
     private void bwButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseEntered

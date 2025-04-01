@@ -2,7 +2,7 @@ package AdminsPackage;
 
 
 import LibrarianPackage.LibrarianDB;
-import BorrowersPackage.BorrowerDB;
+import BorrowersPackage.BorrowerProf;
 import Logins.LoginForm;
 import config.Config;
 import config.Session;
@@ -422,9 +422,9 @@ public class BookWise extends javax.swing.JFrame {
     }//GEN-LAST:event_bwButtonMouseExited
 
     private void bwButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseClicked
-        BorrowerDB bdb = new BorrowerDB();
+        BorrowerProf bwp = new BorrowerProf();
         this.dispose();
-        bdb.setVisible(true);
+        bwp.setVisible(true);
     }//GEN-LAST:event_bwButtonMouseClicked
 
     private void lbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseClicked

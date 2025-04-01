@@ -1,9 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package LibrarianPackage;
 
-
-import AdminsPackage.AccPage;
-import AdminsPackage.BookWise;
-import BorrowersPackage.BorrowerProf;
 import Logins.LoginForm;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -11,22 +12,16 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author USER
  */
-public class LibrarianDB extends javax.swing.JFrame {
+public class BooksDB extends javax.swing.JFrame {
 
     /**
-     * Creates new form LibrarianDB
+     * Creates new form BooksDB
      */
-    public LibrarianDB() {
+    public BooksDB() {
         initComponents();
     }
     
@@ -67,6 +62,7 @@ public class LibrarianDB extends javax.swing.JFrame {
         logButton = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,8 +76,8 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 170));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel1.setText("LIBRARIAN DASHBOARD");
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 230, 50));
+        jLabel1.setText("BOOKS DASHBOARD");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 190, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -201,6 +197,10 @@ public class LibrarianDB extends javax.swing.JFrame {
 
         jPanel1.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
 
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        jLabel5.setText("BOOKS LIST");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 150, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,7 +213,6 @@ public class LibrarianDB extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void dbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseClicked
@@ -231,9 +230,9 @@ public class LibrarianDB extends javax.swing.JFrame {
     }//GEN-LAST:event_dbButtonMouseExited
 
     private void booksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseClicked
-        BorrowerProf bwp = new BorrowerProf();
+        BooksDB bdb = new BooksDB();
         this.dispose();
-        bwp.setVisible(true);
+        bdb.setVisible(true);
     }//GEN-LAST:event_booksMouseClicked
 
     private void booksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseEntered
@@ -299,20 +298,20 @@ public class LibrarianDB extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BooksDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BooksDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BooksDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BooksDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LibrarianDB().setVisible(true);
+                new BooksDB().setVisible(true);
             }
         });
     }
@@ -328,6 +327,7 @@ public class LibrarianDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

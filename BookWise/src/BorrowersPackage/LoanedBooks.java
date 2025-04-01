@@ -1,9 +1,11 @@
-package LibrarianPackage;
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package BorrowersPackage;
 
 import AdminsPackage.AccPage;
-import AdminsPackage.BookWise;
-import BorrowersPackage.BorrowerProf;
 import Logins.LoginForm;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -11,22 +13,16 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author USER
  */
-public class LibrarianDB extends javax.swing.JFrame {
+public class LoanedBooks extends javax.swing.JFrame {
 
     /**
-     * Creates new form LibrarianDB
+     * Creates new form LoanedBooks
      */
-    public LibrarianDB() {
+    public LoanedBooks() {
         initComponents();
     }
     
@@ -52,13 +48,11 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel12 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         dbButton = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        books = new javax.swing.JPanel();
+        lbButton = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         accButton = new javax.swing.JPanel();
@@ -67,6 +61,8 @@ public class LibrarianDB extends javax.swing.JFrame {
         logButton = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,28 +76,13 @@ public class LibrarianDB extends javax.swing.JFrame {
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 170));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel1.setText("LIBRARIAN DASHBOARD");
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 230, 50));
+        jLabel1.setText("LOANED BOOKS LIST");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 200, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 850, 410));
-
-        jPanel12.setBackground(new java.awt.Color(210, 255, 255));
-        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.setBackground(new java.awt.Color(210, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dbButton.setBackground(new java.awt.Color(210, 255, 255));
         dbButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,31 +106,31 @@ public class LibrarianDB extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard icon.png"))); // NOI18N
         dbButton.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        jPanel12.add(dbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 160, 50));
+        jPanel2.add(dbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 160, 50));
 
-        books.setBackground(new java.awt.Color(210, 255, 255));
-        books.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbButton.setBackground(new java.awt.Color(210, 255, 255));
+        lbButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                booksMouseClicked(evt);
+                lbButtonMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                booksMouseEntered(evt);
+                lbButtonMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                booksMouseExited(evt);
+                lbButtonMouseExited(evt);
             }
         });
-        books.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        lbButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel4.setText("BOOKS");
-        books.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 60, 30));
+        jLabel4.setText("LOANED BOOKS");
+        lbButton.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, 30));
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/customer icon.png"))); // NOI18N
-        books.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+        lbButton.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
-        jPanel12.add(books, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 140, 50));
+        jPanel2.add(lbButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 200, 50));
 
         accButton.setBackground(new java.awt.Color(210, 255, 255));
         accButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -173,7 +154,7 @@ public class LibrarianDB extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/account icon(1).png"))); // NOI18N
         accButton.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 30));
 
-        jPanel12.add(accButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, 140, 50));
+        jPanel2.add(accButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 140, 50));
 
         logButton.setBackground(new java.awt.Color(210, 255, 255));
         logButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -197,9 +178,24 @@ public class LibrarianDB extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logout icon.png"))); // NOI18N
         logButton.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 30));
 
-        jPanel12.add(logButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 130, 50));
+        jPanel2.add(logButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 130, 50));
 
-        jPanel1.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 850, 410));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,13 +209,12 @@ public class LibrarianDB extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void dbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseClicked
-        LibrarianDB ldb = new LibrarianDB();
+        BorrowersDB bwdb = new BorrowersDB();
         this.dispose();
-        ldb.setVisible(true);
+        bwdb.setVisible(true);
     }//GEN-LAST:event_dbButtonMouseClicked
 
     private void dbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMouseEntered
@@ -230,24 +225,24 @@ public class LibrarianDB extends javax.swing.JFrame {
         dbButton.setBackground(defbutton);
     }//GEN-LAST:event_dbButtonMouseExited
 
-    private void booksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseClicked
+    private void lbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseClicked
+        LoanedBooks lb = new LoanedBooks();
+        this.dispose();
+        lb.setVisible(true);
+    }//GEN-LAST:event_lbButtonMouseClicked
+
+    private void lbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseEntered
+        lbButton.setBackground(hover);
+    }//GEN-LAST:event_lbButtonMouseEntered
+
+    private void lbButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseExited
+        lbButton.setBackground(defbutton);
+    }//GEN-LAST:event_lbButtonMouseExited
+
+    private void accButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseClicked
         BorrowerProf bwp = new BorrowerProf();
         this.dispose();
         bwp.setVisible(true);
-    }//GEN-LAST:event_booksMouseClicked
-
-    private void booksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseEntered
-        books.setBackground(hover);
-    }//GEN-LAST:event_booksMouseEntered
-
-    private void booksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseExited
-        books.setBackground(defbutton);
-    }//GEN-LAST:event_booksMouseExited
-
-    private void accButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseClicked
-        LibrarianProf lbp = new LibrarianProf();
-        this.dispose();
-        lbp.setVisible(true);
     }//GEN-LAST:event_accButtonMouseClicked
 
     private void accButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accButtonMouseEntered
@@ -299,27 +294,26 @@ public class LibrarianDB extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoanedBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoanedBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoanedBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LibrarianDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoanedBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LibrarianDB().setVisible(true);
+                new LoanedBooks().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton;
-    private javax.swing.JPanel books;
     private javax.swing.JPanel dbButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -332,10 +326,11 @@ public class LibrarianDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JPanel lbButton;
     private javax.swing.JPanel logButton;
     // End of variables declaration//GEN-END:variables
 }

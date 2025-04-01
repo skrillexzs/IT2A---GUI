@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2025 at 07:24 PM
+-- Generation Time: Apr 01, 2025 at 04:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,7 @@ INSERT INTO `user` (`u_id`, `u_firstname`, `u_lastname`, `u_email`, `u_cnumber`,
 (4, 'nina', 'canada', 'nleigh@gmail.com', '09999999123', 'nnnnnnnn', 'Borrower', 'Active'),
 (5, 'bogart', 'canedo', 'macky@test.com', '12345678901', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Librarian', 'Pending'),
 (6, 'dex', 'ter', 'dexter@sample.com', '12345612345', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending'),
-(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', '33a7d3da476a32ac237b3f603a1be62fad00299e0d4b5a8db8d913104edec629', 'Borrower', 'Pending');
+(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', '33a7d3da476a32ac237b3f603a1be62fad00299e0d4b5a8db8d913104edec629', 'Borrower', 'Active');
 
 --
 -- Indexes for dumped tables
