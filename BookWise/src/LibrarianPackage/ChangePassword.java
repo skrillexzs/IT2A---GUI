@@ -5,6 +5,7 @@
  */
 package LibrarianPackage;
 
+import BorrowersPackage.BorrowersDB;
 import config.Config;
 import config.HashPass;
 import config.Session;
@@ -64,11 +65,11 @@ public class ChangePassword extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
         jLabel2.setText("Change Password");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 180, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 180, -1));
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
         jLabel3.setText("Update password for enhanced account security.");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 280, 20));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 280, 20));
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel4.setText("Current Password*");
@@ -87,8 +88,6 @@ public class ChangePassword extends javax.swing.JFrame {
 
         show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel1.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, -1, 20));
-
-        currpass.setText("********");
         jPanel1.add(currpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 260, 40));
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -109,7 +108,6 @@ public class ChangePassword extends javax.swing.JFrame {
         show1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel1.add(show1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, -1, 20));
 
-        newpass.setText("********");
         newpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newpassActionPerformed(evt);
@@ -135,7 +133,6 @@ public class ChangePassword extends javax.swing.JFrame {
         show2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel1.add(show2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, -1, 20));
 
-        conpass.setText("********");
         conpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 conpassActionPerformed(evt);
@@ -166,11 +163,13 @@ public class ChangePassword extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
         );
 
         pack();
@@ -226,12 +225,12 @@ public class ChangePassword extends javax.swing.JFrame {
             // Hash new password
             String newpassHash = HashPass.hashPassword(newInput); 
             
-            String updateQuery = "UPDATE customer SET cs_pass = '" + newpassHash + "' WHERE id = '" + sess.getUid() + "'";  
+            String updateQuery = "UPDATE user SET u_password = '" + newpassHash + "' WHERE u_id = '" + sess.getUid() + "'";  
             conf.updateData(updateQuery);
 
             JOptionPane.showMessageDialog(null, "Password updated successfully!");
-                LibrarianDB lbdb = new LibrarianDB();
-                lbdb.setVisible(true);
+                BorrowersDB bwdb = new BorrowersDB();
+                bwdb.setVisible(true);
                 this.dispose();
         } else {    
             JOptionPane.showMessageDialog(null, "Old Password is Incorrect!");
