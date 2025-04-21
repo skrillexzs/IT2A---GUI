@@ -5,6 +5,8 @@ import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
 import LibrarianPackage.LibrarianDB;
 import BorrowersPackage.BorrowerProf;
+import BorrowersPackage.BorrowersDB;
+import ForgotPassword.UserID;
 import config.Config;
 import static config.HashPass.hashPassword;
 import config.Session;
@@ -88,10 +90,10 @@ public class LoginForm extends javax.swing.JFrame {
     
    public void loginButton() throws NoSuchAlgorithmException {
         String url = "jdbc:mysql://localhost:3306/joseph";
-    String user = "root";
-    String password = "";
+        String user = "root";
+        String password = "";
 
-    String query = "SELECT u_password, u_type FROM user WHERE u_email = ? AND u_status = 'active'";
+        String query = "SELECT u_id, u_password, u_status, u_type, u_firstname, u_lastname, u_cnumber FROM user WHERE u_email = ?";
 
     try (Connection conn = DriverManager.getConnection(url, user, password);
          PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -101,16 +103,15 @@ public class LoginForm extends javax.swing.JFrame {
 
         if (rs.next()) {
             String storedPassword = rs.getString("u_password");
-            String userType = rs.getString("u_type");
+            String status = rs.getString("u_status");
+            String type = rs.getString("u_type");
 
-            // Hash the input password for comparison
+            // Hash the input password
             String hashedInputPassword = hashPassword(passw.getText());
 
-            // Check if stored password is still plaintext (not hashed)
-            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {  // SHA-256 hashes are 64 hex characters
-                System.out.println("Rehashing old plaintext password...");
-
-                // Hash the plaintext password and update the database
+            // If the stored password is not hashed, hash and update it
+            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {
+                System.out.println("Rehashing plaintext password...");
                 String newHashedPassword = hashPassword(storedPassword);
                 String updateQuery = "UPDATE user SET u_password = ? WHERE u_email = ?";
                 
@@ -124,36 +125,46 @@ public class LoginForm extends javax.swing.JFrame {
                 storedPassword = newHashedPassword;
             }
 
-            // Compare hashed input password with stored hash
-            if (hashedInputPassword.equals(storedPassword)) {
-                JOptionPane.showMessageDialog(null, "Login Successful!");
+            if (hashedInputPassword.equals(storedPassword) && "active".equalsIgnoreCase(status)) {
+                // Save user session
+                Session sess = Session.getInstance();
+                sess.setUid(rs.getString("u_id"));
+                sess.setFname(rs.getString("u_firstname"));
+                sess.setLname(rs.getString("u_lastname"));
+                sess.setEmail(uemail.getText());
+                sess.setContact(rs.getString("u_cnumber"));
+                sess.setType(type);
+                sess.setStatus(status);
+
+                JOptionPane.showMessageDialog(null, "Login Successful! Welcome " + sess.getFname());
 
                 // Redirect based on user type
-                if ("Borrower".equalsIgnoreCase(userType)) {
-                    BorrowerProf bwp = new BorrowerProf();
-                    this.dispose();
-                    bwp.setVisible(true);
-                } else if ("Librarian".equalsIgnoreCase(userType)) {
-                    LibrarianDB lbdb = new LibrarianDB();
-                    this.dispose();
-                    lbdb.setVisible(true);
-                } else if ("Admin".equalsIgnoreCase(userType)) {
-                    BookWise bwd = new BookWise();
-                    this.dispose();
-                    bwd.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+                switch (type.toLowerCase()) {
+                    case "borrower":
+                        new BorrowersDB().setVisible(true);
+                        break;
+                    case "librarian":
+                        new LibrarianDB().setVisible(true);
+                        break;
+                    case "admin":
+                        new BookWise().setVisible(true);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                this.dispose();
+
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         } else {
             JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -178,6 +189,7 @@ public class LoginForm extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
         RegButton = new javax.swing.JLabel();
         exitButton = new javax.swing.JToggleButton();
+        fpbutton = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -251,7 +263,7 @@ public class LoginForm extends javax.swing.JFrame {
                 RegButtonMouseClicked(evt);
             }
         });
-        jPanel4.add(RegButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 200, 30));
+        jPanel4.add(RegButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 200, 30));
 
         exitButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         exitButton.setText("Exit");
@@ -261,6 +273,15 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
         jPanel4.add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 120, 40));
+
+        fpbutton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        fpbutton.setText("Forgot Password?");
+        fpbutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fpbuttonMouseClicked(evt);
+            }
+        });
+        jPanel4.add(fpbutton, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 110, 30));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 390, 390));
 
@@ -309,6 +330,12 @@ public class LoginForm extends javax.swing.JFrame {
 }
     }//GEN-LAST:event_exitButtonActionPerformed
 
+    private void fpbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fpbuttonMouseClicked
+       UserID uid = new UserID();
+       uid.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_fpbuttonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -347,6 +374,7 @@ public class LoginForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel RegButton;
     private javax.swing.JToggleButton exitButton;
+    private javax.swing.JLabel fpbutton;
     private javax.swing.JLabel hide;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
