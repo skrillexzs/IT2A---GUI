@@ -24,6 +24,8 @@ public class Config {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/joseph";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
+    
+    public static String loggedInUsername;
 
        // constructor to connect to our database
         public Config(){

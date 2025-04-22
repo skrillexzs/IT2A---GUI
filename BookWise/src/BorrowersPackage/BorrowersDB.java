@@ -8,8 +8,19 @@ package BorrowersPackage;
 import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
 import Logins.LoginForm;
+import config.Config;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
@@ -19,12 +30,17 @@ import javax.swing.border.Border;
  * @author USER
  */
 public class BorrowersDB extends javax.swing.JFrame {
+    
+    String filename;
+    byte[] person_image;
 
     /**
      * Creates new form BorrowersDB
      */
     public BorrowersDB() {
         initComponents();
+        
+        loadProfilePicture();
     }
     
     Color hover = new Color(0,85,255);  
@@ -35,6 +51,73 @@ public class BorrowersDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+    public void loadProfilePicture() {
+    String username = Config.loggedInUsername;
+
+    if (username == null || username.isEmpty()) {
+        setDefaultProfilePicture();
+        return;
+    }
+
+    try (Connection con = Config.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT u_profilepic FROM user WHERE u_email = ?")) {
+
+        pst.setString(1, username);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String imagePath = rs.getString("u_profilepic");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pp.getWidth(), pp.getHeight(), Image.SCALE_SMOOTH));
+        pp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/ProfilePictures/defaultpp.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pp.getWidth(), pp.getHeight(), Image.SCALE_SMOOTH));
+            pp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pp.setIcon(null);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,7 +130,7 @@ public class BorrowersDB extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        pp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         dbButton = new javax.swing.JPanel();
@@ -71,8 +154,9 @@ public class BorrowersDB extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(240, 248, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 170));
+        pp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ProfilePictures/defaultpp.png"))); // NOI18N
+        jPanel4.add(pp, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 40, 140, 150));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
         jLabel1.setText("BORROWERS DASHBOARD");
@@ -306,7 +390,6 @@ public class BorrowersDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -317,5 +400,6 @@ public class BorrowersDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel lbButton;
     private javax.swing.JPanel logButton;
+    private javax.swing.JLabel pp;
     // End of variables declaration//GEN-END:variables
 }

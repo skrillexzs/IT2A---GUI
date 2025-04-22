@@ -422,15 +422,15 @@ public class BookWise extends javax.swing.JFrame {
     }//GEN-LAST:event_bwButtonMouseExited
 
     private void bwButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bwButtonMouseClicked
-        BorrowerProf bwp = new BorrowerProf();
+        BorrowersRegistry bwr = new BorrowersRegistry();
         this.dispose();
-        bwp.setVisible(true);
+        bwr.setVisible(true);
     }//GEN-LAST:event_bwButtonMouseClicked
 
     private void lbButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseClicked
-        LibrarianDB ldb = new LibrarianDB();
+        LibrariansRegistry lr = new LibrariansRegistry();
         this.dispose();
-        ldb.setVisible(true);
+        lr.setVisible(true);
     }//GEN-LAST:event_lbButtonMouseClicked
 
     private void lbButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbButtonMouseEntered
