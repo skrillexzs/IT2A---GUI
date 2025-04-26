@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.application.Platform;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -60,10 +61,12 @@ public class BorrowerProf extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
+    Session sess = Session.getInstance();
+    
     public void loadProfilePicture() {
-    String username = Config.loggedInUsername;
+//    String username = Config.loggedInUsername;
 
-    if (username == null || username.isEmpty()) {
+    if (sess.getEmail() == null || sess.getEmail().isEmpty()) {
         setDefaultProfilePicture();
         return;
     }
@@ -71,7 +74,7 @@ public class BorrowerProf extends javax.swing.JFrame {
     try (Connection con = Config.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT u_profilepic FROM user WHERE u_email = ?")) {
 
-        pst.setString(1, username);
+        pst.setString(1, sess.getEmail());
         ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
@@ -566,7 +569,7 @@ private void setDefaultProfilePicture() {
         }
 
         // Now update the database with the relative image path
-        String username = Config.loggedInUsername; // Use logged-in username
+//        String username = Config.loggedInUsername; // Use logged-in username
 
         try {
                 Connection con = Config.getConnection(); // Get DB connection
@@ -574,7 +577,7 @@ private void setDefaultProfilePicture() {
                 PreparedStatement pst = con.prepareStatement(sql);
                 String relativePath = "ProfilePictures/" + selectedFile.getName(); // Store relative path
                 pst.setString(1, relativePath); 
-                pst.setString(2, username); 
+                pst.setString(2, sess.getEmail()); 
                 pst.executeUpdate();
                 con.close();
         } catch (SQLException e) {
