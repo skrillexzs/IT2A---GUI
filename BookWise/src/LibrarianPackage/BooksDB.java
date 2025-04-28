@@ -6,11 +6,15 @@
 package LibrarianPackage;
 
 import Logins.LoginForm;
+import config.Config;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -47,8 +51,12 @@ public class BooksDB extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        addBook = new javax.swing.JButton();
+        editBook = new javax.swing.JButton();
+        deleteBook = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        bTable = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
         dbButton = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -79,9 +87,49 @@ public class BooksDB extends javax.swing.JFrame {
         jLabel1.setText("BOOKS DASHBOARD");
         jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 190, 50));
 
+        addBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        addBook.setText("ADD");
+        addBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        addBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBookActionPerformed(evt);
+            }
+        });
+        jPanel4.add(addBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 120, 40));
+
+        editBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        editBook.setText("EDIT");
+        editBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        editBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBookActionPerformed(evt);
+            }
+        });
+        jPanel4.add(editBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, 120, 40));
+
+        deleteBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        deleteBook.setText("DELETE");
+        deleteBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        deleteBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBookActionPerformed(evt);
+            }
+        });
+        jPanel4.add(deleteBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 510, 120, 40));
+
+        refresh.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        refresh.setText("REFRESH");
+        refresh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+        jPanel4.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 560, 120, 40));
+
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        bTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -92,9 +140,9 @@ public class BooksDB extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(bTable);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 850, 410));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 830, 460));
 
         jPanel12.setBackground(new java.awt.Color(210, 255, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -198,8 +246,9 @@ public class BooksDB extends javax.swing.JFrame {
         jPanel1.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
-        jLabel5.setText("BOOKS LIST");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 150, 40));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Book Catalogue");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 190, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -282,6 +331,80 @@ public class BooksDB extends javax.swing.JFrame {
         logButton.setBackground(defbutton);
     }//GEN-LAST:event_logButtonMouseExited
 
+    private void addBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookActionPerformed
+        accUser au = new accUser();
+        this.dispose();
+        au.setVisible(true);
+    }//GEN-LAST:event_addBookActionPerformed
+
+    private void editBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookActionPerformed
+        int rowindex = bTable.getSelectedRow();
+
+        if (rowindex < 0){
+            JOptionPane.showMessageDialog(null, "Please Choose an Item to Edit:");
+        }else{
+
+            try{
+                Config conf = new Config();
+                TableModel tbl = bTable.getModel();
+                ResultSet rs = conf.getData("SELECT * FROM user WHERE u_id = "+tbl.getValueAt(rowindex, 0)+"");
+                if(rs.next()){
+                    EditUserAcc eua = new EditUserAcc();
+                    eua.fname.setText(""+rs.getString("u_firstname"));
+                    eua.lname.setText(""+rs.getString("u_lastname"));
+                    eua.email.setText(""+rs.getString("u_email"));
+                    eua.cnum.setText(""+rs.getString("u_cnumber"));
+                    eua.stat.setText(""+rs.getString("u_status"));
+                    eua.setVisible(true);
+                    this.dispose();
+                }
+            }catch(SQLException ex){
+                System.out.println(""+ex);
+            }
+
+            TableModel tbl = bTable.getModel();
+        }
+    }//GEN-LAST:event_editBookActionPerformed
+
+    private void deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookActionPerformed
+        int rowindex = bTable.getSelectedRow();
+
+        if (rowindex < 0) {
+            JOptionPane.showMessageDialog(null, "Please select a user.");
+        } else {
+            try {
+                Config conf = new Config();
+                TableModel tbl = bTable.getModel();
+                int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
+
+                ResultSet rs = conf.getData("SELECT * FROM customer WHERE id = " + userId);
+
+                if (rs.next()) {
+                    String status = rs.getString("cs_status");
+
+                    if (status.equalsIgnoreCase("Inactive")) {
+                        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this inactive user?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            conf.updateData("DELETE FROM customer WHERE id = " + userId);
+                            JOptionPane.showMessageDialog(null, "Inactive user deleted successfully.");
+                            // Optionally refresh table here
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Only inactive users can be deleted.");
+                    }
+                }
+
+            } catch (SQLException ex) {
+                System.out.println("" + ex);
+                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the user.");
+            }
+        }
+    }//GEN-LAST:event_deleteBookActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -319,8 +442,12 @@ public class BooksDB extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton;
+    private javax.swing.JButton addBook;
+    private javax.swing.JTable bTable;
     private javax.swing.JPanel books;
     private javax.swing.JPanel dbButton;
+    private javax.swing.JButton deleteBook;
+    private javax.swing.JButton editBook;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -336,7 +463,7 @@ public class BooksDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel logButton;
+    private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }

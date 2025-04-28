@@ -9,6 +9,7 @@ import AdminsPackage.AccPage;
 import AdminsPackage.BookWise;
 import Logins.LoginForm;
 import config.Config;
+import config.Session;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -52,10 +53,12 @@ public class BorrowersDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
+    Session sess = Session.getInstance();
+    
     public void loadProfilePicture() {
-    String username = Config.loggedInUsername;
+//    String username = Config.loggedInUsername;
 
-    if (username == null || username.isEmpty()) {
+    if (sess.getEmail() == null || sess.getEmail().isEmpty()) {
         setDefaultProfilePicture();
         return;
     }
@@ -63,7 +66,7 @@ public class BorrowersDB extends javax.swing.JFrame {
     try (Connection con = Config.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT u_profilepic FROM user WHERE u_email = ?")) {
 
-        pst.setString(1, username);
+        pst.setString(1, sess.getEmail());
         ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
@@ -147,6 +150,11 @@ private void setDefaultProfilePicture() {
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -347,6 +355,10 @@ private void setDefaultProfilePicture() {
     private void logButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logButtonMouseExited
         logButton.setBackground(defbutton);
     }//GEN-LAST:event_logButtonMouseExited
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        loadProfilePicture();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

@@ -360,15 +360,17 @@ public class BookWise extends javax.swing.JFrame {
 
         addUser.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         addUser.setText("ADD");
+        addUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
         addUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addUserActionPerformed(evt);
             }
         });
-        jPanel1.add(addUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 210, 110, 40));
+        jPanel1.add(addUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 210, 120, 40));
 
         editUser.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         editUser.setText("EDIT");
+        editUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
         editUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editUserActionPerformed(evt);
@@ -378,15 +380,17 @@ public class BookWise extends javax.swing.JFrame {
 
         deleteUser.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         deleteUser.setText("DELETE");
+        deleteUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
         deleteUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteUserActionPerformed(evt);
             }
         });
-        jPanel1.add(deleteUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 260, 110, 40));
+        jPanel1.add(deleteUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 260, 120, 40));
 
         refresh.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         refresh.setText("REFRESH");
+        refresh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
         refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshActionPerformed(evt);
@@ -490,7 +494,38 @@ public class BookWise extends javax.swing.JFrame {
     }//GEN-LAST:event_dbButtonMouseExited
 
     private void deleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserActionPerformed
-        // TODO add your handling code here:
+        int rowindex = Table.getSelectedRow();
+
+        if (rowindex < 0) {
+         JOptionPane.showMessageDialog(null, "Please select a user.");
+     } else {
+         try {
+             Config conf = new Config();
+             TableModel tbl = Table.getModel();
+             int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
+
+             ResultSet rs = conf.getData("SELECT * FROM customer WHERE id = " + userId);
+
+             if (rs.next()) {
+                 String status = rs.getString("cs_status");
+
+                 if (status.equalsIgnoreCase("Inactive")) {
+                     int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this inactive user?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                     if (confirm == JOptionPane.YES_OPTION) {
+                         conf.updateData("DELETE FROM customer WHERE id = " + userId);
+                         JOptionPane.showMessageDialog(null, "Inactive user deleted successfully.");
+                         // Optionally refresh table here
+                     }
+                 } else {
+                     JOptionPane.showMessageDialog(null, "Only inactive users can be deleted.");
+                 }
+             }
+
+         } catch (SQLException ex) {
+             System.out.println("" + ex);
+             JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the user.");
+         }
+     }
     }//GEN-LAST:event_deleteUserActionPerformed
 
     private void addUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserActionPerformed

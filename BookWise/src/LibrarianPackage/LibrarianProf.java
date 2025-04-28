@@ -6,10 +6,27 @@
 package LibrarianPackage;
 
 import Logins.LoginForm;
+import config.Config;
 import config.Session;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -34,6 +51,75 @@ public class LibrarianProf extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+    Session sess = Session.getInstance();
+    
+    public void loadProfilePicture() {
+//    String username = Config.loggedInUsername;
+
+    if (sess.getEmail() == null || sess.getEmail().isEmpty()) {
+        setDefaultProfilePicture();
+        return;
+    }
+
+    try (Connection con = Config.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT u_profilepic FROM user WHERE u_email = ?")) {
+
+        pst.setString(1, sess.getEmail());
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String imagePath = rs.getString("u_profilepic");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(lpp.getWidth(), lpp.getHeight(), Image.SCALE_SMOOTH));
+        lpp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/ProfilePictures/defaultpp.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(lpp.getWidth(), lpp.getHeight(), Image.SCALE_SMOOTH));
+            lpp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            lpp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        lpp.setIcon(null);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,8 +132,10 @@ public class LibrarianProf extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        lpp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        libcp = new javax.swing.JLabel();
+        changelpp = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         dbButton = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -82,12 +170,14 @@ public class LibrarianProf extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         type = new javax.swing.JLabel();
         lbtype = new javax.swing.JLabel();
-        changepass = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -95,14 +185,43 @@ public class LibrarianProf extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel5.setBackground(new java.awt.Color(240, 248, 255));
+        jPanel5.setPreferredSize(new java.awt.Dimension(240, 320));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
-        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 220, 170));
+        lpp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lpp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ProfilePictures/defaultpp.png"))); // NOI18N
+        jPanel5.add(lpp, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 140, 150));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel1.setText("LIBRARIAN ACCOUNT");
         jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 210, 50));
+
+        libcp.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
+        libcp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        libcp.setText("Change Password");
+        libcp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        libcp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                libcpMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                libcpMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                libcpMouseExited(evt);
+            }
+        });
+        jPanel5.add(libcp, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 190, 30));
+
+        changelpp.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        changelpp.setText("Change Profile Picture");
+        changelpp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        changelpp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changelppActionPerformed(evt);
+            }
+        });
+        jPanel5.add(changelpp, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 190, 40));
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -305,22 +424,6 @@ public class LibrarianProf extends javax.swing.JFrame {
 
         jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 320, 50));
 
-        changepass.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
-        changepass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        changepass.setText("Change Password");
-        changepass.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                changepassMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                changepassMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                changepassMouseExited(evt);
-            }
-        });
-        jPanel1.add(changepass, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 370, 200, 30));
-
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 840, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -404,20 +507,6 @@ public class LibrarianProf extends javax.swing.JFrame {
         logButton.setBackground(defbutton);
     }//GEN-LAST:event_logButtonMouseExited
 
-    private void changepassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseClicked
-        ChangePassword cp = new ChangePassword();
-        cp.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_changepassMouseClicked
-
-    private void changepassMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseEntered
-        changepass.setBackground(hover);
-    }//GEN-LAST:event_changepassMouseEntered
-
-    private void changepassMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseExited
-        changepass.setBackground(defbutton);
-    }//GEN-LAST:event_changepassMouseExited
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
         lbid.setText(""+sess.getUid());
@@ -427,6 +516,76 @@ public class LibrarianProf extends javax.swing.JFrame {
         lbcn.setText(""+sess.getContact());
         lbtype.setText(""+sess.getType());
     }//GEN-LAST:event_formWindowActivated
+
+    private void libcpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_libcpMouseClicked
+        ChangePassword cp = new ChangePassword();
+        cp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_libcpMouseClicked
+
+    private void libcpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_libcpMouseEntered
+        libcp.setBackground(hover);
+    }//GEN-LAST:event_libcpMouseEntered
+
+    private void libcpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_libcpMouseExited
+        libcp.setBackground(defbutton);
+    }//GEN-LAST:event_libcpMouseExited
+
+    private void changelppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changelppActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = chooser.getSelectedFile();
+            String filename = selectedFile.getAbsolutePath();
+
+        // Set the image to the existing JLabel (pfp)
+        ImageIcon ii = new ImageIcon(new ImageIcon(filename)
+                .getImage().getScaledInstance(lpp.getWidth(), lpp.getHeight(), Image.SCALE_SMOOTH));
+            lpp.setIcon(ii); // Update the JLabel
+
+        // Define the target directory within the NetBeans project (src/pfpimage)
+        File destination = new File("src/ProfilePictures", selectedFile.getName());
+
+        // Ensure the directory exists
+        destination.getParentFile().mkdirs();
+
+        // Save the image
+        try (InputStream fis = new FileInputStream(selectedFile);
+                OutputStream fos = new FileOutputStream(destination)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+        }
+
+        // Now update the database with the relative image path
+//        String username = Config.loggedInUsername; // Use logged-in username
+
+        try {
+                Connection con = Config.getConnection(); // Get DB connection
+                String sql = "UPDATE user SET u_profilepic = ? WHERE u_email = ?";
+                PreparedStatement pst = con.prepareStatement(sql);
+                String relativePath = "ProfilePictures/" + selectedFile.getName(); // Store relative path
+                pst.setString(1, relativePath); 
+                pst.setString(2, sess.getEmail()); 
+                pst.executeUpdate();
+                con.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error saving image path: " + e.getMessage());
+            return;
+        }
+
+        JOptionPane.showMessageDialog(null, "Profile Picture Updated Successfully!");
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage());
+    }
+}
+    }//GEN-LAST:event_changelppActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        loadProfilePicture();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -468,7 +627,7 @@ public class LibrarianProf extends javax.swing.JFrame {
     private javax.swing.JLabel afn;
     private javax.swing.JLabel aln;
     private javax.swing.JPanel books;
-    private javax.swing.JLabel changepass;
+    private javax.swing.JButton changelpp;
     private javax.swing.JLabel cn;
     private javax.swing.JPanel dbButton;
     private javax.swing.JLabel email;
@@ -477,7 +636,6 @@ public class LibrarianProf extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -500,7 +658,9 @@ public class LibrarianProf extends javax.swing.JFrame {
     private javax.swing.JLabel lbid;
     private javax.swing.JLabel lblname;
     private javax.swing.JLabel lbtype;
+    private javax.swing.JLabel libcp;
     private javax.swing.JPanel logButton;
+    private javax.swing.JLabel lpp;
     private javax.swing.JLabel type;
     private javax.swing.JLabel uprofile;
     // End of variables declaration//GEN-END:variables
