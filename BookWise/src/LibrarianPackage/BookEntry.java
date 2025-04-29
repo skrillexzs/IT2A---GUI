@@ -5,6 +5,19 @@
  */
 package LibrarianPackage;
 
+import config.Config;
+import config.Session;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author SCC
@@ -34,6 +47,7 @@ public class BookEntry extends javax.swing.JFrame {
         bGenre = new javax.swing.JTextField();
         bAuthor = new javax.swing.JTextField();
         datePub = new javax.swing.JTextField();
+        bCondition = new javax.swing.JComboBox<>();
         bStatus = new javax.swing.JComboBox<>();
         addbook = new javax.swing.JButton();
         canceladd = new javax.swing.JButton();
@@ -56,12 +70,12 @@ public class BookEntry extends javax.swing.JFrame {
         bTitle.setBackground(new java.awt.Color(153, 204, 255));
         bTitle.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         bTitle.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(bTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 320, 50));
+        jPanel1.add(bTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 320, 50));
 
         bGenre.setBackground(new java.awt.Color(153, 204, 255));
         bGenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         bGenre.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Genre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(bGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 320, 50));
+        jPanel1.add(bGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 320, 50));
 
         bAuthor.setBackground(new java.awt.Color(153, 204, 255));
         bAuthor.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -71,25 +85,40 @@ public class BookEntry extends javax.swing.JFrame {
                 bAuthorActionPerformed(evt);
             }
         });
-        jPanel1.add(bAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 320, 50));
+        jPanel1.add(bAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 320, 50));
 
         datePub.setBackground(new java.awt.Color(153, 204, 255));
         datePub.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         datePub.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Date Published", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(datePub, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 320, 50));
+        jPanel1.add(datePub, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 320, 50));
+
+        bCondition.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        bCondition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition", "New", "Old", "Replacement Required" }));
+        bCondition.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        bCondition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bConditionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bCondition, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 320, 40));
 
         bStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         bStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned" }));
         bStatus.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel1.add(bStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 320, 40));
+        jPanel1.add(bStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 320, 40));
 
         addbook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         addbook.setText("Add");
-        jPanel1.add(addbook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, 110, 40));
+        addbook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addbookActionPerformed(evt);
+            }
+        });
+        jPanel1.add(addbook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 480, 110, 40));
 
         canceladd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         canceladd.setText("Cancel");
-        jPanel1.add(canceladd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, 110, 40));
+        jPanel1.add(canceladd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 110, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,6 +137,144 @@ public class BookEntry extends javax.swing.JFrame {
     private void bAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAuthorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bAuthorActionPerformed
+
+    private void bConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConditionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bConditionActionPerformed
+
+    private void addbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbookActionPerformed
+        Config conf = new Config();
+        boolean isValid = true;
+        StringBuilder errorMessages = new StringBuilder();
+
+    // Get input values
+    String bookTitle = bTitle.getText().trim();
+    String bookGenre = bGenre.getText().trim();
+    String bookAuthor = bAuthor.getText().trim();
+    String datePublish = datePub.getText().trim();
+    String bookCondition = bCondition.getSelectedItem().toString().trim();                     
+    String bookStatus = bStatus.getSelectedItem().toString().trim();
+
+    // Validate Book Title
+    if (bookTitle.isEmpty()) {
+        bTitle.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Book title is required.\n");
+        isValid = false;
+    } else {
+        bTitle.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Validate Book Genre
+    if (bookGenre.isEmpty()) {
+        bGenre.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Book genre is required.\n");
+        isValid = false;
+    } else {
+        bGenre.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+    
+    // Validate Book Author
+    if (bookAuthor.isEmpty()) {
+        bAuthor.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Book Author is required.\n");
+        isValid = false;
+    } else {
+        bAuthor.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+    
+    // Validate Date Published
+    if (datePublish.isEmpty()) {
+        datePub.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Published date is required.\n");
+        isValid = false;
+    } else {
+        datePub.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Validate Book COndition
+    if (bCondition.getSelectedIndex() == 0) {
+        bCondition.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Please select the appropriate book condition.\n");
+        isValid = false;
+    } else {
+        bCondition.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Validate Book Status
+    if (bStatus.getSelectedIndex() == 0) {
+        bStatus.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Please select the book's status.\n");
+        isValid = false;
+    } else {
+        bStatus.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Show validation errors if any
+    if (!isValid) {
+        JOptionPane.showMessageDialog(null, errorMessages.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Insert into database
+    try {
+        Connection conn = conf.getConnection();
+
+        String sql = "INSERT INTO books (b_title, b_genre, b_author, date_published, b_condition, b_status) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        pst.setString(1, bookTitle);
+        pst.setString(2, bookGenre);
+        pst.setString(3, bookAuthor);
+        pst.setString(4, datePublish);
+        pst.setString(5, bookCondition);
+        pst.setString(6, bookStatus);
+
+        int rows = pst.executeUpdate();
+
+        if (rows > 0) {
+            ResultSet keys = pst.getGeneratedKeys();
+            int lastId = -1;
+            if (keys.next()) {
+                lastId = keys.getInt(1);
+            }
+
+            // Log the action
+            Session sess = Session.getInstance();
+            String userId = sess.getUid();
+
+            if (userId != null && !userId.trim().isEmpty()) {
+                String actions = "New Book added! ID: " + lastId;
+
+                PreparedStatement logPst = conn.prepareStatement(
+                    "INSERT INTO logs (u_id, act_performed, date_performed) VALUES (?, ?, ?)"
+                );
+                logPst.setString(1, userId);
+                logPst.setString(2, actions);
+                logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                logPst.executeUpdate();
+            } else {
+                System.out.println("Warning: Session UID is null or empty. Log not inserted.");
+            }
+
+            JOptionPane.showMessageDialog(null, "New book added successfully!");
+
+            // Clear inputs
+            bTitle.setText("");
+            bGenre.setText("");
+            bAuthor.setText("");
+            datePub.setText("");
+            bCondition.setSelectedIndex(0);
+            bStatus.setSelectedIndex(0);
+
+            // Redirect to FoodsDB
+            BooksDB bdb = new BooksDB();
+            this.dispose();
+            bdb.setVisible(true);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_addbookActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +314,7 @@ public class BookEntry extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addbook;
     private javax.swing.JTextField bAuthor;
+    private javax.swing.JComboBox<String> bCondition;
     private javax.swing.JTextField bGenre;
     private javax.swing.JComboBox<String> bStatus;
     private javax.swing.JTextField bTitle;

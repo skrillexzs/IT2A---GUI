@@ -7,10 +7,20 @@ package LibrarianPackage;
 
 import Logins.LoginForm;
 import config.Config;
+import config.Session;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
@@ -37,6 +47,75 @@ public class BooksDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+    Session sess = Session.getInstance();
+    
+    public void loadProfilePicture() {
+//    String username = Config.loggedInUsername;
+
+    if (sess.getEmail() == null || sess.getEmail().isEmpty()) {
+        setDefaultProfilePicture();
+        return;
+    }
+
+    try (Connection con = Config.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT u_profilepic FROM user WHERE u_email = ?")) {
+
+        pst.setString(1, sess.getEmail());
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String imagePath = rs.getString("u_profilepic");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(lpp.getWidth(), lpp.getHeight(), Image.SCALE_SMOOTH));
+        lpp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/ProfilePictures/defaultpp.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(lpp.getWidth(), lpp.getHeight(), Image.SCALE_SMOOTH));
+            lpp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            lpp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        lpp.setIcon(null);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,7 +128,7 @@ public class BooksDB extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lpp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         addBook = new javax.swing.JButton();
         editBook = new javax.swing.JButton();
@@ -73,6 +152,11 @@ public class BooksDB extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -80,8 +164,9 @@ public class BooksDB extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(240, 248, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 170));
+        lpp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lpp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ProfilePictures/defaultpp.png"))); // NOI18N
+        jPanel4.add(lpp, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 150, 150));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel1.setText("BOOKS DASHBOARD");
@@ -254,7 +339,7 @@ public class BooksDB extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,45 +417,44 @@ public class BooksDB extends javax.swing.JFrame {
     }//GEN-LAST:event_logButtonMouseExited
 
     private void addBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookActionPerformed
-        accUser au = new accUser();
+        BookEntry be = new BookEntry();
         this.dispose();
-        au.setVisible(true);
+        be.setVisible(true);
     }//GEN-LAST:event_addBookActionPerformed
 
     private void editBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookActionPerformed
-        int rowindex = bTable.getSelectedRow();
+        int rowIndex = bTable.getSelectedRow();
+       if (rowIndex >= 0) {
+           TableModel model = bTable.getModel();
 
-        if (rowindex < 0){
-            JOptionPane.showMessageDialog(null, "Please Choose an Item to Edit:");
-        }else{
+           // Get the foodId from the first column (index 0)
+           int selectedFoodId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
 
-            try{
-                Config conf = new Config();
-                TableModel tbl = bTable.getModel();
-                ResultSet rs = conf.getData("SELECT * FROM user WHERE u_id = "+tbl.getValueAt(rowindex, 0)+"");
-                if(rs.next()){
-                    EditUserAcc eua = new EditUserAcc();
-                    eua.fname.setText(""+rs.getString("u_firstname"));
-                    eua.lname.setText(""+rs.getString("u_lastname"));
-                    eua.email.setText(""+rs.getString("u_email"));
-                    eua.cnum.setText(""+rs.getString("u_cnumber"));
-                    eua.stat.setText(""+rs.getString("u_status"));
-                    eua.setVisible(true);
-                    this.dispose();
-                }
-            }catch(SQLException ex){
-                System.out.println(""+ex);
-            }
+           // Create an instance of EditFood
+           UpdateBook ub = new UpdateBook();
 
-            TableModel tbl = bTable.getModel();
-        }
+           // Pass the selected foodId to the EditFood form
+           ub.foodId = selectedFoodId;  // This is the key part! We're storing the foodId
+
+           // Populate the form fields (name, price, category, status)
+           ef.e_name.setText(model.getValueAt(rowIndex, 1).toString());
+           ef.e_price.setText(model.getValueAt(rowIndex, 2).toString());
+           ef.e_cat.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
+           ef.e_status.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+
+           // Make the EditFood form visible
+           ef.setVisible(true);
+           this.dispose(); // Close the current window
+       } else {
+           JOptionPane.showMessageDialog(null, "Please select a food item to edit.");
+       }
     }//GEN-LAST:event_editBookActionPerformed
 
     private void deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookActionPerformed
         int rowindex = bTable.getSelectedRow();
 
         if (rowindex < 0) {
-            JOptionPane.showMessageDialog(null, "Please select a user.");
+            JOptionPane.showMessageDialog(null, "Please select a book.");
         } else {
             try {
                 Config conf = new Config();
@@ -404,6 +488,10 @@ public class BooksDB extends javax.swing.JFrame {
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_refreshActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        loadProfilePicture();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -452,7 +540,6 @@ public class BooksDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -464,6 +551,7 @@ public class BooksDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel logButton;
+    private javax.swing.JLabel lpp;
     private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }
