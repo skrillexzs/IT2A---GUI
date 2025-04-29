@@ -9,12 +9,12 @@ package LibrarianPackage;
  *
  * @author SCC
  */
-public class BookEntry extends javax.swing.JFrame {
+public class UpdateBook extends javax.swing.JFrame {
 
     /**
-     * Creates new form BookEntry
+     * Creates new form UpdateBook
      */
-    public BookEntry() {
+    public UpdateBook() {
         initComponents();
     }
 
@@ -35,7 +35,7 @@ public class BookEntry extends javax.swing.JFrame {
         bAuthor = new javax.swing.JTextField();
         datePub = new javax.swing.JTextField();
         bStatus = new javax.swing.JComboBox<>();
-        addbook = new javax.swing.JButton();
+        updatebook = new javax.swing.JButton();
         canceladd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -48,7 +48,7 @@ public class BookEntry extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Add Book to Catalogue");
+        jLabel1.setText("Update Book in Catalogue");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 280, 40));
@@ -83,9 +83,9 @@ public class BookEntry extends javax.swing.JFrame {
         bStatus.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel1.add(bStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 320, 40));
 
-        addbook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        addbook.setText("Add");
-        jPanel1.add(addbook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, 110, 40));
+        updatebook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        updatebook.setText("Update");
+        jPanel1.add(updatebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, 110, 40));
 
         canceladd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         canceladd.setText("Cancel");
@@ -126,26 +126,25 @@ public class BookEntry extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BookEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BookEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BookEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BookEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BookEntry().setVisible(true);
+                new UpdateBook().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addbook;
     private javax.swing.JTextField bAuthor;
     private javax.swing.JTextField bGenre;
     private javax.swing.JComboBox<String> bStatus;
@@ -155,5 +154,6 @@ public class BookEntry extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton updatebook;
     // End of variables declaration//GEN-END:variables
 }

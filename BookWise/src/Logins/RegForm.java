@@ -102,6 +102,7 @@ public class RegForm extends javax.swing.JFrame {
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 130, 20));
 
         fname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        fname.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         fname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fnameActionPerformed(evt);
@@ -110,6 +111,7 @@ public class RegForm extends javax.swing.JFrame {
         jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 240, 40));
 
         lname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        lname.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lnameActionPerformed(evt);
@@ -118,6 +120,7 @@ public class RegForm extends javax.swing.JFrame {
         jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 240, 40));
 
         email.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
@@ -126,6 +129,7 @@ public class RegForm extends javax.swing.JFrame {
         jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 240, 40));
 
         cnumber.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        cnumber.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         cnumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cnumberActionPerformed(evt);
@@ -147,6 +151,7 @@ public class RegForm extends javax.swing.JFrame {
         show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 190, -1, 20));
 
+        pass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passActionPerformed(evt);
@@ -167,6 +172,8 @@ public class RegForm extends javax.swing.JFrame {
 
         show3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/show.png"))); // NOI18N
         jPanel2.add(show3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, -1, 20));
+
+        cpass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel2.add(cpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 240, 40));
 
         signup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -191,6 +198,7 @@ public class RegForm extends javax.swing.JFrame {
 
         type.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Borrower", "Librarian" }));
+        type.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeActionPerformed(evt);
