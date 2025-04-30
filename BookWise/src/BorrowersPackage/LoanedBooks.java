@@ -124,9 +124,9 @@ private void setDefaultProfilePicture() {
 public void displayData(){
         
         try{
-            dbconnect dbc = new dbconnect();
-            ResultSet rs = dbc.getData("SELECT o_id, f_id , o_quantity, o_due, o_status FROM order_tbl");           
-            order.setModel(DbUtils.resultSetToTableModel(rs));
+            Config conf = new Config();
+            ResultSet rs = conf.getData("SELECT lb_id, b_id , date_borrowed, due_date, return_date, penalty FROM loanedbooks_tbl");           
+            lbTable.setModel(DbUtils.resultSetToTableModel(rs));
             
             
         }catch(SQLException ex){
@@ -352,7 +352,7 @@ public void displayData(){
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1099, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
