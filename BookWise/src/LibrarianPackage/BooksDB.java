@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -37,6 +38,8 @@ public class BooksDB extends javax.swing.JFrame {
      */
     public BooksDB() {
         initComponents();
+        
+        displayData();
     }
     
     Color hover = new Color(0,85,255);  
@@ -115,6 +118,19 @@ private void setDefaultProfilePicture() {
         JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
         lpp.setIcon(null);
     }
+}
+
+public void displayData(){
+        
+        try{
+            Config conf = new Config();
+            ResultSet rs = conf.getData("SELECT b_id, b_title , b_genre, b_author, date_published, b_condition, b_status FROM books");           
+            bTable.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
 }
 
     /**
@@ -428,65 +444,81 @@ private void setDefaultProfilePicture() {
            TableModel model = bTable.getModel();
 
            // Get the foodId from the first column (index 0)
-           int selectedFoodId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+           int selectedBookId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
 
            // Create an instance of EditFood
            UpdateBook ub = new UpdateBook();
 
            // Pass the selected foodId to the EditFood form
-           ub.foodId = selectedFoodId;  // This is the key part! We're storing the foodId
+           ub.bookId = selectedBookId;  // This is the key part! We're storing the foodId
 
            // Populate the form fields (name, price, category, status)
-           ef.e_name.setText(model.getValueAt(rowIndex, 1).toString());
-           ef.e_price.setText(model.getValueAt(rowIndex, 2).toString());
-           ef.e_cat.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
-           ef.e_status.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+           ub.editBtitle.setText(model.getValueAt(rowIndex, 1).toString());
+           ub.editBgenre.setText(model.getValueAt(rowIndex, 2).toString());
+           ub.editBauthor.setText(model.getValueAt(rowIndex, 3).toString());
+           ub.editDatePub.setText(model.getValueAt(rowIndex, 4).toString());
+           ub.editBcon.setSelectedItem(model.getValueAt(rowIndex, 5).toString());
+           ub.editBstat.setSelectedItem(model.getValueAt(rowIndex, 6).toString());
 
            // Make the EditFood form visible
-           ef.setVisible(true);
+           ub.setVisible(true);
            this.dispose(); // Close the current window
        } else {
-           JOptionPane.showMessageDialog(null, "Please select a food item to edit.");
+           JOptionPane.showMessageDialog(null, "Please select a book to edit.");
        }
     }//GEN-LAST:event_editBookActionPerformed
 
     private void deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookActionPerformed
-        int rowindex = bTable.getSelectedRow();
+        int rowIndex = bTable.getSelectedRow();
+     if (rowIndex >= 0) {
+         TableModel model = bTable.getModel();
 
-        if (rowindex < 0) {
-            JOptionPane.showMessageDialog(null, "Please select a book.");
-        } else {
-            try {
-                Config conf = new Config();
-                TableModel tbl = bTable.getModel();
-                int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
+         // Get the foodId from the first column (index 0)
+         int selectedBookId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
 
-                ResultSet rs = conf.getData("SELECT * FROM customer WHERE id = " + userId);
+         // Get the availability status (assuming it's in the 5th column, adjust if needed)
+         String bookStatus = model.getValueAt(rowIndex, 4).toString().trim();
 
-                if (rs.next()) {
-                    String status = rs.getString("cs_status");
+         if ("Unavailable".equalsIgnoreCase(bookStatus)) {
+             // Show a confirmation dialog before deleting the unavailable food item
+             int confirm = JOptionPane.showConfirmDialog(null, "This book is unavailable. Do you want to delete it?", 
+                                                          "Confirm Deletion", JOptionPane.YES_NO_OPTION);
 
-                    if (status.equalsIgnoreCase("Inactive")) {
-                        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this inactive user?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            conf.updateData("DELETE FROM customer WHERE id = " + userId);
-                            JOptionPane.showMessageDialog(null, "Inactive user deleted successfully.");
-                            // Optionally refresh table here
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Only inactive users can be deleted.");
-                    }
-                }
+             if (confirm == JOptionPane.YES_OPTION) {
+                 // Proceed with deletion if confirmed
+                 try {
+                     // Establish connection to the database
+                     Config conf = new Config();
+                     Connection conn = conf.getConnection();
 
-            } catch (SQLException ex) {
-                System.out.println("" + ex);
-                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the user.");
-            }
-        }
+                     // Prepare SQL DELETE statement
+                     String sql = "DELETE FROM books WHERE b_id = ?";
+                     PreparedStatement pst = conn.prepareStatement(sql);
+                     pst.setInt(1, selectedBookId);
+
+                     int rowsAffected = pst.executeUpdate();
+
+                     if (rowsAffected > 0) {
+                         JOptionPane.showMessageDialog(null, "Book selected deleted successfully.");
+                         displayData();  
+                     } else {
+                         JOptionPane.showMessageDialog(null, "Error: Could not delete selected book.", "Error", JOptionPane.ERROR_MESSAGE);
+                     }
+
+                 } catch (SQLException e) {
+                     JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                 }
+             }
+         } else {
+             JOptionPane.showMessageDialog(null, "This book is not unavailable and cannot be deleted.");
+         }
+     } else {
+         JOptionPane.showMessageDialog(null, "Please select a delete to delete.");
+     }
     }//GEN-LAST:event_deleteBookActionPerformed
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
-        // TODO add your handling code here:
+        displayData();
     }//GEN-LAST:event_refreshActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

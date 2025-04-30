@@ -8,14 +8,25 @@ package BorrowersPackage;
 import AdminsPackage.AccPage;
 import Logins.LoginForm;
 import config.Config;
+import config.Session;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -28,6 +39,8 @@ public class LoanedBooks extends javax.swing.JFrame {
      */
     public LoanedBooks() {
         initComponents();
+        
+        displayData();
     }
     
     Color hover = new Color(0,85,255);  
@@ -37,6 +50,89 @@ public class LoanedBooks extends javax.swing.JFrame {
     
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
+    }
+    
+    Session sess = Session.getInstance();
+    
+    public void loadProfilePicture() {
+//    String username = Config.loggedInUsername;
+
+    if (sess.getEmail() == null || sess.getEmail().isEmpty()) {
+        setDefaultProfilePicture();
+        return;
+    }
+
+    try (Connection con = Config.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT u_profilepic FROM user WHERE u_email = ?")) {
+
+        pst.setString(1, sess.getEmail());
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String imagePath = rs.getString("u_profilepic");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pp.getWidth(), pp.getHeight(), Image.SCALE_SMOOTH));
+        pp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/ProfilePictures/defaultpp.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pp.getWidth(), pp.getHeight(), Image.SCALE_SMOOTH));
+            pp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pp.setIcon(null);
+    }
+}
+
+public void displayData(){
+        
+        try{
+            dbconnect dbc = new dbconnect();
+            ResultSet rs = dbc.getData("SELECT o_id, f_id , o_quantity, o_due, o_status FROM order_tbl");           
+            order.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
+        
     }
 
     /**
@@ -50,9 +146,9 @@ public class LoanedBooks extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        pp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        addBook = new javax.swing.JButton();
+        addlb = new javax.swing.JButton();
         editBook = new javax.swing.JButton();
         deleteBook = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
@@ -81,22 +177,23 @@ public class LoanedBooks extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(240, 248, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/BookWise-removebg-preview.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 170));
+        pp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ProfilePictures/defaultpp.png"))); // NOI18N
+        jPanel4.add(pp, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 150, 150));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel1.setText("LOANED BOOKS LIST");
         jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 200, 50));
 
-        addBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        addBook.setText("ADD");
-        addBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
-        addBook.addActionListener(new java.awt.event.ActionListener() {
+        addlb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        addlb.setText("ADD");
+        addlb.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        addlb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBookActionPerformed(evt);
+                addlbActionPerformed(evt);
             }
         });
-        jPanel4.add(addBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 120, 40));
+        jPanel4.add(addlb, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 120, 40));
 
         editBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         editBook.setText("EDIT");
@@ -332,11 +429,11 @@ public class LoanedBooks extends javax.swing.JFrame {
         logButton.setBackground(defbutton);
     }//GEN-LAST:event_logButtonMouseExited
 
-    private void addBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookActionPerformed
+    private void addlbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addlbActionPerformed
         accUser au = new accUser();
         this.dispose();
         au.setVisible(true);
-    }//GEN-LAST:event_addBookActionPerformed
+    }//GEN-LAST:event_addlbActionPerformed
 
     private void editBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookActionPerformed
         int rowindex = lbTable.getSelectedRow();
@@ -443,7 +540,7 @@ public class LoanedBooks extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton;
-    private javax.swing.JButton addBook;
+    private javax.swing.JButton addlb;
     private javax.swing.JPanel dbButton;
     private javax.swing.JButton deleteBook;
     private javax.swing.JButton editBook;
@@ -451,7 +548,6 @@ public class LoanedBooks extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -465,6 +561,7 @@ public class LoanedBooks extends javax.swing.JFrame {
     private javax.swing.JPanel lbButton;
     private javax.swing.JTable lbTable;
     private javax.swing.JPanel logButton;
+    private javax.swing.JLabel pp;
     private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }

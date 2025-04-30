@@ -5,17 +5,43 @@
  */
 package LibrarianPackage;
 
+import config.Config;
+import config.Session;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+
 /**
  *
  * @author SCC
  */
 public class UpdateBook extends javax.swing.JFrame {
+    
+    int bookId;
 
     /**
      * Creates new form UpdateBook
      */
     public UpdateBook() {
         initComponents();
+    }
+    
+    Color hover = new Color(153,153,153);  
+    Color defbutton = new Color(102,102,102);  
+    
+    Border empty = BorderFactory.createEmptyBorder();
+    
+    void resetButtonColor(JButton button){
+        button.setBackground(defbutton);
     }
 
     /**
@@ -30,13 +56,14 @@ public class UpdateBook extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        bTitle = new javax.swing.JTextField();
-        bGenre = new javax.swing.JTextField();
-        bAuthor = new javax.swing.JTextField();
-        datePub = new javax.swing.JTextField();
-        bStatus = new javax.swing.JComboBox<>();
-        updatebook = new javax.swing.JButton();
-        canceladd = new javax.swing.JButton();
+        editBtitle = new javax.swing.JTextField();
+        editBgenre = new javax.swing.JTextField();
+        editBauthor = new javax.swing.JTextField();
+        editDatePub = new javax.swing.JTextField();
+        editBcon = new javax.swing.JComboBox<>();
+        editBstat = new javax.swing.JComboBox<>();
+        editbook = new javax.swing.JButton();
+        canceledit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,48 +75,84 @@ public class UpdateBook extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Update Book in Catalogue");
+        jLabel1.setText("Edit Book in Catalogue");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 280, 40));
 
-        bTitle.setBackground(new java.awt.Color(153, 204, 255));
-        bTitle.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        bTitle.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(bTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 320, 50));
+        editBtitle.setBackground(new java.awt.Color(153, 204, 255));
+        editBtitle.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editBtitle.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
+        jPanel1.add(editBtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 320, 50));
 
-        bGenre.setBackground(new java.awt.Color(153, 204, 255));
-        bGenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        bGenre.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Genre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(bGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 320, 50));
+        editBgenre.setBackground(new java.awt.Color(153, 204, 255));
+        editBgenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editBgenre.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Genre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
+        jPanel1.add(editBgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 320, 50));
 
-        bAuthor.setBackground(new java.awt.Color(153, 204, 255));
-        bAuthor.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        bAuthor.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Author", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        bAuthor.addActionListener(new java.awt.event.ActionListener() {
+        editBauthor.setBackground(new java.awt.Color(153, 204, 255));
+        editBauthor.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editBauthor.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Author", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
+        editBauthor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAuthorActionPerformed(evt);
+                editBauthorActionPerformed(evt);
             }
         });
-        jPanel1.add(bAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 320, 50));
+        jPanel1.add(editBauthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 320, 50));
 
-        datePub.setBackground(new java.awt.Color(153, 204, 255));
-        datePub.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        datePub.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Date Published", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(datePub, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 320, 50));
+        editDatePub.setBackground(new java.awt.Color(153, 204, 255));
+        editDatePub.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editDatePub.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Date Published", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
+        jPanel1.add(editDatePub, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 320, 50));
 
-        bStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        bStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned" }));
-        bStatus.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel1.add(bStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 320, 40));
+        editBcon.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editBcon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition", "New", "Old", "Replacement Required" }));
+        editBcon.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        editBcon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBconActionPerformed(evt);
+            }
+        });
+        jPanel1.add(editBcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 320, 40));
 
-        updatebook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        updatebook.setText("Update");
-        jPanel1.add(updatebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, 110, 40));
+        editBstat.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editBstat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned" }));
+        editBstat.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel1.add(editBstat, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 320, 40));
 
-        canceladd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        canceladd.setText("Cancel");
-        jPanel1.add(canceladd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, 110, 40));
+        editbook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        editbook.setText("Edit");
+        editbook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                editbookMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                editbookMouseExited(evt);
+            }
+        });
+        editbook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editbookActionPerformed(evt);
+            }
+        });
+        jPanel1.add(editbook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 480, 110, 40));
+
+        canceledit.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        canceledit.setText("Cancel");
+        canceledit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                canceleditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                canceleditMouseExited(evt);
+            }
+        });
+        canceledit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                canceleditActionPerformed(evt);
+            }
+        });
+        jPanel1.add(canceledit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 110, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,9 +168,149 @@ public class UpdateBook extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAuthorActionPerformed
+    private void editBauthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBauthorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bAuthorActionPerformed
+    }//GEN-LAST:event_editBauthorActionPerformed
+
+    private void editBconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBconActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editBconActionPerformed
+
+    private void editbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbookActionPerformed
+        Config conf = new Config();
+        boolean isValid = true;
+        StringBuilder errorMessages = new StringBuilder();
+
+        // Get trimmed input values
+        String bookTitle = editBtitle.getText().trim();
+        String bookGenre = editBgenre.getText().trim();
+        String bookAuthor = editBauthor.getText().trim();
+        String datePublish = editDatePub.getText().trim();
+        String bookCondition = editBcon.getSelectedItem().toString().trim();                     
+        String bookStatus = editBstat.getSelectedItem().toString().trim();
+
+     // Validate Food Name
+     if (bookTitle.isEmpty()) {
+         editBtitle.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Book title is required.\n");
+         isValid = false;
+     } else {
+         editBtitle.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
+
+     // Validate Book Genre
+    if (bookGenre.isEmpty()) {
+        editBgenre.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Book genre is required.\n");
+        isValid = false;
+    } else {
+        editBgenre.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+    
+    // Validate Book Author
+    if (bookAuthor.isEmpty()) {
+        editBauthor.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Book Author is required.\n");
+        isValid = false;
+    } else {
+        editBauthor.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+    
+    // Validate Date Published
+    if (datePublish.isEmpty()) {
+        editDatePub.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Published date is required.\n");
+        isValid = false;
+    } else {
+        editDatePub.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+     // Validate Category
+     if (editBcon.getSelectedIndex() == 0) {
+         editBcon.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Please select the appropriate book condition.\n");
+         isValid = false;
+     } else {
+         editBcon.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
+
+     // Validate Status
+     if (editBstat.getSelectedIndex() == 0) {
+         editBstat.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Please select the book's status.\n");
+         isValid = false;
+     } else {
+         editBstat.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
+
+// Show validation errors
+if (!isValid) {
+    JOptionPane.showMessageDialog(null, errorMessages.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// Insert into database
+    try {
+        Connection conn = conf.getConnection();
+
+        String sql = "UPDATE book SET b_title = ?, b_genre = ?, b_author = ?, date_published = ?, b_condition = ?, b_status = ? WHERE b_id = ?";
+    PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, bookTitle);
+        pst.setString(2, bookGenre);
+        pst.setString(3, bookAuthor);
+        pst.setString(4, datePublish);
+        pst.setString(5, bookCondition);
+        pst.setString(6, bookStatus);
+        pst.setInt(7, bookId);
+
+    int rows = pst.executeUpdate();
+    if (rows > 0) {
+            // Log action
+        Session sess = Session.getInstance();
+        String actions = "Updated Books Successfully! ID: " + bookId;
+
+        PreparedStatement logPst = conn.prepareStatement("INSERT INTO logs (u_id, act_performed, date_performed) VALUES (?, ?, ?)");
+        logPst.setString(1, sess.getUid());
+        logPst.setString(2, actions);
+        logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+        logPst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Books updated successfully!");
+
+        // Optionally, go back to foods page
+        BooksDB bdb = new BooksDB();
+        this.dispose();
+        bdb.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Update failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+}
+    }//GEN-LAST:event_editbookActionPerformed
+
+    private void editbookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editbookMouseEntered
+        editbook.setBackground(hover);
+    }//GEN-LAST:event_editbookMouseEntered
+
+    private void editbookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editbookMouseExited
+        editbook.setBackground(defbutton);
+    }//GEN-LAST:event_editbookMouseExited
+
+    private void canceleditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canceleditActionPerformed
+        BooksDB bdb = new BooksDB();
+        bdb.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_canceleditActionPerformed
+
+    private void canceleditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canceleditMouseEntered
+        canceledit.setBackground(hover);
+    }//GEN-LAST:event_canceleditMouseEntered
+
+    private void canceleditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canceleditMouseExited
+        canceledit.setBackground(defbutton);
+    }//GEN-LAST:event_canceleditMouseExited
 
     /**
      * @param args the command line arguments
@@ -145,15 +348,16 @@ public class UpdateBook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField bAuthor;
-    private javax.swing.JTextField bGenre;
-    private javax.swing.JComboBox<String> bStatus;
-    private javax.swing.JTextField bTitle;
-    private javax.swing.JButton canceladd;
-    private javax.swing.JTextField datePub;
+    private javax.swing.JButton canceledit;
+    public javax.swing.JTextField editBauthor;
+    public javax.swing.JComboBox<String> editBcon;
+    public javax.swing.JTextField editBgenre;
+    public javax.swing.JComboBox<String> editBstat;
+    public javax.swing.JTextField editBtitle;
+    public javax.swing.JTextField editDatePub;
+    private javax.swing.JButton editbook;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JButton updatebook;
     // End of variables declaration//GEN-END:variables
 }
