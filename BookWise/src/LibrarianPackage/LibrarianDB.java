@@ -318,9 +318,9 @@ private void setDefaultProfilePicture() {
     }//GEN-LAST:event_dbButtonMouseExited
 
     private void booksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseClicked
-        BorrowerProf bwp = new BorrowerProf();
+        BooksDB bdb = new BooksDB();
         this.dispose();
-        bwp.setVisible(true);
+        bdb.setVisible(true);
     }//GEN-LAST:event_booksMouseClicked
 
     private void booksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booksMouseEntered

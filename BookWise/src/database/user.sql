@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2025 at 01:34 AM
+-- Generation Time: May 19, 2025 at 12:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,12 +45,12 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`u_id`, `u_firstname`, `u_lastname`, `u_email`, `u_cnumber`, `u_password`, `u_type`, `u_status`, `u_profilepic`) VALUES
 (1, 'Mark Joseph', 'Canedo', 'mark@sample.com', '09933981679', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 'Admin', 'Active', ''),
-(2, 'arkeen', 'larisma', 'ken@test.com', '12345678901', '12345678', 'Librarian', 'Active', ''),
+(2, 'arkeen', 'larisma', 'ken@test.com', '12345678901', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Librarian', 'Active', ''),
 (3, 'joseph', 'canedo', 'joseph@test.com', '12345678901', '00000000', 'Borrower', 'Pending', ''),
 (4, 'nina', 'canada', 'nleigh@gmail.com', '09999999123', 'nnnnnnnn', 'Borrower', 'Active', ''),
 (5, 'bogart', 'canedo', 'macky@test.com', '12345678901', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Librarian', 'Pending', ''),
 (6, 'dex', 'ter', 'dexter@sample.com', '12345612345', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending', ''),
-(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', '33a7d3da476a32ac237b3f603a1be62fad00299e0d4b5a8db8d913104edec629', 'Borrower', 'Active', '');
+(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', '');
 
 --
 -- Indexes for dumped tables

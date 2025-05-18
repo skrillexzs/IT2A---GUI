@@ -166,6 +166,7 @@ public class UpdateBook extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void editBauthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBauthorActionPerformed
@@ -253,7 +254,7 @@ if (!isValid) {
     try {
         Connection conn = conf.getConnection();
 
-        String sql = "UPDATE book SET b_title = ?, b_genre = ?, b_author = ?, date_published = ?, b_condition = ?, b_status = ? WHERE b_id = ?";
+        String sql = "UPDATE books SET b_title = ?, b_genre = ?, b_author = ?, date_published = ?, b_condition = ?, b_status = ? WHERE b_id = ?";
     PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, bookTitle);
         pst.setString(2, bookGenre);

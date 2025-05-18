@@ -125,7 +125,7 @@ public void displayData(){
         
         try{
             Config conf = new Config();
-            ResultSet rs = conf.getData("SELECT lb_id, b_id , date_borrowed, due_date, return_date, penalty FROM loanedbooks_tbl");           
+            ResultSet rs = conf.getData("SELECT lb_id, b_id , loaned_date, due_date, return_date, penalty FROM loanedbooks_tbl");           
             lbTable.setModel(DbUtils.resultSetToTableModel(rs));
             
             
@@ -149,8 +149,6 @@ public void displayData(){
         pp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         addlb = new javax.swing.JButton();
-        editBook = new javax.swing.JButton();
-        deleteBook = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         dbButton = new javax.swing.JPanel();
@@ -170,6 +168,11 @@ public void displayData(){
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -195,26 +198,6 @@ public void displayData(){
         });
         jPanel4.add(addlb, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 120, 40));
 
-        editBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        editBook.setText("EDIT");
-        editBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
-        editBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editBookActionPerformed(evt);
-            }
-        });
-        jPanel4.add(editBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, 120, 40));
-
-        deleteBook.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        deleteBook.setText("DELETE");
-        deleteBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
-        deleteBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteBookActionPerformed(evt);
-            }
-        });
-        jPanel4.add(deleteBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 510, 120, 40));
-
         refresh.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         refresh.setText("REFRESH");
         refresh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
@@ -223,7 +206,7 @@ public void displayData(){
                 refreshActionPerformed(evt);
             }
         });
-        jPanel4.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 560, 120, 40));
+        jPanel4.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 120, 40));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -430,78 +413,18 @@ public void displayData(){
     }//GEN-LAST:event_logButtonMouseExited
 
     private void addlbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addlbActionPerformed
-        accUser au = new accUser();
+        AddLoanBooks alb = new AddLoanBooks();
         this.dispose();
-        au.setVisible(true);
+        alb.setVisible(true);
     }//GEN-LAST:event_addlbActionPerformed
-
-    private void editBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookActionPerformed
-        int rowindex = lbTable.getSelectedRow();
-
-        if (rowindex < 0){
-            JOptionPane.showMessageDialog(null, "Please Choose an Item to Edit:");
-        }else{
-
-            try{
-                Config conf = new Config();
-                TableModel tbl = lbTable.getModel();
-                ResultSet rs = conf.getData("SELECT * FROM user WHERE u_id = "+tbl.getValueAt(rowindex, 0)+"");
-                if(rs.next()){
-                    EditUserAcc eua = new EditUserAcc();
-                    eua.fname.setText(""+rs.getString("u_firstname"));
-                    eua.lname.setText(""+rs.getString("u_lastname"));
-                    eua.email.setText(""+rs.getString("u_email"));
-                    eua.cnum.setText(""+rs.getString("u_cnumber"));
-                    eua.stat.setText(""+rs.getString("u_status"));
-                    eua.setVisible(true);
-                    this.dispose();
-                }
-            }catch(SQLException ex){
-                System.out.println(""+ex);
-            }
-
-            TableModel tbl = lbTable.getModel();
-        }
-    }//GEN-LAST:event_editBookActionPerformed
-
-    private void deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookActionPerformed
-        int rowindex = lbTable.getSelectedRow();
-
-        if (rowindex < 0) {
-            JOptionPane.showMessageDialog(null, "Please select a user.");
-        } else {
-            try {
-                Config conf = new Config();
-                TableModel tbl = lbTable.getModel();
-                int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
-
-                ResultSet rs = conf.getData("SELECT * FROM customer WHERE id = " + userId);
-
-                if (rs.next()) {
-                    String status = rs.getString("cs_status");
-
-                    if (status.equalsIgnoreCase("Inactive")) {
-                        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this inactive user?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            conf.updateData("DELETE FROM customer WHERE id = " + userId);
-                            JOptionPane.showMessageDialog(null, "Inactive user deleted successfully.");
-                            // Optionally refresh table here
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Only inactive users can be deleted.");
-                    }
-                }
-
-            } catch (SQLException ex) {
-                System.out.println("" + ex);
-                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the user.");
-            }
-        }
-    }//GEN-LAST:event_deleteBookActionPerformed
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_refreshActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        loadProfilePicture();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -542,8 +465,6 @@ public void displayData(){
     private javax.swing.JPanel accButton;
     private javax.swing.JButton addlb;
     private javax.swing.JPanel dbButton;
-    private javax.swing.JButton deleteBook;
-    private javax.swing.JButton editBook;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
