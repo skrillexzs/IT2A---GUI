@@ -16,6 +16,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -70,6 +72,7 @@ public class LoginForm extends javax.swing.JFrame {
                     sess.setContact(resultSet.getString("u_cnumber"));
                     sess.setType(type);
                     sess.setStatus(status);
+                    Session.setUserId(resultSet.getString("u_id"));
 
                     System.out.println("Login successful for: " + sess.getFname() + " " + sess.getLname());
                     return true;
@@ -129,12 +132,23 @@ public class LoginForm extends javax.swing.JFrame {
                 // Save user session
                 Session sess = Session.getInstance();
                 sess.setUid(rs.getString("u_id"));
+                Session.setUserId(rs.getString("u_id"));
                 sess.setFname(rs.getString("u_firstname"));
                 sess.setLname(rs.getString("u_lastname"));
                 sess.setEmail(uemail.getText());
                 sess.setContact(rs.getString("u_cnumber"));
                 sess.setType(type);
                 sess.setStatus(status);
+                
+                //Login action
+                String actions = "Log in!";
+                try (PreparedStatement logStmt = conn.prepareStatement(
+                        "INSERT INTO logs (u_id, act_performed, date_performed) VALUES (?, ?, ?)")) {
+                    logStmt.setString(1, sess.getUid());
+                    logStmt.setString(2, actions);
+                    logStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                    logStmt.executeUpdate();
+                }
 
                 JOptionPane.showMessageDialog(null, "Login Successful! Welcome " + sess.getFname());
 

@@ -11,6 +11,7 @@ package config;
  */
 public class Session {
     
+    private static String UserId;
     private static Session instance;    
     private String uid;
     private String fname;
@@ -89,6 +90,14 @@ public class Session {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+     public static void setUserId(String userId) {
+        UserId = userId;
+    }
+     
+    public static String getUserId() {
+        return UserId;
     }
     
     

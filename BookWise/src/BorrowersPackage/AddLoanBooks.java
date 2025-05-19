@@ -482,7 +482,12 @@ try {
     int bookId = Integer.parseInt(btlTable.getValueAt(selectedRow, 0).toString()); // Column 0 = b_id
 
     // Get user ID from session or current user (assumed you have this variable)
-    String userId = currentUserId; // Replace with your actual user ID source
+    String userId = Session.getUserId(); // Replace with your actual user ID source
+    
+    if (userId == null || userId.trim().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "User not logged in. Please log in first.");
+    return;
+}
 
     // Dates
     java.util.Date today = new java.util.Date();
@@ -496,7 +501,7 @@ try {
     // Insert into loanedbooks_tbl
     Config conf = new Config(); // Your DB connection class
     String query = "INSERT INTO loanedbooks_tbl (b_id, u_id, loaned_date, due_date, return_date, penalty, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    PreparedStatement ps = conf.con.prepareStatement(query);
+    PreparedStatement ps = conf.connect.prepareStatement(query);
 
     ps.setInt(1, bookId);                 // b_id
     ps.setString(2, userId);              // u_id

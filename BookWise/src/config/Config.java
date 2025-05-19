@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class Config {
     
-    private Connection connect;
+    public Connection connect;
     
     private static final String DB_URL = "jdbc:mysql://localhost:3306/joseph";
     private static final String DB_USER = "root";
@@ -82,5 +82,5 @@ public class Config {
             }
         
         }
-    
+
 }
