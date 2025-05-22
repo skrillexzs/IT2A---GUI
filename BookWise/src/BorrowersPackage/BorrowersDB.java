@@ -19,12 +19,14 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -42,6 +44,7 @@ public class BorrowersDB extends javax.swing.JFrame {
         initComponents();
         
         loadProfilePicture();
+        displayData();
     }
     
     Color hover = new Color(0,85,255);  
@@ -122,6 +125,19 @@ private void setDefaultProfilePicture() {
     }
 }
 
+public void displayData(){
+        
+        try{
+            Config conf = new Config();
+            ResultSet rs = conf.getData("SELECT b_id, b_title , b_genre, b_author, date_published, b_condition, b_status FROM books");           
+            booksonshelf.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -149,7 +165,8 @@ private void setDefaultProfilePicture() {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        booksonshelf = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -275,7 +292,7 @@ private void setDefaultProfilePicture() {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        booksonshelf.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -286,9 +303,13 @@ private void setDefaultProfilePicture() {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(booksonshelf);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 840, 460));
+
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel2.setText("Books on shelf");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 200, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -414,11 +435,13 @@ private void setDefaultProfilePicture() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton;
+    private javax.swing.JTable booksonshelf;
     private javax.swing.JPanel dbButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -428,7 +451,6 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel lbButton;
     private javax.swing.JPanel logButton;
     private javax.swing.JLabel pp;

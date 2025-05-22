@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2025 at 12:58 AM
+-- Generation Time: May 19, 2025 at 10:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,16 @@ INSERT INTO `logs` (`l_id`, `u_id`, `act_performed`, `date_performed`) VALUES
 (8, 2, 'New Book added! ID: 6', '2025-05-18 11:20:54'),
 (9, 2, 'New Book added! ID: 7', '2025-05-18 11:21:41'),
 (10, 2, 'Updated Books Successfully! ID: 7', '2025-05-18 11:21:47'),
-(11, 2, 'New Book added! ID: 8', '2025-05-18 11:22:52');
+(11, 2, 'New Book added! ID: 8', '2025-05-18 11:22:52'),
+(12, 7, 'Log in!', '2025-05-19 14:59:26'),
+(13, 7, 'Log in!', '2025-05-19 16:19:47'),
+(14, 7, 'Log in!', '2025-05-19 16:21:10'),
+(15, 7, 'Log in!', '2025-05-19 16:21:58'),
+(16, 7, 'Log in!', '2025-05-19 16:22:33'),
+(17, 7, 'Log in!', '2025-05-19 16:23:49'),
+(18, 7, 'Log in!', '2025-05-19 16:34:48'),
+(19, 7, 'Log in!', '2025-05-19 16:43:29'),
+(20, 7, 'Log in!', '2025-05-19 16:48:29');
 
 --
 -- Indexes for dumped tables
@@ -70,7 +79,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables

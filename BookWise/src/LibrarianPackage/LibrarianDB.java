@@ -16,12 +16,15 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,7 +42,9 @@ public class LibrarianDB extends javax.swing.JFrame {
      * Creates new form LibrarianDB
      */
     public LibrarianDB() {
+        
         initComponents();
+        displayData();
     }
     
     Color hover = new Color(0,85,255);  
@@ -120,6 +125,19 @@ private void setDefaultProfilePicture() {
     }
 }
 
+public void displayData(){
+        
+        try{
+            Config conf = new Config();
+            ResultSet rs = conf.getData("SELECT lb_id, b_id, u_id, loaned_date, due_date, loan_duration, return_date, penalty, status FROM loanedbooks_tbl");           
+            loanTrans.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,8 +151,10 @@ private void setDefaultProfilePicture() {
         jPanel4 = new javax.swing.JPanel();
         lpp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        editloaning = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        loanTrans = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
         dbButton = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -148,6 +168,7 @@ private void setDefaultProfilePicture() {
         logButton = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -170,9 +191,24 @@ private void setDefaultProfilePicture() {
         jLabel1.setText("LIBRARIAN DASHBOARD");
         jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 230, 50));
 
+        editloaning.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        editloaning.setText("EDIT");
+        editloaning.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        editloaning.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editloaningActionPerformed(evt);
+            }
+        });
+        jPanel4.add(editloaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 400, 130, 50));
+
+        jButton2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jButton2.setText("RECEIPT");
+        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 480, 130, 50));
+
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        loanTrans.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -183,9 +219,9 @@ private void setDefaultProfilePicture() {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(loanTrans);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 830, 460));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 820, 380));
 
         jPanel12.setBackground(new java.awt.Color(210, 255, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -288,6 +324,10 @@ private void setDefaultProfilePicture() {
 
         jPanel1.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 830, 70));
 
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel2.setText("Loan Transactions");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 170, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -373,6 +413,33 @@ private void setDefaultProfilePicture() {
         loadProfilePicture();
     }//GEN-LAST:event_formWindowOpened
 
+    private void editloaningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editloaningActionPerformed
+        int rowIndex = loanTrans.getSelectedRow();
+        if (rowIndex >= 0) {
+            TableModel model = loanTrans.getModel();
+
+           // Get the foodId from the first column (index 0)
+           int selectedBookId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+
+           // Create an instance of EditFood
+           EditLoanBooks elb = new EditLoanBooks();
+
+           // Pass the selected foodId to the EditFood form
+           elb.lbookid = selectedBookId;  // This is the key part! We're storing the foodId
+
+           // Populate the form fields (name, price, category, status)
+           elb.editDrtn.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
+           elb.editPenalty.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
+           elb.editStat.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
+
+           // Make the EditFood form visible
+           elb.setVisible(true);
+           this.dispose(); // Close the current window
+       } else {
+           JOptionPane.showMessageDialog(null, "Please select a loan to edit.");
+       }
+    }//GEN-LAST:event_editloaningActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -412,10 +479,13 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel accButton;
     private javax.swing.JPanel books;
     private javax.swing.JPanel dbButton;
+    private javax.swing.JButton editloaning;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -425,7 +495,7 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable loanTrans;
     private javax.swing.JPanel logButton;
     private javax.swing.JLabel lpp;
     // End of variables declaration//GEN-END:variables

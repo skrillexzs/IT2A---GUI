@@ -440,8 +440,8 @@ public void displayData(){
 
     private void editBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookActionPerformed
         int rowIndex = bTable.getSelectedRow();
-       if (rowIndex >= 0) {
-           TableModel model = bTable.getModel();
+        if (rowIndex >= 0) {
+            TableModel model = bTable.getModel();
 
            // Get the foodId from the first column (index 0)
            int selectedBookId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());

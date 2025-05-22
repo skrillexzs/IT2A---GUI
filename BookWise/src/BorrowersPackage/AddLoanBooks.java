@@ -491,25 +491,21 @@ try {
 
     // Dates
     java.util.Date today = new java.util.Date();
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(today);
-    cal.add(Calendar.DAY_OF_MONTH, 14); // Due in 14 days
-
     java.sql.Date loanDate = new java.sql.Date(today.getTime());
-    java.sql.Date dueDate = new java.sql.Date(cal.getTimeInMillis());
 
     // Insert into loanedbooks_tbl
     Config conf = new Config(); // Your DB connection class
-    String query = "INSERT INTO loanedbooks_tbl (b_id, u_id, loaned_date, due_date, return_date, penalty, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String query = "INSERT INTO loanedbooks_tbl (b_id, u_id, loaned_date, due_date, loan_duration, return_date, penalty, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     PreparedStatement ps = conf.connect.prepareStatement(query);
 
     ps.setInt(1, bookId);                 // b_id
     ps.setString(2, userId);              // u_id
-    ps.setDate(3, loanDate);              // loaned_date
-    ps.setDate(4, dueDate);               // due_date
-    ps.setNull(5, java.sql.Types.DATE);   // return_date (null for now)
-    ps.setDouble(6, 0.0);                 // penalty (default 0.0)
-    ps.setString(7, "On Loan");           // status
+    ps.setNull(3, java.sql.Types.DATE);              // loaned_date (null for now)
+    ps.setNull(4, java.sql.Types.DATE);      // due_date (null for now)
+    ps.setNull(5, java.sql.Types.VARCHAR);                 // loan_duration (null for now)
+    ps.setNull(6, java.sql.Types.DATE);   // return_date (null for now)
+    ps.setNull(7, java.sql.Types.VARCHAR);                 // penalty (null for now)
+    ps.setString(8, "Pending");           // status
 
     int inserted = ps.executeUpdate();
     if (inserted > 0) {

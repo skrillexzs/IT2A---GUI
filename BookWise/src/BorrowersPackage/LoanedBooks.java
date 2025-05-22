@@ -121,19 +121,30 @@ private void setDefaultProfilePicture() {
     }
 }
 
-public void displayData(){
+public void displayData() {
+    try {
+        Config conf = new Config();
         
-        try{
-            Config conf = new Config();
-            ResultSet rs = conf.getData("SELECT lb_id, b_id , loaned_date, due_date, return_date, penalty FROM loanedbooks_tbl");           
-            lbTable.setModel(DbUtils.resultSetToTableModel(rs));
-            
-            
-        }catch(SQLException ex){
-            System.out.println("Errors"+ex.getMessage());
+        String userId = Session.getUserId(); // Get the logged-in user's ID
+        if (userId == null || userId.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "User not logged in. Please log in first.");
+            return;
         }
+
+        // Query only books loaned by this user
+        String query = "SELECT lb_id, b_id, loaned_date, due_date, loan_duration, return_date, penalty, status " +
+                       "FROM loanedbooks_tbl WHERE u_id = ?";
         
+        PreparedStatement ps = conf.getConnection().prepareStatement(query);
+        ps.setString(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+        lbTable.setModel(DbUtils.resultSetToTableModel(rs));
+        
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
     }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -347,10 +347,13 @@ if (!isValid) {
 // Hash Password
 String hashedPassword = HashPass.hashPassword(password);
 
+// Set the default profile picture
+        String profilePicture = "Profilepictures/defaultpp.png";  // Set the path to the default profile picture
+
 // Database Insertion Using PreparedStatement
 try {
-    String sql = "INSERT INTO user (u_firstname, u_lastname, u_email, u_cnumber, u_password, u_type, u_status) " +
-                 "VALUES (?, ?, ?, ?, ?, ?, 'Pending')";
+    String sql = "INSERT INTO user (u_firstname, u_lastname, u_email, u_cnumber, u_password, u_type, u_profilepic, u_status) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')";
 
     PreparedStatement pst = conf.getConnection().prepareStatement(sql);
     pst.setString(1, firstName);
@@ -359,6 +362,7 @@ try {
     pst.setString(4, contactNumber);
     pst.setString(5, hashedPassword);
     pst.setString(6, type.getSelectedItem().toString());
+    pst.setString(7, profilePicture);
 
     int rowsInserted = pst.executeUpdate();
     
