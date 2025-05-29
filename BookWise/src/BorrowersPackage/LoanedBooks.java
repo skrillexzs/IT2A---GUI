@@ -41,6 +41,9 @@ public class LoanedBooks extends javax.swing.JFrame {
         initComponents();
         
         displayData();
+        
+        int userId = Integer.parseInt(Session.getUserId());
+        displayLoanStats(userId);
     }
     
     Color hover = new Color(0,85,255);  
@@ -146,6 +149,44 @@ public void displayData() {
     }
 }
 
+    public void displayLoanStats(int userId) {
+    try {
+        Config conf = new Config();
+
+        // Total Loans for this user
+        ResultSet totalRs = conf.getData("SELECT COUNT(*) AS total FROM loanedbooks_tbl WHERE u_id = " + userId);
+        if (totalRs.next()) {
+            int total = totalRs.getInt("total");
+            totalCount.setText("<html><center>Total Loans<br><br>" + total + "</center></html>");
+        }
+
+        // Loaned Count for this user
+        ResultSet loanedRs = conf.getData("SELECT COUNT(*) AS loaned FROM loanedbooks_tbl WHERE status = 'Loaned' AND u_id = " + userId);
+        if (loanedRs.next()) {
+            int loaned = loanedRs.getInt("loaned");
+            successfulCount.setText("<html><center>Loaned<br><br>" + loaned + "</center></html>");
+        }
+
+        // Pending Count for this user
+        ResultSet pendingRs = conf.getData("SELECT COUNT(*) AS pending FROM loanedbooks_tbl WHERE status = 'Pending' AND u_id = " + userId);
+        if (pendingRs.next()) {
+            int pending = pendingRs.getInt("pending");
+            pendingCount.setText("<html><center>Pending<br><br>" + pending + "</center></html>");
+        }
+
+        // Returned Count for this user
+        ResultSet returnedRs = conf.getData("SELECT COUNT(*) AS returned FROM loanedbooks_tbl WHERE status = 'Returned' AND u_id = " + userId);
+        if (returnedRs.next()) {
+            int returned = returnedRs.getInt("returned");
+            returnedCount.setText("<html><center>Returned<br><br>" + returned + "</center></html>");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage());
+    }
+}
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -177,6 +218,18 @@ public void displayData() {
         jScrollPane1 = new javax.swing.JScrollPane();
         lbTable = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
+        CountPanel1 = new javax.swing.JPanel();
+        totalCount = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        CountPanel2 = new javax.swing.JPanel();
+        successfulCount = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        CountPanel3 = new javax.swing.JPanel();
+        pendingCount = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        CountPanel4 = new javax.swing.JPanel();
+        returnedCount = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -335,12 +388,56 @@ public void displayData() {
         ));
         jScrollPane1.setViewportView(lbTable);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 830, 460));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 830, 350));
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Checked-out Books List");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 230, 40));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, 230, 40));
+
+        CountPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        totalCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        totalCount.setText("Total Loans:");
+        CountPanel1.add(totalCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 70));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/total loans.png"))); // NOI18N
+        CountPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, 40));
+
+        jPanel1.add(CountPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 90, 240, 90));
+
+        CountPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        successfulCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        successfulCount.setText("Successful Loans:");
+        CountPanel2.add(successfulCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 70));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/successful loans.png"))); // NOI18N
+        CountPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, 40));
+
+        jPanel1.add(CountPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, 240, 90));
+
+        CountPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pendingCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        pendingCount.setText("Pending Loans:");
+        CountPanel3.add(pendingCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 140, 70));
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Pending loans.png"))); // NOI18N
+        CountPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, 40));
+
+        jPanel1.add(CountPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 90, 240, 90));
+
+        CountPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        returnedCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        returnedCount.setText("Returned Books:");
+        CountPanel4.add(returnedCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 70));
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/returned books.png"))); // NOI18N
+        CountPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, -1, 40));
+
+        jPanel1.add(CountPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 190, 240, 90));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -473,6 +570,10 @@ public void displayData() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CountPanel1;
+    private javax.swing.JPanel CountPanel2;
+    private javax.swing.JPanel CountPanel3;
+    private javax.swing.JPanel CountPanel4;
     private javax.swing.JPanel accButton;
     private javax.swing.JButton addlb;
     private javax.swing.JPanel dbButton;
@@ -480,10 +581,14 @@ public void displayData() {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -493,7 +598,11 @@ public void displayData() {
     private javax.swing.JPanel lbButton;
     private javax.swing.JTable lbTable;
     private javax.swing.JPanel logButton;
+    private javax.swing.JLabel pendingCount;
     private javax.swing.JLabel pp;
     private javax.swing.JButton refresh;
+    private javax.swing.JLabel returnedCount;
+    private javax.swing.JLabel successfulCount;
+    private javax.swing.JLabel totalCount;
     // End of variables declaration//GEN-END:variables
 }

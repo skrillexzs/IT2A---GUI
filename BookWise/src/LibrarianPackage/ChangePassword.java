@@ -9,8 +9,12 @@ import BorrowersPackage.BorrowersDB;
 import config.Config;
 import config.HashPass;
 import config.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -227,11 +231,22 @@ public class ChangePassword extends javax.swing.JFrame {
             
             String updateQuery = "UPDATE user SET u_password = '" + newpassHash + "' WHERE u_id = '" + sess.getUid() + "'";  
             conf.updateData(updateQuery);
+            
+            String actions = "Password Change!";
+            try (Connection conn = conf.getConnection();
+                 PreparedStatement logStmt = conn.prepareStatement(
+                     "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)")) {
+
+                logStmt.setString(1, sess.getUid());
+                logStmt.setString(2, actions);
+                logStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                logStmt.executeUpdate();
+            }
 
             JOptionPane.showMessageDialog(null, "Password updated successfully!");
-                BorrowersDB bwdb = new BorrowersDB();
-                bwdb.setVisible(true);
+                LibrarianDB ldb = new LibrarianDB();
                 this.dispose();
+                ldb.setVisible(true);
         } else {    
             JOptionPane.showMessageDialog(null, "Old Password is Incorrect!");
         }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package BorrowersPackage;
+package AdminsPackage;
 
 import config.Config;
 import config.HashPass;
@@ -18,14 +18,14 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author SCC
+ * @author USER
  */
-public class ChangePass extends javax.swing.JFrame {
+public class AdminChangePass extends javax.swing.JFrame {
 
     /**
-     * Creates new form ChangePass
+     * Creates new form AdminChangePass
      */
-    public ChangePass() {
+    public AdminChangePass() {
         initComponents();
     }
 
@@ -174,7 +174,6 @@ public class ChangePass extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void hideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMousePressed
@@ -222,9 +221,9 @@ public class ChangePass extends javax.swing.JFrame {
     }//GEN-LAST:event_conpassActionPerformed
 
     private void discardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardActionPerformed
-        BorrowersDB bwdb = new BorrowersDB();
+        BookWise bwd = new BookWise();
         this.dispose();
-        bwdb.setVisible(true);
+        bwd.setVisible(true);
     }//GEN-LAST:event_discardActionPerformed
 
     private void appchangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appchangesActionPerformed
@@ -270,11 +269,11 @@ public class ChangePass extends javax.swing.JFrame {
 
                     String updateQuery = "UPDATE user SET u_password = '" + newpassHash + "' WHERE u_id = '" + sess.getUid() + "'";
                     conf.updateData(updateQuery);
-                    
+
                     String actions = "Password Change!";
                     try (Connection conn = conf.getConnection();
-                         PreparedStatement logStmt = conn.prepareStatement(
-                             "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)")) {
+                        PreparedStatement logStmt = conn.prepareStatement(
+                            "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)")) {
 
                         logStmt.setString(1, sess.getUid());
                         logStmt.setString(2, actions);
@@ -283,9 +282,9 @@ public class ChangePass extends javax.swing.JFrame {
                     }
 
                     JOptionPane.showMessageDialog(null, "Password updated successfully!");
-                    BorrowersDB bwdb = new BorrowersDB();
-                    bwdb.setVisible(true);
+                    BookWise bwd = new BookWise();
                     this.dispose();
+                    bwd.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Old Password is Incorrect!");
                 }
@@ -314,20 +313,20 @@ public class ChangePass extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminChangePass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ChangePass().setVisible(true);
+                new AdminChangePass().setVisible(true);
             }
         });
     }

@@ -19,6 +19,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -556,6 +558,17 @@ try {
     int inserted = ps.executeUpdate();
     if (inserted > 0) {
         JOptionPane.showMessageDialog(this, "Book checked out successfully.");
+        
+        // Log action
+        String actions = "Checked out book successfully! Book ID: " + bookId;
+        PreparedStatement logPst = conf.connect.prepareStatement(
+            "INSERT INTO logs (u_id, act_performed, date_performed) VALUES (?, ?, ?)"
+        );
+        logPst.setString(1, sess.getUid());
+        logPst.setString(2, actions);
+        logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+        logPst.executeUpdate();
+        
     } else {
         JOptionPane.showMessageDialog(this, "Failed to checkout book.");
     }

@@ -47,6 +47,7 @@ public class AccPage extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        acp = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         dbButton = new javax.swing.JPanel();
@@ -94,6 +95,23 @@ public class AccPage extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(102, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        acp.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 21)); // NOI18N
+        acp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        acp.setText("Change Password");
+        acp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        acp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                acpMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                acpMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                acpMouseExited(evt);
+            }
+        });
+        jPanel1.add(acp, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, 190, 30));
 
         jPanel4.setBackground(new java.awt.Color(240, 248, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -421,6 +439,20 @@ public class AccPage extends javax.swing.JFrame {
         atype.setText(""+sess.getType());
     }//GEN-LAST:event_formWindowActivated
 
+    private void acpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acpMouseClicked
+        AdminChangePass acp = new AdminChangePass();
+        acp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_acpMouseClicked
+
+    private void acpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acpMouseEntered
+        acp.setBackground(hover);
+    }//GEN-LAST:event_acpMouseEntered
+
+    private void acpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acpMouseExited
+        acp.setBackground(defbutton);
+    }//GEN-LAST:event_acpMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -459,6 +491,7 @@ public class AccPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accButton;
     private javax.swing.JLabel acn;
+    private javax.swing.JLabel acp;
     private javax.swing.JLabel aemail;
     private javax.swing.JLabel afn;
     private javax.swing.JLabel afname;

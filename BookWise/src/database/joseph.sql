@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2025 at 03:54 PM
+-- Generation Time: May 30, 2025 at 01:04 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,7 +74,7 @@ CREATE TABLE `loanedbooks_tbl` (
 --
 
 INSERT INTO `loanedbooks_tbl` (`lb_id`, `b_id`, `u_id`, `loaned_date`, `due_date`, `loan_duration`, `return_date`, `penalty`, `status`) VALUES
-(1, 7, 7, '2025-05-19', '2025-06-02', NULL, NULL, '0.0', 'On Loan'),
+(1, 7, 7, '2025-05-30', '2025-06-02', '3 Days', '2025-05-30', 'None', 'Returned'),
 (2, 6, 7, '2025-05-19', '2025-06-02', '3 Days', NULL, 'None', 'Loaned'),
 (3, 6, 9, '2025-05-20', '2025-06-03', NULL, NULL, '0.0', 'On Loan'),
 (4, 5, 7, '2025-05-22', '2025-06-05', NULL, NULL, NULL, 'Pending'),
@@ -84,7 +84,7 @@ INSERT INTO `loanedbooks_tbl` (`lb_id`, `b_id`, `u_id`, `loaned_date`, `due_date
 (8, 2, 6, NULL, NULL, NULL, NULL, NULL, 'Pending'),
 (9, 6, 6, NULL, NULL, NULL, NULL, NULL, 'Pending'),
 (10, 6, 6, '2025-05-28', '2025-05-31', '3 Days', NULL, 'None', 'Loaned'),
-(11, 3, 6, '2025-05-27', NULL, NULL, NULL, NULL, 'Pending'),
+(11, 3, 6, '2025-05-30', '2025-06-06', '7 Days', NULL, 'None', 'Loaned'),
 (12, 8, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
 (13, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
 (14, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending');
@@ -218,7 +218,16 @@ INSERT INTO `logs` (`l_id`, `u_id`, `act_performed`, `date_performed`) VALUES
 (109, 2, 'Log in!', '2025-05-29 21:50:07'),
 (110, 2, 'Log in!', '2025-05-29 21:51:33'),
 (111, 2, 'Log in!', '2025-05-29 21:52:00'),
-(112, 2, 'Log in!', '2025-05-29 21:52:55');
+(112, 2, 'Log in!', '2025-05-29 21:52:55'),
+(113, 11, 'Log in!', '2025-05-30 02:02:11'),
+(114, 7, 'Log in!', '2025-05-30 06:07:42'),
+(115, 7, 'Log in!', '2025-05-30 06:23:13'),
+(116, 10, 'Log in!', '2025-05-30 06:23:57'),
+(117, 2, 'Log in!', '2025-05-30 06:28:52'),
+(118, 2, 'Updated Loans Successfully! ID: 11', '2025-05-30 06:29:18'),
+(119, 2, 'Updated Loans Successfully! ID: 1', '2025-05-30 06:29:54'),
+(120, 2, 'Updated Loans Successfully! ID: 1', '2025-05-30 06:30:40'),
+(121, 7, 'Log in!', '2025-05-30 06:31:35');
 
 -- --------------------------------------------------------
 
@@ -236,8 +245,8 @@ CREATE TABLE `user` (
   `u_type` varchar(100) NOT NULL,
   `u_status` text NOT NULL,
   `u_profilepic` varchar(255) NOT NULL,
-  `secret_question` varchar(255) NOT NULL,
-  `secret_answer` varchar(255) NOT NULL
+  `secret_question` varchar(255) DEFAULT NULL,
+  `secret_answer` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -254,7 +263,8 @@ INSERT INTO `user` (`u_id`, `u_firstname`, `u_lastname`, `u_email`, `u_cnumber`,
 (7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'ProfilePictures/pp3.jpg', '', ''),
 (8, 'Louigie', 'Borjak', 'bor@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending', '', '', ''),
 (9, 'Ben', 'Tong', 'ben@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'Profilepictures/defaultpp.png', '', ''),
-(10, 'John', 'Noya', 'jl@test.com', '09123456789', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Borrower', 'Active', 'ProfilePictures/pp2.jpg', 'What is you Mother\'s middle name?', '59d76fe0e3262d1f185fc8d7b737eddcce471d2f36d80639f23c8a28c81f8934');
+(10, 'John', 'Noya', 'jl@test.com', '09123456789', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Borrower', 'Active', 'ProfilePictures/pp2.jpg', 'What is you Mother\'s middle name?', '59d76fe0e3262d1f185fc8d7b737eddcce471d2f36d80639f23c8a28c81f8934'),
+(11, 'Michael', 'Castillo', 'mikey@test.com', '09123456789', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'Profilepictures/defaultpp.png', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -307,13 +317,13 @@ ALTER TABLE `loanedbooks_tbl`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `u_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `u_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
