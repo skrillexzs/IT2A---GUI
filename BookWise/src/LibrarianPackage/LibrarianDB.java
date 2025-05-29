@@ -544,7 +544,7 @@ public void displayData(){
     }//GEN-LAST:event_editloaningActionPerformed
 
     private void receiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiptActionPerformed
-        int rowIndex = loanTrans.getSelectedRow();  // Get selected row index
+       int rowIndex = loanTrans.getSelectedRow();  // Get selected row index
 
 if (rowIndex < 0) {
     JOptionPane.showMessageDialog(null, "Please select a loan transaction.");
@@ -556,7 +556,6 @@ if (rowIndex < 0) {
 
         System.out.println("Selected Loaned Book ID: " + loanedBookId);  // Debugging statement
 
-        // ✅ Correct SQL using your actual table/column names
         String query = "SELECT l.lb_id, u.u_firstname, b.b_title, l.loaned_date, l.due_date, " +
                        "l.loan_duration, l.status " +
                        "FROM loanedbooks_tbl l " +
@@ -583,10 +582,26 @@ if (rowIndex < 0) {
             receipt.append("     ----------------------------\n");
             receipt.append("    Please return books on time.\n");
 
-            // Show the receipt
+            // Display receipt in a scrollable text area
             JTextArea textArea = new JTextArea(receipt.toString());
             textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-            JOptionPane.showMessageDialog(null, new JScrollPane(textArea), "Borrowing Receipt", JOptionPane.INFORMATION_MESSAGE);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+
+            // Ask if user wants to print
+            int printOption = JOptionPane.showConfirmDialog(
+                null,
+                scrollPane,
+                "RECEIPT - PRINT?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            if (printOption == JOptionPane.YES_OPTION) {
+                // Send to printer
+                PrintReceipt pr = new PrintReceipt(receipt.toString());
+                pr.printReceipt();
+            }
+
         } else {
             JOptionPane.showMessageDialog(null, "No details found for this loan.");
         }
@@ -595,6 +610,7 @@ if (rowIndex < 0) {
         JOptionPane.showMessageDialog(null, "An error occurred while loading loan data.");
     }
 }
+
 
     }//GEN-LAST:event_receiptActionPerformed
 

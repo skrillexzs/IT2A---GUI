@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2025 at 03:46 PM
+-- Generation Time: May 29, 2025 at 03:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -79,8 +79,15 @@ INSERT INTO `loanedbooks_tbl` (`lb_id`, `b_id`, `u_id`, `loaned_date`, `due_date
 (3, 6, 9, '2025-05-20', '2025-06-03', NULL, NULL, '0.0', 'On Loan'),
 (4, 5, 7, '2025-05-22', '2025-06-05', NULL, NULL, NULL, 'Pending'),
 (5, 2, 7, '2025-05-22', '2025-05-29', '7 Days', NULL, 'None', 'Loaned'),
-(6, 3, 9, '2025-05-22', NULL, NULL, NULL, NULL, 'Pending'),
-(7, 6, 9, NULL, NULL, NULL, NULL, NULL, 'Pending');
+(6, 3, 9, '2025-05-27', '2025-06-01', '5 Days', NULL, 'None', 'Loaned'),
+(7, 6, 9, '2025-05-27', '2025-06-03', '7 Days', NULL, 'None', 'Loaned'),
+(8, 2, 6, NULL, NULL, NULL, NULL, NULL, 'Pending'),
+(9, 6, 6, NULL, NULL, NULL, NULL, NULL, 'Pending'),
+(10, 6, 6, '2025-05-28', '2025-05-31', '3 Days', NULL, 'None', 'Loaned'),
+(11, 3, 6, '2025-05-27', NULL, NULL, NULL, NULL, 'Pending'),
+(12, 8, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
+(13, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
+(14, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -168,7 +175,50 @@ INSERT INTO `logs` (`l_id`, `u_id`, `act_performed`, `date_performed`) VALUES
 (66, 9, 'Log in!', '2025-05-22 18:34:02'),
 (67, 9, 'Log in!', '2025-05-22 18:35:09'),
 (68, 2, 'Log in!', '2025-05-22 18:35:23'),
-(69, 2, 'Log in!', '2025-05-22 18:38:55');
+(69, 2, 'Log in!', '2025-05-22 18:38:55'),
+(70, 2, 'Log in!', '2025-05-27 12:20:14'),
+(71, 2, 'Log in!', '2025-05-27 12:21:42'),
+(72, 2, 'Log in!', '2025-05-27 12:31:57'),
+(73, 2, 'Log in!', '2025-05-27 12:36:16'),
+(74, 2, 'Log in!', '2025-05-27 12:36:40'),
+(75, 2, 'Log in!', '2025-05-27 12:39:21'),
+(76, 2, 'Log in!', '2025-05-27 12:39:47'),
+(77, 2, 'Updated Loans Successfully! ID: 6', '2025-05-27 12:40:11'),
+(78, 2, 'Updated Loans Successfully! ID: 7', '2025-05-27 12:42:33'),
+(79, 6, 'Log in!', '2025-05-27 12:45:54'),
+(80, 2, 'Log in!', '2025-05-27 12:47:05'),
+(81, 6, 'Log in!', '2025-05-27 13:01:52'),
+(82, 10, 'Log in!', '2025-05-28 15:43:25'),
+(83, 2, 'Log in!', '2025-05-28 15:44:59'),
+(84, 2, 'Updated Loans Successfully! ID: 10', '2025-05-28 15:45:29'),
+(85, 10, 'Log in!', '2025-05-28 15:48:07'),
+(86, 10, 'Log in!', '2025-05-28 15:49:08'),
+(87, 10, 'Log in!', '2025-05-28 15:50:16'),
+(88, 2, 'Log in!', '2025-05-28 15:51:33'),
+(89, 10, 'Log in!', '2025-05-28 16:24:27'),
+(90, 10, 'Log in!', '2025-05-28 19:03:02'),
+(91, 10, 'Log in!', '2025-05-28 19:12:51'),
+(92, 10, 'Log in!', '2025-05-28 19:15:13'),
+(93, 10, 'Log in!', '2025-05-28 19:16:41'),
+(94, 10, 'Log in!', '2025-05-28 19:17:39'),
+(95, 10, 'Log in!', '2025-05-28 19:21:19'),
+(96, 10, 'Log in!', '2025-05-28 19:25:02'),
+(97, 10, 'Log in!', '2025-05-28 19:28:05'),
+(98, 2, 'Log in!', '2025-05-29 18:11:31'),
+(99, 2, 'Log in!', '2025-05-29 18:12:56'),
+(100, 2, 'Log in!', '2025-05-29 18:20:28'),
+(101, 1, 'Log in!', '2025-05-29 18:27:41'),
+(102, 2, 'Log in!', '2025-05-29 19:41:30'),
+(103, 2, 'Log in!', '2025-05-29 19:42:09'),
+(104, 2, 'Log in!', '2025-05-29 19:46:04'),
+(105, 2, 'Log in!', '2025-05-29 19:54:18'),
+(106, 2, 'Log in!', '2025-05-29 19:55:00'),
+(107, 2, 'Log in!', '2025-05-29 21:34:20'),
+(108, 2, 'Log in!', '2025-05-29 21:35:37'),
+(109, 2, 'Log in!', '2025-05-29 21:50:07'),
+(110, 2, 'Log in!', '2025-05-29 21:51:33'),
+(111, 2, 'Log in!', '2025-05-29 21:52:00'),
+(112, 2, 'Log in!', '2025-05-29 21:52:55');
 
 -- --------------------------------------------------------
 
@@ -185,23 +235,26 @@ CREATE TABLE `user` (
   `u_password` varchar(100) NOT NULL,
   `u_type` varchar(100) NOT NULL,
   `u_status` text NOT NULL,
-  `u_profilepic` varchar(255) NOT NULL
+  `u_profilepic` varchar(255) NOT NULL,
+  `secret_question` varchar(255) NOT NULL,
+  `secret_answer` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`u_id`, `u_firstname`, `u_lastname`, `u_email`, `u_cnumber`, `u_password`, `u_type`, `u_status`, `u_profilepic`) VALUES
-(1, 'Mark Joseph', 'Canedo', 'mark@sample.com', '09933981679', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 'Admin', 'Active', ''),
-(2, 'arkeen', 'larisma', 'ken@test.com', '12345678901', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Librarian', 'Active', ''),
-(3, 'joseph', 'canedo', 'joseph@test.com', '12345678901', '00000000', 'Borrower', 'Pending', ''),
-(4, 'nina', 'canada', 'nleigh@gmail.com', '09999999123', 'nnnnnnnn', 'Borrower', 'Active', ''),
-(5, 'bogart', 'canedo', 'macky@test.com', '12345678901', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Librarian', 'Pending', ''),
-(6, 'dex', 'ter', 'dexter@sample.com', '12345612345', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending', ''),
-(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'ProfilePictures/pp3.jpg'),
-(8, 'Louigie', 'Borjak', 'bor@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending', ''),
-(9, 'Ben', 'Tong', 'ben@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'Profilepictures/defaultpp.png');
+INSERT INTO `user` (`u_id`, `u_firstname`, `u_lastname`, `u_email`, `u_cnumber`, `u_password`, `u_type`, `u_status`, `u_profilepic`, `secret_question`, `secret_answer`) VALUES
+(1, 'Mark Joseph', 'Canedo', 'mark@sample.com', '09933981679', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 'Admin', 'Active', '', '', ''),
+(2, 'arkeen', 'larisma', 'ken@test.com', '12345678901', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Librarian', 'Active', '', 'What is your favorite sport?', '99772ead1ab82b97b10ddad1f20f04442785fba273bc51dabd1a3c6e153be84a'),
+(3, 'joseph', 'canedo', 'joseph@test.com', '12345678901', '00000000', 'Borrower', 'Pending', '', '', ''),
+(4, 'nina', 'canada', 'nleigh@gmail.com', '09999999123', 'nnnnnnnn', 'Borrower', 'Active', '', '', ''),
+(5, 'bogart', 'canedo', 'macky@test.com', '12345678901', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Librarian', 'Pending', '', '', ''),
+(6, 'dex', 'ter', 'dexter@sample.com', '12345612345', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', '', '', ''),
+(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'ProfilePictures/pp3.jpg', '', ''),
+(8, 'Louigie', 'Borjak', 'bor@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending', '', '', ''),
+(9, 'Ben', 'Tong', 'ben@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'Profilepictures/defaultpp.png', '', ''),
+(10, 'John', 'Noya', 'jl@test.com', '09123456789', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Borrower', 'Active', 'ProfilePictures/pp2.jpg', 'What is you Mother\'s middle name?', '59d76fe0e3262d1f185fc8d7b737eddcce471d2f36d80639f23c8a28c81f8934');
 
 --
 -- Indexes for dumped tables
@@ -248,19 +301,19 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT for table `loanedbooks_tbl`
 --
 ALTER TABLE `loanedbooks_tbl`
-  MODIFY `lb_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `lb_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `u_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `u_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
