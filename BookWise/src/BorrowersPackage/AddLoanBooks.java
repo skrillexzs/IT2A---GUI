@@ -47,6 +47,30 @@ public class AddLoanBooks extends javax.swing.JFrame {
     }
 });
         
+        sci_fi.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18));
+        
+        sci_fi.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        sci_fiMouseClicked(evt);
+    }
+});
+        
+        romance.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18));
+        
+        romance.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        romanceMouseClicked(evt);
+    }
+});
+        
+        documentary.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18));
+        
+        documentary.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        documentaryMouseClicked(evt);
+    }
+});
+        
         displayData();
     }
     
@@ -328,14 +352,29 @@ public void filterByGenre(String genre) {
 
         sci_fi.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         sci_fi.setText("Science Fiction");
+        sci_fi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sci_fiMouseClicked(evt);
+            }
+        });
         genres_tab.add(sci_fi, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, 30));
 
         romance.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         romance.setText("Romance");
+        romance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                romanceMouseClicked(evt);
+            }
+        });
         genres_tab.add(romance, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, 30));
 
         documentary.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         documentary.setText("Documentary");
+        documentary.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                documentaryMouseClicked(evt);
+            }
+        });
         genres_tab.add(documentary, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 120, 30));
 
         jPanel1.add(genres_tab, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 210, 280));
@@ -480,16 +519,23 @@ if (selectedRow == -1) {
 try {
     // Get book data from table
     int bookId = Integer.parseInt(btlTable.getValueAt(selectedRow, 0).toString()); // Column 0 = b_id
+    String bookStatus = btlTable.getValueAt(selectedRow, 6).toString(); // Assume Column 4 = status (update index if different)
 
-    // Get user ID from session or current user (assumed you have this variable)
+    // Check book status
+    if (bookStatus.equalsIgnoreCase("Loaned")) {
+        JOptionPane.showMessageDialog(this, "This book is currently loaned out and cannot be borrowed.");
+        return;
+    }
+
+    // Get user ID from session
     String userId = Session.getUserId(); // Replace with your actual user ID source
-    
-    if (userId == null || userId.trim().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "User not logged in. Please log in first.");
-    return;
-}
 
-    // Dates
+    if (userId == null || userId.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "User not logged in. Please log in first.");
+        return;
+    }
+
+    // Current date for loan
     java.util.Date today = new java.util.Date();
     java.sql.Date loanDate = new java.sql.Date(today.getTime());
 
@@ -498,14 +544,14 @@ try {
     String query = "INSERT INTO loanedbooks_tbl (b_id, u_id, loaned_date, due_date, loan_duration, return_date, penalty, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     PreparedStatement ps = conf.connect.prepareStatement(query);
 
-    ps.setInt(1, bookId);                 // b_id
-    ps.setString(2, userId);              // u_id
-    ps.setNull(3, java.sql.Types.DATE);              // loaned_date (null for now)
-    ps.setNull(4, java.sql.Types.DATE);      // due_date (null for now)
-    ps.setNull(5, java.sql.Types.VARCHAR);                 // loan_duration (null for now)
-    ps.setNull(6, java.sql.Types.DATE);   // return_date (null for now)
-    ps.setNull(7, java.sql.Types.VARCHAR);                 // penalty (null for now)
-    ps.setString(8, "Pending");           // status
+    ps.setInt(1, bookId);                         // b_id
+    ps.setString(2, userId);                      // u_id
+    ps.setDate(3, loanDate);                      // loaned_date
+    ps.setNull(4, java.sql.Types.DATE);           // due_date
+    ps.setNull(5, java.sql.Types.VARCHAR);        // loan_duration
+    ps.setNull(6, java.sql.Types.DATE);           // return_date
+    ps.setNull(7, java.sql.Types.VARCHAR);        // penalty
+    ps.setString(8, "Pending");                   // status
 
     int inserted = ps.executeUpdate();
     if (inserted > 0) {
@@ -518,6 +564,18 @@ try {
     JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 }
     }//GEN-LAST:event_checkoutMouseClicked
+
+    private void sci_fiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sci_fiMouseClicked
+        filterByGenre("Science Fiction");
+    }//GEN-LAST:event_sci_fiMouseClicked
+
+    private void romanceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_romanceMouseClicked
+        filterByGenre("Romance");
+    }//GEN-LAST:event_romanceMouseClicked
+
+    private void documentaryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentaryMouseClicked
+        filterByGenre("Documentary");
+    }//GEN-LAST:event_documentaryMouseClicked
 
     /**
      * @param args the command line arguments

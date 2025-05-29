@@ -44,13 +44,13 @@ public class BookEntry extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bTitle = new javax.swing.JTextField();
-        bGenre = new javax.swing.JTextField();
         bAuthor = new javax.swing.JTextField();
         datePub = new javax.swing.JTextField();
         bCondition = new javax.swing.JComboBox<>();
         bStatus = new javax.swing.JComboBox<>();
         addbook = new javax.swing.JButton();
         canceladd = new javax.swing.JButton();
+        bGenre = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,11 +71,6 @@ public class BookEntry extends javax.swing.JFrame {
         bTitle.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         bTitle.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
         jPanel1.add(bTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 320, 50));
-
-        bGenre.setBackground(new java.awt.Color(153, 204, 255));
-        bGenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        bGenre.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Genre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(bGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 320, 50));
 
         bAuthor.setBackground(new java.awt.Color(153, 204, 255));
         bAuthor.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -120,6 +115,11 @@ public class BookEntry extends javax.swing.JFrame {
         canceladd.setText("Cancel");
         jPanel1.add(canceladd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 110, 40));
 
+        bGenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        bGenre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Genre", "Horror", "Science Fiction", "Romance", "Documentary" }));
+        bGenre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel1.add(bGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 320, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,7 +150,7 @@ public class BookEntry extends javax.swing.JFrame {
 
     // Get input values
     String bookTitle = bTitle.getText().trim();
-    String bookGenre = bGenre.getText().trim();
+    String bookGenre = bGenre.getSelectedItem().toString().trim();
     String bookAuthor = bAuthor.getText().trim();
     String datePublish = datePub.getText().trim();
     String bookCondition = bCondition.getSelectedItem().toString().trim();                     
@@ -166,9 +166,9 @@ public class BookEntry extends javax.swing.JFrame {
     }
 
     // Validate Book Genre
-    if (bookGenre.isEmpty()) {
+    if (bGenre.getSelectedIndex() == 0) {
         bGenre.setBorder(BorderFactory.createLineBorder(Color.RED));
-        errorMessages.append("Book genre is required.\n");
+        errorMessages.append("Please select the book's genre.\n");
         isValid = false;
     } else {
         bGenre.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -260,7 +260,7 @@ public class BookEntry extends javax.swing.JFrame {
 
             // Clear inputs
             bTitle.setText("");
-            bGenre.setText("");
+            bGenre.setSelectedIndex(0);
             bAuthor.setText("");
             datePub.setText("");
             bCondition.setSelectedIndex(0);
@@ -316,7 +316,7 @@ public class BookEntry extends javax.swing.JFrame {
     private javax.swing.JButton addbook;
     private javax.swing.JTextField bAuthor;
     private javax.swing.JComboBox<String> bCondition;
-    private javax.swing.JTextField bGenre;
+    private javax.swing.JComboBox<String> bGenre;
     private javax.swing.JComboBox<String> bStatus;
     private javax.swing.JTextField bTitle;
     private javax.swing.JButton canceladd;

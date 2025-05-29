@@ -57,13 +57,13 @@ public class UpdateBook extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         editBtitle = new javax.swing.JTextField();
-        editBgenre = new javax.swing.JTextField();
         editBauthor = new javax.swing.JTextField();
         editDatePub = new javax.swing.JTextField();
         editBcon = new javax.swing.JComboBox<>();
         editBstat = new javax.swing.JComboBox<>();
         editbook = new javax.swing.JButton();
         canceledit = new javax.swing.JButton();
+        editBgenre = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,11 +84,6 @@ public class UpdateBook extends javax.swing.JFrame {
         editBtitle.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         editBtitle.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
         jPanel1.add(editBtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 320, 50));
-
-        editBgenre.setBackground(new java.awt.Color(153, 204, 255));
-        editBgenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        editBgenre.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Genre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Rounded MT Bold", 0, 12))); // NOI18N
-        jPanel1.add(editBgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 320, 50));
 
         editBauthor.setBackground(new java.awt.Color(153, 204, 255));
         editBauthor.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -154,6 +149,11 @@ public class UpdateBook extends javax.swing.JFrame {
         });
         jPanel1.add(canceledit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 110, 40));
 
+        editBgenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        editBgenre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Genre", "Horror", "Science Fiction", "Romance", "Documentary" }));
+        editBgenre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel1.add(editBgenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 320, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,7 +184,7 @@ public class UpdateBook extends javax.swing.JFrame {
 
         // Get trimmed input values
         String bookTitle = editBtitle.getText().trim();
-        String bookGenre = editBgenre.getText().trim();
+        String bookGenre = editBgenre.getSelectedItem().toString().trim();
         String bookAuthor = editBauthor.getText().trim();
         String datePublish = editDatePub.getText().trim();
         String bookCondition = editBcon.getSelectedItem().toString().trim();                     
@@ -200,13 +200,13 @@ public class UpdateBook extends javax.swing.JFrame {
      }
 
      // Validate Book Genre
-    if (bookGenre.isEmpty()) {
-        editBgenre.setBorder(BorderFactory.createLineBorder(Color.RED));
-        errorMessages.append("Book genre is required.\n");
-        isValid = false;
-    } else {
-        editBgenre.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    }
+    if (editBgenre.getSelectedIndex() == 0) {
+         editBgenre.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Please select the book's genre.\n");
+         isValid = false;
+     } else {
+         editBgenre.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
     
     // Validate Book Author
     if (bookAuthor.isEmpty()) {
@@ -352,7 +352,7 @@ if (!isValid) {
     private javax.swing.JButton canceledit;
     public javax.swing.JTextField editBauthor;
     public javax.swing.JComboBox<String> editBcon;
-    public javax.swing.JTextField editBgenre;
+    javax.swing.JComboBox<String> editBgenre;
     public javax.swing.JComboBox<String> editBstat;
     public javax.swing.JTextField editBtitle;
     public javax.swing.JTextField editDatePub;

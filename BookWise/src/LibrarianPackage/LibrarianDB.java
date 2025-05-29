@@ -8,6 +8,7 @@ import Logins.LoginForm;
 import config.Config;
 import config.Session;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +23,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -44,7 +47,9 @@ public class LibrarianDB extends javax.swing.JFrame {
     public LibrarianDB() {
         
         initComponents();
+        
         displayData();
+        displayLoanStats();
     }
     
     Color hover = new Color(0,85,255);  
@@ -138,6 +143,43 @@ public void displayData(){
         }
 }
 
+        public void displayLoanStats() {
+    try {
+        Config conf = new Config();
+
+        // Total Loans
+        ResultSet totalRs = conf.getData("SELECT COUNT(*) AS total FROM loanedbooks_tbl");
+        if (totalRs.next()) {
+            int total = totalRs.getInt("total");
+            totalCount.setText("<html><center>Total Loans<br><br>" + total + "</center></html>");
+        }
+
+        // Loaned Count
+        ResultSet loanedRs = conf.getData("SELECT COUNT(*) AS loaned FROM loanedbooks_tbl WHERE status = 'Loaned'");
+        if (loanedRs.next()) {
+            int loaned = loanedRs.getInt("loaned");
+            successfulCount.setText("<html><center>Loaned<br><br>" + loaned + "</center></html>");
+        }
+
+        // Pending Count
+        ResultSet pendingRs = conf.getData("SELECT COUNT(*) AS pending FROM loanedbooks_tbl WHERE status = 'Pending'");
+        if (pendingRs.next()) {
+            int pending = pendingRs.getInt("pending");
+            pendingCount.setText("<html><center>Pending<br><br>" + pending + "</center></html>");
+        }
+
+        // Returned Count
+        ResultSet returnedRs = conf.getData("SELECT COUNT(*) AS returned FROM loanedbooks_tbl WHERE status = 'Returned'");
+        if (returnedRs.next()) {
+            int returned = returnedRs.getInt("returned");
+            returnedCount.setText("<html><center>Returned<br><br>" + returned + "</center></html>");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage());
+    }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,7 +194,7 @@ public void displayData(){
         lpp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         editloaning = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        receipt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         loanTrans = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
@@ -169,6 +211,18 @@ public void displayData(){
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        CountPanel1 = new javax.swing.JPanel();
+        totalCount = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        CountPanel2 = new javax.swing.JPanel();
+        successfulCount = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        CountPanel3 = new javax.swing.JPanel();
+        pendingCount = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        CountPanel4 = new javax.swing.JPanel();
+        returnedCount = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -201,10 +255,15 @@ public void displayData(){
         });
         jPanel4.add(editloaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 400, 130, 50));
 
-        jButton2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jButton2.setText("RECEIPT");
-        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
-        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 480, 130, 50));
+        receipt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        receipt.setText("RECEIPT");
+        receipt.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true));
+        receipt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receiptActionPerformed(evt);
+            }
+        });
+        jPanel4.add(receipt, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 480, 130, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 650));
 
@@ -221,7 +280,7 @@ public void displayData(){
         ));
         jScrollPane1.setViewportView(loanTrans);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 820, 380));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, 820, 340));
 
         jPanel12.setBackground(new java.awt.Color(210, 255, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -326,13 +385,57 @@ public void displayData(){
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel2.setText("Loan Transactions");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 170, 40));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, 170, 40));
+
+        CountPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        totalCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        totalCount.setText("Total Loans:");
+        CountPanel1.add(totalCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 70));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/total loans.png"))); // NOI18N
+        CountPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, 40));
+
+        jPanel1.add(CountPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 240, 90));
+
+        CountPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        successfulCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        successfulCount.setText("Successful Loans:");
+        CountPanel2.add(successfulCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 70));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/successful loans.png"))); // NOI18N
+        CountPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, 40));
+
+        jPanel1.add(CountPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 240, 90));
+
+        CountPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pendingCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        pendingCount.setText("Pending Loans:");
+        CountPanel3.add(pendingCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 140, 70));
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Pending loans.png"))); // NOI18N
+        CountPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, 40));
+
+        jPanel1.add(CountPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 90, 240, 90));
+
+        CountPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        returnedCount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        returnedCount.setText("Returned Books:");
+        CountPanel4.add(returnedCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 70));
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/returned books.png"))); // NOI18N
+        CountPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, -1, 40));
+
+        jPanel1.add(CountPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, 240, 90));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,6 +543,61 @@ public void displayData(){
        }
     }//GEN-LAST:event_editloaningActionPerformed
 
+    private void receiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiptActionPerformed
+        int rowIndex = loanTrans.getSelectedRow();  // Get selected row index
+
+if (rowIndex < 0) {
+    JOptionPane.showMessageDialog(null, "Please select a loan transaction.");
+} else {
+    try {
+        Config conf = new Config();
+        TableModel tbl = loanTrans.getModel();  // Get the table model
+        int loanedBookId = Integer.parseInt(tbl.getValueAt(rowIndex, 0).toString());  // Get lb_id
+
+        System.out.println("Selected Loaned Book ID: " + loanedBookId);  // Debugging statement
+
+        // ✅ Correct SQL using your actual table/column names
+        String query = "SELECT l.lb_id, u.u_firstname, b.b_title, l.loaned_date, l.due_date, " +
+                       "l.loan_duration, l.status " +
+                       "FROM loanedbooks_tbl l " +
+                       "JOIN user u ON l.u_id = u.u_id " +
+                       "JOIN books b ON l.b_id = b.b_id " +
+                       "WHERE l.lb_id = " + loanedBookId;
+
+        ResultSet rs = conf.getData(query);
+
+        if (rs.next()) {
+            // ✅ Generate receipt content
+            StringBuilder receipt = new StringBuilder();
+            receipt.append("      BookWise - Loan Receipt\n");
+            receipt.append("     ----------------------------\n\n");
+
+            receipt.append("Loan ID      : ").append(rs.getInt("lb_id")).append("\n");
+            receipt.append("Borrower     : ").append(rs.getString("u_firstname")).append("\n");
+            receipt.append("Book Title   : ").append(rs.getString("b_title")).append("\n");
+            receipt.append("Loaned Date  : ").append(rs.getDate("loaned_date")).append("\n");
+            receipt.append("Due Date     : ").append(rs.getDate("due_date")).append("\n");
+            receipt.append("Loan Duration: ").append(rs.getString("loan_duration")).append("\n");
+            receipt.append("Status       : ").append(rs.getString("status")).append("\n\n");
+
+            receipt.append("     ----------------------------\n");
+            receipt.append("    Please return books on time.\n");
+
+            // Show the receipt
+            JTextArea textArea = new JTextArea(receipt.toString());
+            textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            JOptionPane.showMessageDialog(null, new JScrollPane(textArea), "Borrowing Receipt", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No details found for this loan.");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex);
+        JOptionPane.showMessageDialog(null, "An error occurred while loading loan data.");
+    }
+}
+
+    }//GEN-LAST:event_receiptActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -476,18 +634,25 @@ public void displayData(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CountPanel1;
+    private javax.swing.JPanel CountPanel2;
+    private javax.swing.JPanel CountPanel3;
+    private javax.swing.JPanel CountPanel4;
     private javax.swing.JPanel accButton;
     private javax.swing.JPanel books;
     private javax.swing.JPanel dbButton;
     private javax.swing.JButton editloaning;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -498,5 +663,10 @@ public void displayData(){
     private javax.swing.JTable loanTrans;
     private javax.swing.JPanel logButton;
     private javax.swing.JLabel lpp;
+    private javax.swing.JLabel pendingCount;
+    private javax.swing.JButton receipt;
+    private javax.swing.JLabel returnedCount;
+    private javax.swing.JLabel successfulCount;
+    private javax.swing.JLabel totalCount;
     // End of variables declaration//GEN-END:variables
 }

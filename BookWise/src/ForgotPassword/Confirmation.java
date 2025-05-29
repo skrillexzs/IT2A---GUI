@@ -5,6 +5,8 @@
  */
 package ForgotPassword;
 
+import static LibrarianPackage.SecretQuestion.hashSecretAnswer;
+import Logins.LoginForm;
 import config.Config;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,14 +50,12 @@ public class Confirmation extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         uID = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        uEmail = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        uFName = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        uLName = new javax.swing.JTextField();
         CondfButton = new javax.swing.JButton();
         CandfButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        sQuestion = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        sAnswer = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,44 +65,15 @@ public class Confirmation extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 22)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Detail Verification");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 200, 50));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 200, 50));
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel2.setText("User ID*");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 50, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 50, 20));
 
         uID.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         uID.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel1.add(uID, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 230, 40));
-
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        jLabel3.setText("Email*");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, 50, 20));
-
-        uEmail.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        uEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel1.add(uEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 230, 40));
-
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        jLabel4.setText("First Name*");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 70, 20));
-
-        uFName.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        uFName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        uFName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uFNameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(uFName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 230, 40));
-
-        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        jLabel5.setText("Last Name*");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 70, 20));
-
-        uLName.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        uLName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel1.add(uLName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 230, 40));
+        jPanel1.add(uID, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 300, 40));
 
         CondfButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         CondfButton.setText("Confirm");
@@ -111,83 +82,150 @@ public class Confirmation extends javax.swing.JFrame {
                 CondfButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(CondfButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, -1, 40));
+        jPanel1.add(CondfButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, -1, 40));
 
         CandfButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         CandfButton.setText("Cancel");
-        jPanel1.add(CandfButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 100, 40));
+        CandfButton.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentMoved(java.awt.event.ComponentEvent evt) {
+                CandfButtonComponentMoved(evt);
+            }
+        });
+        CandfButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CandfButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CandfButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 100, 40));
+
+        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        jLabel4.setText("Security Question*");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 130, 20));
+
+        sQuestion.setBackground(new java.awt.Color(204, 255, 255));
+        sQuestion.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        sQuestion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Security Question", "What is your Mother's middle name?", "What was the name of your first pet?", "What is your favorite sport?" }));
+        jPanel1.add(sQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 300, 40));
+
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        jLabel5.setText("Answer*");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 60, 20));
+
+        sAnswer.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        sAnswer.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        sAnswer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sAnswerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(sAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 300, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void uFNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uFNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_uFNameActionPerformed
-
     private void CondfButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CondfButtonActionPerformed
-        String userId = uID.getText().trim();
-        String inputFname = uEmail.getText().trim();
-        String inputLname = uFName.getText().trim();
-        String inputEmail = uLName.getText().trim();
+    String userId = uID.getText().trim();
+    String selectedQuestion = sQuestion.getSelectedItem().toString();
+    String inputAnswer = sAnswer.getText().trim(); // Only input needed now
 
-if (!userId.equals(confirmedUserId)) {  
-    JOptionPane.showMessageDialog(null, "ID does not match! Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+    if (userId.isEmpty() || inputAnswer.isEmpty()) {
+    JOptionPane.showMessageDialog(
+        null,
+        "ID and secret answer are required.",
+        "Validation Error",
+        JOptionPane.WARNING_MESSAGE
+    );
     return;
 }
 
-try (Connection conn = Config.getConnection();
-     PreparedStatement pst = conn.prepareStatement(
-         "SELECT u_email, u_firstname, u_lastname FROM user WHERE u_id = ?")) {
+    String sql = "SELECT secret_question, secret_answer FROM user WHERE u_id = ?";
 
-    pst.setString(1, userId);
-    ResultSet rs = pst.executeQuery();
+    try (Connection conn = Config.getConnection();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
 
-    if (rs.next()) {
-       
-        String dbFname = rs.getString("u_email");
-        String dbLname = rs.getString("u_firstname");
-        String dbEmail = rs.getString("u_lastname");
+        pst.setString(1, userId);
+        ResultSet rs = pst.executeQuery();
 
-        // Check if user input matches database records
-        if (inputFname.equalsIgnoreCase(dbFname) &&
-            inputLname.equalsIgnoreCase(dbLname) &&
-            inputEmail.equalsIgnoreCase(dbEmail)) {
+        if (rs.next()) {
+            String dbQuestion = rs.getString("secret_question");
+            String dbHashedAnswer = rs.getString("secret_answer");
 
-            JOptionPane.showMessageDialog(null, "Verified Successfully!", 
-                                          "Success", JOptionPane.INFORMATION_MESSAGE);
+            String hashedInputAnswer = hashSecretAnswer(inputAnswer); // Hash user input
 
-            // Open the NewPassword frame
-            NewPassword np = new NewPassword(confirmedUserId);
-            np.setVisible(true);
-            this.dispose(); // Close current frame
+            boolean questionMatch = selectedQuestion.equalsIgnoreCase(dbQuestion);
+            boolean answerMatch = hashedInputAnswer.equals(dbHashedAnswer);
+
+            if (questionMatch && answerMatch) {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Verification successful! You may now reset your password.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Open password reset window
+                NewPassword np = new NewPassword(userId);
+                np.setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Secret question and answer do not match.",
+                    "Verification Failed",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Credentials are incorrect!", 
-                                          "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                null,
+                "User ID not found.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
         }
 
-    } else {
-        JOptionPane.showMessageDialog(null, "User ID doesn't exist!", 
-                                      "Failed", JOptionPane.ERROR_MESSAGE);
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+            null,
+            "Database error: " + ex.getMessage(),
+            "SQL Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+        ex.printStackTrace();
     }
 
-} catch (SQLException ex) {
-    ex.printStackTrace();
-    JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
+    LoginForm lf = new LoginForm();
+        this.dispose();
+        lf.setVisible(true);
     }//GEN-LAST:event_CondfButtonActionPerformed
+
+    private void CandfButtonComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_CandfButtonComponentMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CandfButtonComponentMoved
+
+    private void CandfButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CandfButtonActionPerformed
+        LoginForm lf = new LoginForm();
+        this.dispose();
+        lf.setVisible(true);
+    }//GEN-LAST:event_CandfButtonActionPerformed
+
+    private void sAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sAnswerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sAnswerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,13 +268,11 @@ try (Connection conn = Config.getConnection();
     private javax.swing.JButton CondfButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField uEmail;
-    private javax.swing.JTextField uFName;
+    private javax.swing.JTextField sAnswer;
+    private javax.swing.JComboBox<String> sQuestion;
     private javax.swing.JTextField uID;
-    private javax.swing.JTextField uLName;
     // End of variables declaration//GEN-END:variables
 }

@@ -179,6 +179,7 @@ private void setDefaultProfilePicture() {
         jPanel11 = new javax.swing.JPanel();
         type = new javax.swing.JLabel();
         bwtype = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -433,6 +434,16 @@ private void setDefaultProfilePicture() {
 
         jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 320, 50));
 
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        jLabel2.setText("Setup Security Question");
+        jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 300, 40));
+
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 840, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -461,8 +472,8 @@ private void setDefaultProfilePicture() {
     }//GEN-LAST:event_formWindowActivated
 
     private void changepassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassMouseClicked
-        ChangePassword cp = new ChangePassword();
-        cp.setVisible(true);
+        ChangePass bcp = new ChangePass();
+        bcp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_changepassMouseClicked
 
@@ -596,6 +607,12 @@ private void setDefaultProfilePicture() {
         loadProfilePicture();
     }//GEN-LAST:event_formWindowOpened
 
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        Secretquestions sqs = new Secretquestions();
+        this.dispose();
+        sqs.setVisible(true);
+    }//GEN-LAST:event_jLabel2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -651,6 +668,7 @@ private void setDefaultProfilePicture() {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -46,6 +47,7 @@ public class EditLoanBooks extends javax.swing.JFrame {
         button.setBackground(defbutton);
         
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -258,7 +260,8 @@ public class EditLoanBooks extends javax.swing.JFrame {
     ps.setInt(7, lbookid);
 
     int rows = ps.executeUpdate();
-    if (rows > 0) {
+    if (rows > 0) 
+    {
                 // Log action
                 Session sess = Session.getInstance();
                 String actions = "Updated Loans Successfully! ID: " + lbookid;

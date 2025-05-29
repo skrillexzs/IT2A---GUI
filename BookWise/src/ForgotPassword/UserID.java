@@ -53,8 +53,8 @@ public class UserID extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 190, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel2.setText("Please enter your user's account ID to search for your account.");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 430, 30));
+        jLabel2.setText("Please enter your user's email to search for your account.");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 400, 30));
 
         findacc.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         findacc.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -66,7 +66,7 @@ public class UserID extends javax.swing.JFrame {
         jPanel1.add(findacc, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 340, 50));
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel3.setText("Account ID*");
+        jLabel3.setText("Email*");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 80, 20));
 
         conbutton.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
@@ -77,7 +77,7 @@ public class UserID extends javax.swing.JFrame {
                 conbuttonActionPerformed(evt);
             }
         });
-        jPanel1.add(conbutton, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, 130, 50));
+        jPanel1.add(conbutton, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 260, 130, 50));
 
         cancel.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
         cancel.setText("Cancel");
@@ -87,7 +87,7 @@ public class UserID extends javax.swing.JFrame {
                 cancelActionPerformed(evt);
             }
         });
-        jPanel1.add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 130, 50));
+        jPanel1.add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, 130, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,7 +97,7 @@ public class UserID extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
         );
 
         pack();
@@ -115,30 +115,32 @@ public class UserID extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelActionPerformed
 
     private void conbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conbuttonActionPerformed
-        String enteredUserId = findacc.getText().trim(); // Get user input
+        String enteredEmail = findacc.getText().trim(); // Get user input (email)
 
-if (enteredUserId.isEmpty()) {
-    JOptionPane.showMessageDialog(null, "Please enter a User ID!", "Warning", JOptionPane.WARNING_MESSAGE);
+if (enteredEmail.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Please enter your Email!", "Warning", JOptionPane.WARNING_MESSAGE);
     return;
 }
 
 try (Connection conn = Config.getConnection();
-     PreparedStatement pst = conn.prepareStatement("SELECT u_email FROM user WHERE u_id = ?")) {
+     PreparedStatement pst = conn.prepareStatement("SELECT u_id FROM user WHERE u_email = ?")) {
 
-    pst.setString(1, enteredUserId);
+    pst.setString(1, enteredEmail);
     ResultSet rs = pst.executeQuery();
 
     if (rs.next()) {
-        JOptionPane.showMessageDialog(null, "User ID Exists!\nUsername: " + rs.getString("u_email"),
+        String foundUserId = rs.getString("u_id"); // Get the user ID associated with the email
+
+        JOptionPane.showMessageDialog(null, "Account Found!\nUser ID: " + foundUserId,
                                       "Success", JOptionPane.INFORMATION_MESSAGE);
 
-     
-        Confirmation cf = new Confirmation(enteredUserId); 
+        // Pass the user ID to the Confirmation frame
+        Confirmation cf = new Confirmation(foundUserId);
         cf.setVisible(true);
         this.dispose(); // Close current window
-        
+
     } else {
-        JOptionPane.showMessageDialog(null, "User ID doesn't exist!", "Failed", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Email not found!", "Failed", JOptionPane.ERROR_MESSAGE);
     }
 
 } catch (SQLException ex) {

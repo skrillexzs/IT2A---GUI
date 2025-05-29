@@ -454,7 +454,7 @@ public void displayData(){
 
            // Populate the form fields (name, price, category, status)
            ub.editBtitle.setText(model.getValueAt(rowIndex, 1).toString());
-           ub.editBgenre.setText(model.getValueAt(rowIndex, 2).toString());
+           ub.editBgenre.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
            ub.editBauthor.setText(model.getValueAt(rowIndex, 3).toString());
            ub.editDatePub.setText(model.getValueAt(rowIndex, 4).toString());
            ub.editBcon.setSelectedItem(model.getValueAt(rowIndex, 5).toString());

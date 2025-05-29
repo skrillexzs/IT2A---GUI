@@ -140,6 +140,7 @@ public class LoginForm extends javax.swing.JFrame {
                 sess.setType(type);
                 sess.setStatus(status);
                 
+                  Config.loggedInUserEmail = uemail.getText();
                 //Login action
                 String actions = "Log in!";
                 try (PreparedStatement logStmt = conn.prepareStatement(
