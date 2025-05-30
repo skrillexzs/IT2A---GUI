@@ -98,7 +98,7 @@ public class BookEntry extends javax.swing.JFrame {
         jPanel1.add(bCondition, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 320, 40));
 
         bStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        bStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned" }));
+        bStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned", "Unavailable" }));
         bStatus.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel1.add(bStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 320, 40));
 
@@ -113,6 +113,11 @@ public class BookEntry extends javax.swing.JFrame {
 
         canceladd.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         canceladd.setText("Cancel");
+        canceladd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                canceladdActionPerformed(evt);
+            }
+        });
         jPanel1.add(canceladd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 110, 40));
 
         bGenre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -276,6 +281,12 @@ public class BookEntry extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_addbookActionPerformed
+
+    private void canceladdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canceladdActionPerformed
+        BooksDB bdb = new BooksDB();
+        this.dispose();
+        bdb.setVisible(true);
+    }//GEN-LAST:event_canceladdActionPerformed
 
     /**
      * @param args the command line arguments

@@ -8,6 +8,7 @@ import Logins.LoginForm;
 import config.Config;
 import config.Session;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -569,23 +570,28 @@ if (rowIndex < 0) {
             // ✅ Generate receipt content
             StringBuilder receipt = new StringBuilder();
             receipt.append("      BookWise - Loan Receipt\n");
-            receipt.append("     ----------------------------\n\n");
-
+            receipt.append("     ----------------------------\n");
+            receipt.append("\n");
             receipt.append("Loan ID      : ").append(rs.getInt("lb_id")).append("\n");
             receipt.append("Borrower     : ").append(rs.getString("u_firstname")).append("\n");
             receipt.append("Book Title   : ").append(rs.getString("b_title")).append("\n");
-            receipt.append("Loaned Date  : ").append(rs.getDate("loaned_date")).append("\n");
-            receipt.append("Due Date     : ").append(rs.getDate("due_date")).append("\n");
+          receipt.append("Loaned Date  : ").append(rs.getDate("loaned_date")).append("\n");
+            receipt.append("Due Date     : ").append(rs.getDate("due_date").toString()).append("\n");
             receipt.append("Loan Duration: ").append(rs.getString("loan_duration")).append("\n");
-            receipt.append("Status       : ").append(rs.getString("status")).append("\n\n");
-
+            receipt.append("Status       : ").append(rs.getString("status")).append("\n");
+            receipt.append("\n");
             receipt.append("     ----------------------------\n");
             receipt.append("    Please return books on time.\n");
 
             // Display receipt in a scrollable text area
             JTextArea textArea = new JTextArea(receipt.toString());
             textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            textArea.setEditable(false);
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
             JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(400, 300)); // Optional: Resize for better visibility
 
             // Ask if user wants to print
             int printOption = JOptionPane.showConfirmDialog(

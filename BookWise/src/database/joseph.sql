@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2025 at 01:04 AM
+-- Generation Time: May 30, 2025 at 02:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,9 @@ INSERT INTO `books` (`b_id`, `b_title`, `b_genre`, `b_author`, `date_published`,
 (5, 'The Fault in Our Stars', 'Romance', 'John Green', '2012', 'Old', 'Available'),
 (6, 'Documentary Film in India', 'Documentary', 'Giulia Battaglia', '2017', 'Old', 'Available'),
 (7, 'Dracula', 'Horror', 'Bram Stoker', '1897', 'Replacement Required', 'Loaned'),
-(8, 'The Buffalo Hunter', 'Documentary', 'Stephen Graham Jones', '2025', 'New', 'Loaned');
+(8, 'The Buffalo Hunter', 'Documentary', 'Stephen Graham Jones', '2025', 'New', 'Loaned'),
+(9, 'The Flash', 'Science Fiction', 'Louigie Worxs', '2025', 'New', 'Available'),
+(10, 'Five Nights at Freddies', 'Horror', 'ambot lang', '2019', 'Old', 'Unavailable');
 
 -- --------------------------------------------------------
 
@@ -85,9 +87,10 @@ INSERT INTO `loanedbooks_tbl` (`lb_id`, `b_id`, `u_id`, `loaned_date`, `due_date
 (9, 6, 6, NULL, NULL, NULL, NULL, NULL, 'Pending'),
 (10, 6, 6, '2025-05-28', '2025-05-31', '3 Days', NULL, 'None', 'Loaned'),
 (11, 3, 6, '2025-05-30', '2025-06-06', '7 Days', NULL, 'None', 'Loaned'),
-(12, 8, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
+(12, 8, 10, '2025-05-30', '2025-06-06', '7 Days', NULL, 'None', 'Loaned'),
 (13, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
-(14, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending');
+(14, 6, 10, '2025-05-28', NULL, NULL, NULL, NULL, 'Pending'),
+(15, 9, 7, '2025-05-30', NULL, NULL, NULL, NULL, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -227,7 +230,27 @@ INSERT INTO `logs` (`l_id`, `u_id`, `act_performed`, `date_performed`) VALUES
 (118, 2, 'Updated Loans Successfully! ID: 11', '2025-05-30 06:29:18'),
 (119, 2, 'Updated Loans Successfully! ID: 1', '2025-05-30 06:29:54'),
 (120, 2, 'Updated Loans Successfully! ID: 1', '2025-05-30 06:30:40'),
-(121, 7, 'Log in!', '2025-05-30 06:31:35');
+(121, 7, 'Log in!', '2025-05-30 06:31:35'),
+(122, 10, 'Log in!', '2025-05-30 10:29:05'),
+(123, 1, 'Log in!', '2025-05-30 12:20:39'),
+(124, 1, 'Log in!', '2025-05-30 12:51:19'),
+(125, 1, 'Log in!', '2025-05-30 12:55:57'),
+(126, 1, 'Log in!', '2025-05-30 12:58:01'),
+(127, 1, 'Log in!', '2025-05-30 17:13:44'),
+(128, 1, 'Log in!', '2025-05-30 17:36:21'),
+(129, 2, 'Log in!', '2025-05-30 17:45:39'),
+(130, 2, 'Log in!', '2025-05-30 17:51:33'),
+(131, 2, 'New Book added! ID: 9', '2025-05-30 17:53:32'),
+(132, 2, 'Updated Books Successfully! ID: 9', '2025-05-30 17:55:43'),
+(133, 2, 'New Book added! ID: 10', '2025-05-30 17:57:25'),
+(134, 2, 'Log in!', '2025-05-30 18:01:45'),
+(135, 2, 'Updated Books Successfully! ID: 10', '2025-05-30 18:02:01'),
+(136, 2, 'Log in!', '2025-05-30 18:06:56'),
+(137, 2, 'Updated Loans Successfully! ID: 12', '2025-05-30 18:30:30'),
+(138, 7, 'Log in!', '2025-05-30 19:03:35'),
+(139, 7, 'Checked out book successfully! Book ID: 9', '2025-05-30 19:11:34'),
+(140, 6, 'Log in!', '2025-05-30 19:39:25'),
+(141, 2, 'Log in!', '2025-05-30 20:15:51');
 
 -- --------------------------------------------------------
 
@@ -258,12 +281,12 @@ INSERT INTO `user` (`u_id`, `u_firstname`, `u_lastname`, `u_email`, `u_cnumber`,
 (2, 'arkeen', 'larisma', 'ken@test.com', '12345678901', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Librarian', 'Active', '', 'What is your favorite sport?', '99772ead1ab82b97b10ddad1f20f04442785fba273bc51dabd1a3c6e153be84a'),
 (3, 'joseph', 'canedo', 'joseph@test.com', '12345678901', '00000000', 'Borrower', 'Pending', '', '', ''),
 (4, 'nina', 'canada', 'nleigh@gmail.com', '09999999123', 'nnnnnnnn', 'Borrower', 'Active', '', '', ''),
-(5, 'bogart', 'canedo', 'macky@test.com', '12345678901', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Librarian', 'Pending', '', '', ''),
-(6, 'dex', 'ter', 'dexter@sample.com', '12345612345', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', '', '', ''),
-(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'ProfilePictures/pp3.jpg', '', ''),
+(5, 'bogart', 'canedo', 'macky@test.com', '12345678901', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Librarian', 'Active', '', '', ''),
+(6, 'dex', 'ter', 'dexter@sample.com', '12345612345', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'ProfilePictures/pp5.jpg', '', ''),
+(7, 'Gabby', 'Tai', 'gab@test.com', '11111111111', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Borrower', 'Active', 'ProfilePictures/pp3.jpg', 'What is your favorite sport?', '9a5ca47b9c2927190f50848b8f284d88f2943016394400b56cd042d6d761ed32'),
 (8, 'Louigie', 'Borjak', 'bor@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Pending', '', '', ''),
-(9, 'Ben', 'Tong', 'ben@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'Profilepictures/defaultpp.png', '', ''),
-(10, 'John', 'Noya', 'jl@test.com', '09123456789', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 'Borrower', 'Active', 'ProfilePictures/pp2.jpg', 'What is you Mother\'s middle name?', '59d76fe0e3262d1f185fc8d7b737eddcce471d2f36d80639f23c8a28c81f8934'),
+(9, 'Ben', 'Tong', 'ben@test.com', '22222222222', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Inactive', 'Profilepictures/defaultpp.png', '', ''),
+(10, 'John', 'Noya', 'jl@test.com', '09123456789', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'ProfilePictures/pp2.jpg', 'What is your Mother\'s middle name?', '59d76fe0e3262d1f185fc8d7b737eddcce471d2f36d80639f23c8a28c81f8934'),
 (11, 'Michael', 'Castillo', 'mikey@test.com', '09123456789', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'Borrower', 'Active', 'Profilepictures/defaultpp.png', NULL, NULL);
 
 --
@@ -305,19 +328,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `b_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `b_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `loanedbooks_tbl`
 --
 ALTER TABLE `loanedbooks_tbl`
-  MODIFY `lb_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `lb_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `l_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `user`

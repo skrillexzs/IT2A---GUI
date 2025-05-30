@@ -477,7 +477,7 @@ public void displayData(){
          int selectedBookId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
 
          // Get the availability status (assuming it's in the 5th column, adjust if needed)
-         String bookStatus = model.getValueAt(rowIndex, 4).toString().trim();
+         String bookStatus = model.getValueAt(rowIndex, 6).toString().trim();
 
          if ("Unavailable".equalsIgnoreCase(bookStatus)) {
              // Show a confirmation dialog before deleting the unavailable food item
@@ -513,7 +513,7 @@ public void displayData(){
              JOptionPane.showMessageDialog(null, "This book is not unavailable and cannot be deleted.");
          }
      } else {
-         JOptionPane.showMessageDialog(null, "Please select a delete to delete.");
+         JOptionPane.showMessageDialog(null, "Please select a book to delete.");
      }
     }//GEN-LAST:event_deleteBookActionPerformed
 

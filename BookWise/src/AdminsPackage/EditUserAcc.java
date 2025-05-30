@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,8 +45,7 @@ public class EditUserAcc extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cnum = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        stat = new javax.swing.JTextField();
+        userStatus = new javax.swing.JComboBox<>();
         updateButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
@@ -66,56 +66,59 @@ public class EditUserAcc extends javax.swing.JFrame {
         jLabel2.setText("First Name*");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 80, -1));
 
+        fname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         fname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fnameActionPerformed(evt);
             }
         });
-        jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 240, 40));
+        jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 270, 40));
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel3.setText("Last Name*");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 80, -1));
 
+        lname.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         lname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lnameActionPerformed(evt);
             }
         });
-        jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 240, 40));
+        jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 270, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel4.setText("Email*");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 50, -1));
 
+        email.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
             }
         });
-        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 240, 40));
+        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 270, 40));
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel5.setText("Contact Number*");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 120, -1));
 
+        cnum.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         cnum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cnumActionPerformed(evt);
             }
         });
-        jPanel2.add(cnum, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 240, 40));
+        jPanel2.add(cnum, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 270, 40));
 
-        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel6.setText("Status");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 50, -1));
-
-        stat.addActionListener(new java.awt.event.ActionListener() {
+        userStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        userStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "Pending", "Inactive" }));
+        userStatus.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        userStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statActionPerformed(evt);
+                userStatusActionPerformed(evt);
             }
         });
-        jPanel2.add(stat, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 240, 40));
+        jPanel2.add(userStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 270, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 340, 390));
 
@@ -168,38 +171,33 @@ public class EditUserAcc extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cnumActionPerformed
 
-    private void statActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_statActionPerformed
-
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
          Config conf = new Config();
-        boolean isValid = true;
-       
-         String emails = email.getText().trim();
-        
-         // First Name Validation
-        {
-         String firstName = fname.getText().trim();
-                if (!firstName.matches("[a-zA-Z]+")) {
-                    fname.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    JOptionPane.showMessageDialog(null, "First name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
-                    isValid = false;
-           }else {
-            fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-        
-        // Last Name Validation
-        String lastName = lname.getText().trim();
-                if (!lastName.matches("[a-zA-Z]+")) {
-                    lname.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    JOptionPane.showMessageDialog(null, "Last name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
-                    isValid = false;
-           }else {
-            lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+boolean isValid = true;
+
+String emails = email.getText().trim();
+
+// First Name Validation
+String firstName = fname.getText().trim();
+if (!firstName.matches("[a-zA-Z]+")) {
+    fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "First name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
 
-    // Email Validation
+// Last Name Validation
+String lastName = lname.getText().trim();
+if (!lastName.matches("[a-zA-Z]+")) {
+    lname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Last name must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Email Validation
 if (email.getText().isEmpty()) {
     email.setBorder(BorderFactory.createLineBorder(Color.RED));
     isValid = false;
@@ -221,45 +219,44 @@ if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
 }
 
 // Contact Number Validation
-    if (cnum.getText().isEmpty()) {
-        cnum.setBorder(BorderFactory.createLineBorder(Color.RED));
-        isValid = false;
-    } else {
-        cnum.setBorder(BorderFactory.createLineBorder(Color.GRAY));       
-    }
-    
-    String contactNumber = cnum.getText().trim();
-    if (!contactNumber.matches("\\d{11}")) {
-        cnum.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-        JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
-        isValid = false;
-    }else {
-        cnum.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+String contactNumber = cnum.getText().trim();
+if (contactNumber.isEmpty()) {
+    cnum.setBorder(BorderFactory.createLineBorder(Color.RED));
+    isValid = false;
+} else if (!contactNumber.matches("\\d{11}")) {
+    cnum.setBorder(BorderFactory.createLineBorder(Color.RED));
+    JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+    isValid = false;
+} else {
+    cnum.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
-     // Final Validation Check
-    if (!isValid) {
-        JOptionPane.showMessageDialog(null, "Some fields are required", "Error!", JOptionPane.ERROR_MESSAGE);
+
+// Final Validation Check
+if (!isValid) {
+    JOptionPane.showMessageDialog(null, "Some fields are required", "Error!", JOptionPane.ERROR_MESSAGE);
+} else {
+    // Get status from combo box
+    String status = (String) userStatus.getSelectedItem();
+
+    JOptionPane.showMessageDialog(null, "User Info Updated", "Success!", JOptionPane.INFORMATION_MESSAGE);
+
+    // Database Update
+    if (conf.insertData("UPDATE user SET u_firstname = '" + fname.getText() + "', "
+            + "u_lastname = '" + lname.getText() + "', "
+            + "u_email = '" + email.getText() + "', "
+            + "u_cnumber = '" + cnum.getText() + "', "
+            + "u_status = '" + status + "' "
+            + "WHERE u_email = '" + email.getText() + "'") == 1) {
+
+        BookWise bwd = new BookWise();
+        this.dispose();
+        bwd.setVisible(true);
+
     } else {
-        
-        JOptionPane.showMessageDialog(null, "User Info Updated", "Success!", JOptionPane.INFORMATION_MESSAGE);
-
-            // Database Insertion
-           if (conf.insertData("UPDATE user SET u_firstname = '" + fname.getText() + "', "
-                + "u_lastname = '" + lname.getText() + "', "
-                + "u_email = '" + email.getText() + "', "
-                + "u_cnumber = '" + cnum.getText() + "', "
-                + "u_status = 'Active' "
-                + "WHERE u_email = '" + email.getText() + "'") == 1) {
-
-            BookWise bwd = new BookWise();
-            this.dispose();
-            bwd.setVisible(true);
-            
-        } else {
-            JOptionPane.showMessageDialog(null, "Database update failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(null, "Database update failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -267,6 +264,10 @@ if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             this.dispose();
             bwd.setVisible(true);
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void userStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userStatusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,11 +314,10 @@ if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JTextField lname;
-    public javax.swing.JTextField stat;
     private javax.swing.JButton updateButton;
+    javax.swing.JComboBox<String> userStatus;
     // End of variables declaration//GEN-END:variables
 }

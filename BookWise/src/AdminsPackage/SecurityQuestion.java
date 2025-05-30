@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package BorrowersPackage;
+package AdminsPackage;
 
 import static LibrarianPackage.SecretQuestion.hashSecretAnswer;
 import config.Config;
@@ -16,12 +16,12 @@ import javax.swing.JOptionPane;
  *
  * @author SCC
  */
-public class Secretquestions extends javax.swing.JFrame {
+public class SecurityQuestion extends javax.swing.JFrame {
 
     /**
-     * Creates new form Secretquestions
+     * Creates new form SecurityQuestion
      */
-    public Secretquestions() {
+    public SecurityQuestion() {
         initComponents();
     }
 
@@ -39,7 +39,7 @@ public class Secretquestions extends javax.swing.JFrame {
         sQuestion = new javax.swing.JComboBox<>();
         sAnswer = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        cancel = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,11 +57,6 @@ public class Secretquestions extends javax.swing.JFrame {
         jPanel1.add(sQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 310, 40));
 
         sAnswer.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        sAnswer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sAnswerActionPerformed(evt);
-            }
-        });
         jPanel1.add(sAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 310, 40));
 
         jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -73,9 +68,9 @@ public class Secretquestions extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 110, 40));
 
-        cancel.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        cancel.setText("Cancel");
-        jPanel1.add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 110, 40));
+        jButton2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jButton2.setText("Cancel");
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 110, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/securityquestionbg3.JPG"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 450));
@@ -92,91 +87,84 @@ public class Secretquestions extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      if (sAnswer == null || sAnswer.getText().trim().isEmpty()) {
-    JOptionPane.showMessageDialog(
-        null,
-        "Secret answer cannot be empty. Please provide an answer.",
-        "Validation Error",
-        JOptionPane.WARNING_MESSAGE
-    );
-    return; // prevent execution if input is invalid
-}
+        if (sAnswer == null || sAnswer.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Secret answer cannot be empty. Please provide an answer.",
+                "Validation Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return; // prevent execution if input is invalid
+        }
 
-String question = sQuestion.getSelectedItem() != null ? sQuestion.getSelectedItem().toString() : "";
-if (question.trim().isEmpty()) {
-    JOptionPane.showMessageDialog(
-        null,
-        "Please select a secret question.",
-        "Validation Error",
-        JOptionPane.WARNING_MESSAGE
-    );
-    return;
-}
+        String question = sQuestion.getSelectedItem() != null ? sQuestion.getSelectedItem().toString() : "";
+        if (question.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Please select a secret question.",
+                "Validation Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
 
-String answer = sAnswer.getText().trim();
-String hashedAnswer = hashSecretAnswer(answer); // Make sure this function works
-String email = Config.loggedInUserEmail;
+        String answer = sAnswer.getText().trim();
+        String hashedAnswer = hashSecretAnswer(answer); // Make sure this function works
+        String email = Config.loggedInUserEmail;
 
-if (email == null || email.trim().isEmpty()) {
-    JOptionPane.showMessageDialog(
-        null,
-        "Logged-in user email not found. Please log in again.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE
-    );
-    return;
-}
+        if (email == null || email.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Logged-in user email not found. Please log in again.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
 
-String sql = "UPDATE user SET secret_question = ?, secret_answer = ? WHERE u_email = ?";
+        String sql = "UPDATE user SET secret_question = ?, secret_answer = ? WHERE u_email = ?";
 
-try (Connection conn = Config.getConnection();
-     PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = Config.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql)) {
 
-    pst.setString(1, question);
-    pst.setString(2, hashedAnswer);
-    pst.setString(3, email);
+            pst.setString(1, question);
+            pst.setString(2, hashedAnswer);
+            pst.setString(3, email);
 
-    int rows = pst.executeUpdate();
+            int rows = pst.executeUpdate();
 
-    if (rows > 0) {
-        JOptionPane.showMessageDialog(
-            null,
-            "Secret question and answer updated successfully.",
-            "Success",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    } else {
-        JOptionPane.showMessageDialog(
-            null,
-            "No matching account found to update.",
-            "Update Failed",
-            JOptionPane.ERROR_MESSAGE
-        );
-    }
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Secret question and answer updated successfully.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            } else {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "No matching account found to update.",
+                    "Update Failed",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
 
-} catch (SQLException ex) {
-    JOptionPane.showMessageDialog(
-        null,
-        "Database error: " + ex.getMessage(),
-        "SQL Exception",
-        JOptionPane.ERROR_MESSAGE
-    );
-}
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Database error: " + ex.getMessage(),
+                "SQL Exception",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
 
-
-        BorrowersDB bwdb = new BorrowersDB();
+        BookWise bwd = new BookWise();
         this.dispose();
-        bwdb.setVisible(true);
-
+        bwd.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void sAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sAnswerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sAnswerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,27 +183,27 @@ try (Connection conn = Config.getConnection();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Secretquestions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SecurityQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Secretquestions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SecurityQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Secretquestions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SecurityQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Secretquestions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SecurityQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Secretquestions().setVisible(true);
+                new SecurityQuestion().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

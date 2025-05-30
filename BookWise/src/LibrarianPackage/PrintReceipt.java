@@ -23,24 +23,35 @@ public class PrintReceipt {
         this.content = content;
     }
 
-    public void printReceipt() {
-        try {
-            PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable(new Printable() {
-                public int print(Graphics g, PageFormat pf, int page) {
-                    if (page > 0) return NO_SUCH_PAGE;
-                    Graphics2D g2d = (Graphics2D) g;
-                    g2d.translate(pf.getImageableX(), pf.getImageableY());
-                    g.drawString(content, 100, 100);
-                    return PAGE_EXISTS;
-                }
-            });
+   public void printReceipt() {
+    try {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(new Printable() {
+            public int print(Graphics g, PageFormat pf, int page) {
+                if (page > 0) return NO_SUCH_PAGE;
 
-            if (job.printDialog()) {
-                job.print();
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.translate(pf.getImageableX(), pf.getImageableY());
+
+                // Split content into lines
+                String[] lines = content.split("\n");
+                int y = 100; // Starting y position
+                int lineHeight = g.getFontMetrics().getHeight();
+
+                for (String line : lines) {
+                    g.drawString(line, 100, y);
+                    y += lineHeight;
+                }
+
+                return PAGE_EXISTS;
             }
-        } catch (PrinterException e) {
-            e.printStackTrace();
+        });
+
+        if (job.printDialog()) {
+            job.print();
         }
+    } catch (PrinterException e) {
+        e.printStackTrace();
     }
+   }
 }

@@ -504,15 +504,15 @@ public class BookWise extends javax.swing.JFrame {
              TableModel tbl = Table.getModel();
              int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
 
-             ResultSet rs = conf.getData("SELECT * FROM customer WHERE id = " + userId);
+             ResultSet rs = conf.getData("SELECT * FROM user WHERE u_id = " + userId);
 
              if (rs.next()) {
-                 String status = rs.getString("cs_status");
+                 String status = rs.getString("u_status");
 
                  if (status.equalsIgnoreCase("Inactive")) {
                      int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this inactive user?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
                      if (confirm == JOptionPane.YES_OPTION) {
-                         conf.updateData("DELETE FROM customer WHERE id = " + userId);
+                         conf.updateData("DELETE FROM user WHERE u_id = " + userId);
                          JOptionPane.showMessageDialog(null, "Inactive user deleted successfully.");
                          // Optionally refresh table here
                      }
@@ -552,7 +552,7 @@ public class BookWise extends javax.swing.JFrame {
             eua.lname.setText(""+rs.getString("u_lastname"));
             eua.email.setText(""+rs.getString("u_email"));
             eua.cnum.setText(""+rs.getString("u_cnumber"));
-            eua.stat.setText(""+rs.getString("u_status"));
+            eua.userStatus.setSelectedItem(rs.getString("u_status"));
             eua.setVisible(true);
             this.dispose();
                     }

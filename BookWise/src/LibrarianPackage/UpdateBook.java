@@ -111,7 +111,7 @@ public class UpdateBook extends javax.swing.JFrame {
         jPanel1.add(editBcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 320, 40));
 
         editBstat.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        editBstat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned" }));
+        editBstat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Available", "Loaned", "Unavailable" }));
         editBstat.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel1.add(editBstat, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 320, 40));
 

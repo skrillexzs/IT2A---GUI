@@ -283,6 +283,7 @@ public class ChangePass extends javax.swing.JFrame {
                     }
 
                     JOptionPane.showMessageDialog(null, "Password updated successfully!");
+                    
                     BorrowersDB bwdb = new BorrowersDB();
                     bwdb.setVisible(true);
                     this.dispose();
